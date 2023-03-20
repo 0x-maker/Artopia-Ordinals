@@ -1,0 +1,111 @@
+.container {
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .feeTitle {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .feeContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: rem(8);
+    }
+
+    .feeDetail {
+      font-weight: 400;
+      font-size: rem(16px);
+      line-height: 140%;
+      color: $black-60;
+      text-align: center;
+    }
+
+    .feeTotalContainer {
+      min-height: rem(22px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .feeTotal {
+      font-weight: 500;
+      font-size: rem(18px);
+      line-height: 140%;
+      color: #4f43e2;
+    }
+  }
+
+  .row {
+    display: -webkit-box;
+    display: flex;
+    display: flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: rem(24px);
+  }
+
+  .row > [class*="col-"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @include mobile {
+    gap: (6px);
+  }
+
+  .mintFeeItem {
+    width: 100%;
+    margin-top: rem(8px);
+    padding: rem(5px) rem(12px);
+    border: 2px solid $black-10;
+    border-radius: rem(2px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+
+    @include mobile {
+      padding: rem(10px) rem(8px);
+    }
+
+    &__active {
+      border: 2px solid #4185ec;
+    }
+
+    &_input {
+      width: 100%;
+      // border: 2px solid black;
+      padding: 4px 0;
+      // text-align: center;
+      font-size: rem(18px);
+      font-weight: 400;
+      border-radius: 4px;
+    }
+  }
+
+  .warning {
+    background: rgb(255 126 33 / 6%);
+    border: 1px solid #ff7e21;
+    border-radius: 2px;
+    padding: 6px 16px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &_title {
+      margin-left: 12px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 22px;
+      color: #ff7e21;
+    }
+  }
+}
