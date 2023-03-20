@@ -42,7 +42,7 @@ const HistoryModal = ({ showModal, onClose }: IProps): JSX.Element => {
             </div>
             <div className={s.modalBody}>
               <h3 className={s.modalTitle}>History</h3>
-              <Tabs className={s.tabs} defaultActiveKey="txs">
+              <Tabs className={s.tabs} defaultActiveKey="txsSale">
                 <Tab tabClassName={s.tab} eventKey="txsSale" title="Sales">
                   <TxsSaleTab />
                 </Tab>
