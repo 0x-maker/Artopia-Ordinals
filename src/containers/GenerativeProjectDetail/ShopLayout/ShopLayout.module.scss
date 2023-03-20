@@ -222,6 +222,9 @@
   flex: 0 0 100%;
   width: 100%;
   margin-bottom: rem(40px);
+  display: flex;
+  flex-direction: column;
+  gap: rem(24);
 
   @include min-pc {
     margin-bottom: 0;
@@ -326,6 +329,13 @@
 
 .checkbox > input:active {
   border: 2px solid #34495e;
+}
+
+.divider {
+  width: calc(100% + #{rem(24)});
+  height: 1px;
+  background-color: $black-5;
+  margin-left: rem(-24);
 }
 
 .tokenListWrapper {

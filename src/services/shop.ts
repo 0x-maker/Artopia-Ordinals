@@ -1,13 +1,15 @@
+import { LogLevel } from '@enums/log-level';
 import {
   IGetCollectionListParams,
   IGetCollectionListResponse,
   IGetItemListParams,
   IGetItemListResponse,
+  IGetSaleVolumeQuery,
+  IGetSalesVolumeResponse,
 } from '@interfaces/api/shop';
-import { get } from './http-client';
-import querystring from 'query-string';
 import log from '@utils/logger';
-import { LogLevel } from '@enums/log-level';
+import querystring from 'query-string';
+import { get } from './http-client';
 
 const LOG_PREFIX = 'ShopService';
 const API_PATH = '/collections';
@@ -27,6 +29,22 @@ export const getCollectionList = async (
     );
     log(err as Error, LogLevel.ERROR, LOG_PREFIX);
     throw Error('Failed to get shop collection list');
+  }
+};
+
+export const getSalesVolume = async (
+  { projectID }: { projectID: string },
+  query: IGetSaleVolumeQuery
+): Promise<IGetSalesVolumeResponse> => {
+  try {
+    const qs = '?' + querystring.stringify(query);
+    const res = await get<IGetSalesVolumeResponse>(
+      `/charts${API_PATH}/${projectID}${qs}`
+    );
+    return res;
+  } catch (err: unknown) {
+    log('failed to fetch sales volume data', LogLevel.ERROR, LOG_PREFIX);
+    throw Error();
   }
 };
 
