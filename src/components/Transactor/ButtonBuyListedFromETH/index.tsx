@@ -32,7 +32,9 @@ const ButtonBuyListedFromETH = React.memo(
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
 
-    const openModal = async () => {
+    const openModal = async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
       if (!user || !user.walletAddressBtcTaproot) {
         await walletCtx.connect();
       }
