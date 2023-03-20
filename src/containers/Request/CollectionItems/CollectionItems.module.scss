@@ -115,4 +115,11 @@
   &_link {
     text-decoration: none;
   }
+
+  &_tooltip {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    color: $primary-333;
+  }
 }

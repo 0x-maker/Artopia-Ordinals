@@ -21,7 +21,7 @@ export const FilterTag = ({ className }: FilterTagProps): JSX.Element => {
     keyword = '',
     status = '',
     sort = '',
-    id = '',
+    seq_id = '',
     tab = 0,
   } = router.query;
   const resetFilter = (queryParams: Record<string, string>) => {
@@ -73,14 +73,14 @@ export const FilterTag = ({ className }: FilterTagProps): JSX.Element => {
         </div>
       );
     },
-    [keyword, status, sort, id]
+    [keyword, status, sort, seq_id]
   );
-  const filterList = [keyword, status, sort, id].filter(item => item);
+  const filterList = [keyword, status, sort, seq_id].filter(item => item);
   if (filterList?.length < 1) return <></>;
 
   return (
     <div className={cn(s.filterTag, className)}>
-      {id && <>{Tag('id', id)}</>}
+      {seq_id && <>{Tag('seq_id', seq_id)}</>}
       {keyword && <>{Tag('keyword', keyword)}</>}
       {status && <>{Tag('status', status)}</>}
       {/* default alway sort by newest so don't need to show it */}

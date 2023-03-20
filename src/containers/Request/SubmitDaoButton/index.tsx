@@ -269,6 +269,7 @@ const SubmitArtist = ({
         {isConnecting ? 'Connecting...' : 'Verify me'}
       </Button>
       <BaseModal
+        className={s.submitDaoButton_modal}
         isShow={isShowModal}
         onHide={() => setIsShowModal(false)}
         title="Submit profile"

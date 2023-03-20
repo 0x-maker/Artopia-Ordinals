@@ -109,4 +109,11 @@
     line-height: rem(22px);
     color: #5b5b5b;
   }
+
+  &_tooltip {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    color: $primary-333;
+  }
 }
