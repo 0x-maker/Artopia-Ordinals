@@ -10,7 +10,7 @@ import { CDN_URL } from '@constants/config';
 import s from '@containers/Profile/Collected/Modal/History/styles.module.scss';
 import Table from '@components/Table';
 
-const TxsPurchaseTab = () => {
+const TxsSaleTab = () => {
   const { txsPurchase } = useContext(AssetsContext);
   const TABLE_HISTORY_HEADING = ['Date', 'Status', 'Inscription', 'Amount'];
   const handleCopy = (text: string): void => {
@@ -119,4 +119,4 @@ const TxsPurchaseTab = () => {
   );
 };
 
-export default TxsPurchaseTab;
+export default TxsSaleTab;
