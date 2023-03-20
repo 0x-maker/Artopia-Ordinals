@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import useAsyncEffect from 'use-async-effect';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { HOST_ORDINALS_EXPLORER } from '@constants/config';
+import Link from 'next/link';
 
 const TABLE_HEADINGS = [
   'Name',
@@ -111,8 +112,30 @@ const Items: React.FC = (): React.ReactElement => {
             </span>
           </div>
         ),
-        seller: <div className={s.owners}>{seller()}</div>,
-        buyer: <div className={s.owners}>{buyer()}</div>,
+        seller: (
+          <div className={s.owners}>
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              href={`${ROUTE_PATH.PROFILE}/${item.sellerAddress}`}
+            >
+              {seller()}
+            </Link>
+          </div>
+        ),
+        buyer: (
+          <div className={s.owners}>
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              href={`${ROUTE_PATH.PROFILE}/${item.buyerAddress}`}
+            >
+              {buyer()}
+            </Link>
+          </div>
+        ),
       },
     };
   });
