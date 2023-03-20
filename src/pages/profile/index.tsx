@@ -3,7 +3,6 @@ import Profile from '@containers/Profile';
 import MarketplaceLayout from '@layouts/Marketplace';
 import { CDN_URL } from '@constants/config';
 import { getProfileByWallet } from '@services/profile';
-import { ROUTE_PATH } from '@constants/route-path';
 
 const ProfilePage: NextPage = () => {
   return (
@@ -36,11 +35,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
       },
     };
-  } catch (err: unknown) {
+  } catch (err) {
     return {
-      redirect: {
-        permanent: false,
-        destination: ROUTE_PATH.NOT_FOUND,
+      props: {
+        seoInfo: {
+          title: 'Generative',
+          description:
+            'Be the first to launch and collect art on Bitcoin. Fully on-chain, decentralized, and immutable.',
+          image: `${CDN_URL}/images/artists.png`,
+        },
       },
     };
   }
