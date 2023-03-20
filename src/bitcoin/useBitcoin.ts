@@ -81,7 +81,7 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
     });
     // broadcast tx
     await submitTxs({
-      txID: txHex,
+      [txID]: txHex,
     });
   };
 
@@ -113,7 +113,7 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
     await sleep(1);
     // broadcast tx
     await submitTxs({
-      txID: txHex,
+      [txID]: txHex,
     });
     // setPendingUTXOs(selectedUTXOs);
   };
@@ -162,12 +162,12 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
     // await broadcastTx(txHex);
 
     let submitPayload: IReqSubmitTxs = {
-      txID: txHex,
+      [txID]: txHex,
     };
     if (!!splitTxID && !!splitTxRaw) {
       submitPayload = {
-        txID: txHex,
-        splitTxID: splitTxRaw,
+        [txID]: txHex,
+        [splitTxID]: splitTxRaw,
       };
     }
     await submitTxs(submitPayload);
@@ -243,7 +243,7 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
     });
     // broadcast tx
     await submitTxs({
-      txID: txHex,
+      [txID]: txHex,
     });
     await sleep(1);
     const tasks = [
@@ -305,12 +305,12 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
 
     await sleep(1);
     let submitPayload: IReqSubmitTxs = {
-      txID: txHex,
+      [txID]: txHex,
     };
     if (!!splitTxID && !!splitTxRaw) {
       submitPayload = {
-        txID: txHex,
-        splitTxID: splitTxRaw,
+        [txID]: txHex,
+        [splitTxID]: splitTxRaw,
       };
     }
     await submitTxs(submitPayload);
