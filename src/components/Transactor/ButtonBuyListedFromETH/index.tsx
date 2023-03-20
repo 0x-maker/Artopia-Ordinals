@@ -47,7 +47,12 @@ const ButtonBuyListedFromETH = React.memo(
     if (!price) return null;
 
     return (
-      <>
+      <div
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+        }}
+        className={cs(s.container, `${className}`)}
+      >
         <ButtonIcon
           sizes={sizes}
           variants="outline"
@@ -70,7 +75,7 @@ const ButtonBuyListedFromETH = React.memo(
             onHide={hideModal}
           />
         )}
-      </>
+      </div>
     );
   }
 );

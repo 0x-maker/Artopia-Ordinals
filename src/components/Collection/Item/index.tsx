@@ -103,22 +103,22 @@ const CollectionItem = ({
     if (!isBuyable) return null;
     return (
       <div className={s.row}>
-        {isBuyETH && (
-          <ButtonBuyListedFromETH
-            className={s.wrapButton}
-            sizes={isLayoutShop ? 'small' : 'medium'}
-            inscriptionID={tokenID}
-            price={data.priceETH}
-            inscriptionNumber={Number(data.inscriptionIndex || 0)}
-            orderID={data.orderID}
-          />
-        )}
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
             className={s.wrapButton}
             sizes={isLayoutShop ? 'small' : 'medium'}
             inscriptionID={tokenID}
             price={data.priceBTC}
+            inscriptionNumber={Number(data.inscriptionIndex || 0)}
+            orderID={data.orderID}
+          />
+        )}
+        {isBuyETH && (
+          <ButtonBuyListedFromETH
+            className={s.wrapButton}
+            sizes={isLayoutShop ? 'small' : 'medium'}
+            inscriptionID={tokenID}
+            price={data.priceETH}
             inscriptionNumber={Number(data.inscriptionIndex || 0)}
             orderID={data.orderID}
           />
@@ -151,6 +151,7 @@ const CollectionItem = ({
             event.stopPropagation();
           }
         }}
+        className={layout === 'shop' ? s.tokenNumber : ''}
       >
         <Link href={tokenUrl}>
           <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
@@ -182,7 +183,12 @@ const CollectionItem = ({
         isLayoutShop ? s.isShop : ''
       }`}
     >
-      <div className={s.collectionCard_inner_wrapper}>
+      <div
+        className={cs(
+          s.collectionCard_inner_wrapper,
+          isSelectedOrder ? s.isSelected : null
+        )}
+      >
         <ComponentLink isDiv={!!(isBuyable && layout === 'shop')}>
           <div
             className={`${s.collectionCard_thumb} ${
