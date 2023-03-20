@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { useAppSelector } from '@redux';
 import cn from 'classnames';
 import { toast } from 'react-hot-toast';
-import { Formik } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import _isEmpty from 'lodash/isEmpty';
+import Image from 'next/image';
+import dayjs from 'dayjs';
 
+import { Loading } from '@components/Loading';
+import { Empty } from '@components/Collection/Empty';
 import ButtonIcon from '@components/ButtonIcon';
 import BaseModal from '@components/Transactor';
 import Input from '@components/Formik/Input';
@@ -16,7 +20,13 @@ import { getUserSelector } from '@redux/user/selector';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
 import { DAO_TYPE } from '@constants/dao';
-import { createDaoArtist } from '@services/request';
+import {
+  createDaoArtist,
+  getDaoProjectsIsHidden,
+  createDaoProjects,
+} from '@services/request';
+import { IDaoProject } from '@interfaces/api/request';
+import { convertIpfsToHttp } from '@utils/image';
 
 import s from './SubmitDaoButton.module.scss';
 
@@ -30,13 +40,56 @@ const LOG_PREFIX = 'DAOPage';
 const SubmitCollection = ({
   user,
   isConnecting,
-}: // submitCollection,
-{
+}: {
   user: any;
   isConnecting: boolean;
-  // submitCollection: (...args: any) => any;
-}) => {
+}): JSX.Element => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [listCollectionsIsHidden, setListCollectionsIsHidden] = useState<
+    IDaoProject[]
+  >([]);
+
+  useEffect(() => {
+    if (isShowModal) {
+      (async () => {
+        const { result } = await getDaoProjectsIsHidden({ limit: 100 });
+        setListCollectionsIsHidden(result || []);
+        setIsLoaded(true);
+      })();
+    }
+  }, [user, isShowModal]);
+
+  useEffect(() => {
+    if (isShowModal === false) {
+      setIsLoaded(false);
+    }
+  }, [isShowModal]);
+
+  const validateForm = ({ checked }: { checked: Record<string, string>[] }) => {
+    const errors: Record<string, string> = {};
+    if (checked?.length < 1) {
+      errors.checked = 'No checkbox checked.';
+    }
+
+    return errors;
+  };
+  const handleSubmit = async ({ checked }: { checked: Array<string> }) => {
+    toast.remove();
+    try {
+      const result = await createDaoProjects({
+        project_ids: checked,
+      });
+      if (result) {
+        toast.success('Submit proposal successfully.');
+      } else {
+        toast.error(ErrorMessage.DEFAULT);
+      }
+    } catch (error) {
+      toast.error((error as { message: string })?.message);
+    }
+    setIsShowModal(false);
+  };
 
   return (
     <>
@@ -47,17 +100,117 @@ const SubmitCollection = ({
       </div>
       <Button
         className={s.submitDaoButton_btn}
-        // onClick={submitCollection}
         onClick={() => setIsShowModal(true)}
         disabled={!user}
       >
         {isConnecting ? 'Connecting...' : 'Submit a collection'}
       </Button>
       <BaseModal
+        className={s.submitDaoButton_modal}
         isShow={isShowModal}
         onHide={() => setIsShowModal(false)}
         title="Submit a collection"
-      ></BaseModal>
+      >
+        <Formik
+          initialValues={{
+            checked: [],
+          }}
+          validate={validateForm}
+          onSubmit={handleSubmit}
+          validateOnChange
+        >
+          {({ handleSubmit, isSubmitting, dirty, errors, values }) => (
+            <Form>
+              <div
+                className={s.submitDaoButton_list}
+                role="group"
+                aria-labelledby="checkbox-group"
+              >
+                {isLoaded === false && (
+                  <div className={s.submitDaoButton_loadingWrapper}>
+                    <Loading isLoaded={false} />
+                  </div>
+                )}
+                {isLoaded && listCollectionsIsHidden?.length < 1 ? (
+                  <Empty content="No Data Available." />
+                ) : (
+                  <>
+                    {listCollectionsIsHidden?.map(item => (
+                      <label
+                        className={s.submitDaoButton_collection}
+                        key={item.id}
+                      >
+                        <div>
+                          <div className="d-flex align-items-center">
+                            <Image
+                              className={s.users_avatar}
+                              src={convertIpfsToHttp(item?.thumbnail)}
+                              width={48}
+                              height={48}
+                              alt={item?.name}
+                            />
+                            <div className={s.submitDaoButton_collection_info}>
+                              <div>{item?.name}</div>
+                              <div
+                                className={s.submitDaoButton_collection_output}
+                              >
+                                {item?.max_supply} outputs
+                              </div>
+                              <div>
+                                <span
+                                  className={
+                                    s.submitDaoButton_collection_createdDate
+                                  }
+                                >
+                                  Created date:{' '}
+                                </span>
+                                <span
+                                  className={s.submitDaoButton_collection_date}
+                                >
+                                  {dayjs(item?.created_at).format(
+                                    'MMM DD, YYYY'
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="position-relative">
+                          <div
+                            className={s.submitDaoButton_collection_checkbox}
+                          >
+                            <Field
+                              type="checkbox"
+                              name="checked"
+                              value={item.id}
+                            />
+                            <span
+                              className={cn(
+                                s.submitDaoButton_collection_checkbox_checkmark,
+                                values?.checked?.indexOf(item.id as never) !==
+                                  -1 &&
+                                  s.submitDaoButton_collection_checkbox_checked
+                              )}
+                            />
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </>
+                )}
+              </div>
+              <div className={s.submitDaoButton_hr} />
+              <ButtonIcon
+                className={s.submitDaoButton_collectionBtn}
+                onClick={() => handleSubmit()}
+                disabled={isSubmitting || !dirty || !_isEmpty(errors)}
+              >
+                Submit
+              </ButtonIcon>
+            </Form>
+          )}
+        </Formik>
+      </BaseModal>
     </>
   );
 };
@@ -190,16 +343,6 @@ export const SubmitDaoButton = ({
     }
   };
 
-  // const submitCollection = useCallback(async () => {
-  //   if (user) {
-  //     setIsConnecting(true);
-  //     toast.remove();
-  //     setIsConnecting(false);
-  //   } else {
-  //     handleConnectWallet();
-  //   }
-  // }, [user]);
-
   const submitVerifyMe = useCallback(
     async ({ twitter, website, callback }: any) => {
       if (user) {
@@ -222,7 +365,7 @@ export const SubmitDaoButton = ({
   );
 
   if (
-    currentTabActive !== DAO_TYPE.ARTIST ||
+    currentTabActive === DAO_TYPE.ARTIST &&
     user?.profileSocial?.twitterVerified
   )
     return <></>;
@@ -230,11 +373,7 @@ export const SubmitDaoButton = ({
   return (
     <div className={cn(s.submitDaoButton, className)}>
       {currentTabActive === DAO_TYPE.COLLECTION && (
-        <SubmitCollection
-          user={user}
-          isConnecting={isConnecting}
-          // submitCollection={submitCollection}
-        />
+        <SubmitCollection user={user} isConnecting={isConnecting} />
       )}
       {currentTabActive === DAO_TYPE.ARTIST && (
         <SubmitArtist
