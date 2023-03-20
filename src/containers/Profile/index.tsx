@@ -9,7 +9,7 @@ import { ProfileContext, ProfileProvider } from '@contexts/profile-context';
 import { useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
 import { formatBTCPrice } from '@utils/format';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { Collected } from './Collected';
 import FreeInscriptions from './Free';
@@ -29,7 +29,18 @@ const Profile: React.FC = (): React.ReactElement => {
   const { isLoadedAssets, comingAmount } = useContext(AssetsContext);
   const [showModal, setShowModal] = React.useState(false);
   const { satoshiAmount } = useBitcoin();
+  const [activeTab, setActiveTab] = useState('collectedTab');
   const isOwner = currentUser?.id === user?.id;
+
+  const handleSelectTab = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  useEffect(() => {
+    if (profileProjects && profileProjects.total > 0) {
+      handleSelectTab('createdTab');
+    }
+  }, [profileProjects]);
 
   return (
     <div className={s.profile}>
@@ -41,7 +52,11 @@ const Profile: React.FC = (): React.ReactElement => {
           <Col xl={9}>
             <ClientOnly>
               <div className={s.wrapTabs}>
-                <Tabs className={s.tabs}>
+                <Tabs
+                  activeKey={activeTab}
+                  onSelect={tab => handleSelectTab(tab || 'collectedTab')}
+                  className={s.tabs}
+                >
                   <Tab
                     tabClassName={s.tab}
                     eventKey="collectedTab"
