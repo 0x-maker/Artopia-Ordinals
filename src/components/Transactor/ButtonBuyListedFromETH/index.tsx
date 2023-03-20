@@ -32,7 +32,9 @@ const ButtonBuyListedFromETH = React.memo(
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
 
-    const openModal = async () => {
+    const openModal = async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
       if (!user || !user.walletAddressBtcTaproot) {
         await walletCtx.connect();
       }
@@ -45,7 +47,12 @@ const ButtonBuyListedFromETH = React.memo(
     if (!price) return null;
 
     return (
-      <>
+      <div
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+        }}
+        className={cs(s.container, `${className}`)}
+      >
         <ButtonIcon
           sizes={sizes}
           variants="outline"
@@ -68,7 +75,7 @@ const ButtonBuyListedFromETH = React.memo(
             onHide={hideModal}
           />
         )}
-      </>
+      </div>
     );
   }
 );

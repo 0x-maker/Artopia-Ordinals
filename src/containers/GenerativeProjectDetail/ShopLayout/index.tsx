@@ -288,7 +288,9 @@ const ShopLayout = (props: Props) => {
                 onClick={onClickItems}
                 className={styles.icCheckbox}
               />
-              <p className={styles.textItems}>{titleItems}</p>
+              <p className={styles.textItems} onClick={onClickItems}>
+                {titleItems}
+              </p>
             </div>
           )}
 

@@ -16,4 +16,5 @@ export enum LocalStorageKey {
   BITCOIN_PENDING_UTXO = 'bitcoin-pending-utxo',
   WALLET_ADDRESS_TAPROOT = 'wallet-address-taproot',
   FCM_TOKEN = 'fcmToken',
+  SHOP_ACTIVE_TAB = 'shopActiveTab',
 }

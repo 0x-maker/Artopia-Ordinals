@@ -28,7 +28,7 @@ import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBT
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import { isImageURL } from '@utils/url';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
-import { ellipsisCenter, formatAddressDisplayName } from '@utils/format';
+import { ellipsisCenter, ellipsisCenterBTCAddress } from '@utils/format';
 
 interface IPros {
   project: ICollectedNFTItem;
@@ -168,9 +168,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
         : project.artistName || '';
     if (artistName) return artistName;
     if (currentUser?.walletAddressBtcTaproot) {
-      return `Owned by ${formatAddressDisplayName(
-        currentUser?.walletAddressBtcTaproot
-      )}`;
+      return `Owned by ${ellipsisCenterBTCAddress({
+        str: currentUser?.walletAddressBtcTaproot,
+      })}`;
     }
     return '';
   }, [
@@ -232,9 +232,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
             onClick={() => ''}
             className={s.projectCard_status_buyBtn}
           >
-            <ButtonBuyListedFromETH
+            <ButtonBuyListedFromBTC
               inscriptionID={project.inscriptionID}
-              price={project.priceETH}
+              price={project.priceBTC}
               inscriptionNumber={Number(project.inscriptionNumber)}
               orderID={project.orderID}
             />
@@ -244,9 +244,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
             onClick={() => ''}
             className={s.projectCard_status_buyBtn}
           >
-            <ButtonBuyListedFromBTC
+            <ButtonBuyListedFromETH
               inscriptionID={project.inscriptionID}
-              price={project.priceBTC}
+              price={project.priceETH}
               inscriptionNumber={Number(project.inscriptionNumber)}
               orderID={project.orderID}
             />
@@ -409,7 +409,11 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
               <div>
                 {project.status !== CollectedNFTStatus.Success ? (
                   project.quantity && (
-                    <Text size={'16'} fontWeight="medium">
+                    <Text
+                      size={'16'}
+                      fontWeight="medium"
+                      style={{ lineBreak: 'auto' }}
+                    >
                       {project.quantity > 1
                         ? `Quantity: ${project.quantity}`
                         : `${subTitle2}`}

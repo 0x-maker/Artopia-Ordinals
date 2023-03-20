@@ -31,6 +31,7 @@ import { Loading } from '@components/Loading';
 import { onClickCopy } from '@utils/copy';
 import { debounce } from 'lodash';
 import BigNumber from 'bignumber.js';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 interface IFormValues {
   address: string;
@@ -52,6 +53,8 @@ const ModalSweepBTC = React.memo(({ tokens, onHide, ...rest }: IProps) => {
   const user = useSelector(getUserSelector);
   const [step, setStep] = useState<'info' | 'generate' | 'deposit'>('info');
   const [estimating, setEstimating] = useState<boolean>(false);
+
+  const { removeSelectedOrder } = useContext(GenerativeProjectDetailContext);
 
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -132,12 +135,26 @@ const ModalSweepBTC = React.memo(({ tokens, onHide, ...rest }: IProps) => {
     }
   };
 
+  const removeUnBuyableToken = (data?: { [key: string]: string }) => {
+    const orderIDs = Object.keys(data || {});
+    if (orderIDs.length === tokens.length) {
+      const error =
+        'All your selected inscriptions are not available for buying now.';
+      setError(error);
+      return toast.error(error);
+    }
+    for (const orderID of orderIDs) {
+      removeSelectedOrder(orderID);
+    }
+  };
+
   const getAvailableTokens = async () => {
     try {
       setLoading(true);
       const orders = await retrieveOrders({
         order_list: tokens.map(token => token.orderID),
       });
+      removeUnBuyableToken(orders?.raw_psbt_list_not_avail);
       setOrdersData(orders);
     } catch (err) {
       onSetError(err);
@@ -485,7 +502,10 @@ const ModalSweepBTC = React.memo(({ tokens, onHide, ...rest }: IProps) => {
                           sizes="medium"
                           variants="outline"
                           className={s.buyBtn}
-                          onClick={onHide}
+                          onClick={() => {
+                            window.location.reload();
+                            onHide();
+                          }}
                         >
                           Continue collecting
                         </ButtonIcon>
