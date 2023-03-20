@@ -259,7 +259,7 @@ const CollectionItem = ({
                   <Link href={tokenUrl}>
                     <Heading
                       as={'h4'}
-                      className={`token_id ml-auto ${s.textOverflow}}`}
+                      className={`token_id ml-auto ${s.textOverflow}`}
                       style={{
                         maxWidth: data.stats?.price ? '70%' : '100%',
                       }}
@@ -288,7 +288,7 @@ const CollectionItem = ({
                 {showInscriptionID && (
                   <Heading
                     as={isLayoutShop ? 'p' : 'h4'}
-                    className={`token_id ml-auto ${s.textOverflow}}`}
+                    className={`token_id ml-auto ${s.textOverflow}`}
                   >
                     #{data?.inscriptionIndex}
                   </Heading>

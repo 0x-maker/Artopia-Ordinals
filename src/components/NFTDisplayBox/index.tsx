@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cs from 'classnames';
 import { IMAGE_TYPE, WHITE_LIST } from '@components/NFTDisplayBox/constant';
 import s from './styles.module.scss';
@@ -39,6 +39,7 @@ const NFTDisplayBox = ({
   const [isError, setIsError] = React.useState(false);
   const [isLoaded, serIsLoaded] = React.useState(false);
   const [HTMLContentRender, setHTMLContentRender] = useState<JSX.Element>();
+  const imgRef = useRef<HTMLImageElement>(null);
 
   const onError = () => {
     setIsError(true);
@@ -110,15 +111,27 @@ const NFTDisplayBox = ({
     );
   };
 
+  const handleOnImgLoaded = (
+    evt: React.SyntheticEvent<HTMLImageElement>
+  ): void => {
+    const img = evt.target as HTMLImageElement;
+    const naturalWidth = img.naturalWidth;
+    if (naturalWidth < 100 && imgRef.current) {
+      imgRef.current.style.imageRendering = 'pixelated';
+    }
+    serIsLoaded(true);
+  };
+
   const renderImage = () => {
     return (
       <img
+        ref={imgRef}
         className={contentClass}
         src={getURLContent()}
         alt={inscriptionID}
         loading="lazy"
         onError={onError}
-        onLoad={onLoaded}
+        onLoad={handleOnImgLoaded}
         style={{ objectFit: 'contain' }}
       />
     );
@@ -201,10 +214,6 @@ const NFTDisplayBox = ({
           case 'image/webp':
             setHTMLContentRender(renderImage());
             return;
-          case 'application/json':
-          case 'application/pgp-signature':
-          case 'application/yaml':
-          case 'audio/flac':
           case 'model/gltf-binary':
             setHTMLContentRender(renderGLBIframe());
             return;
@@ -212,6 +221,10 @@ const NFTDisplayBox = ({
           case 'text/html;charset=utf-8':
             handleRenderHTML();
             return;
+          case 'application/json':
+          case 'application/pgp-signature':
+          case 'application/yaml':
+          case 'audio/flac':
           case 'application/pdf':
           case 'text/plain;charset=utf-8':
             setHTMLContentRender(renderIframe());

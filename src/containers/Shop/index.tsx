@@ -7,6 +7,9 @@ import Collection from './Collection';
 import { CDN_URL } from '@constants/config';
 import Button from '@components/ButtonIcon';
 import ListCollectionModal from './ListCollectionModal';
+import Items from './Items';
+import SvgInset from '@components/SvgInset';
+import cs from 'classnames';
 
 const ShopController: React.FC = (): React.ReactElement => {
   const [activeTab, setActiveTab] = useState<ShopTab>(ShopTab.COLLECTION);
@@ -26,17 +29,29 @@ const ShopController: React.FC = (): React.ReactElement => {
     document.body.style.overflow = 'auto';
   };
 
-  const renderCollectionTitle = useMemo(
+  const renderCollectionsTitle = useMemo(
     (): React.ReactElement => (
       <div className={s.tabTitle}>
-        <Image
+        <SvgInset
           className={s.tabIcon}
-          src={`${CDN_URL}/icons/ic-collection-18x18.svg`}
-          width={18}
-          height={18}
-          alt="ic collection"
+          svgUrl={`${CDN_URL}/icons/ic-collection-18x18.svg`}
+          size={18}
         />
         <h2 className={s.tabName}>Collections</h2>
+      </div>
+    ),
+    []
+  );
+
+  const renderItemsTitle = useMemo(
+    (): React.ReactElement => (
+      <div className={s.tabTitle}>
+        <SvgInset
+          className={cs(s.tabIcon, s.tabItemIcon)}
+          svgUrl={`${CDN_URL}/icons/ic-items-18x18.svg`}
+          size={18}
+        />
+        <h2 className={s.tabName}>Items</h2>
       </div>
     ),
     []
@@ -71,10 +86,20 @@ const ShopController: React.FC = (): React.ReactElement => {
             <Tab
               tabClassName={s.tab}
               eventKey={ShopTab.COLLECTION}
-              title={renderCollectionTitle}
+              title={renderCollectionsTitle}
             >
               <div className={s.collectionTab}>
                 <Collection />
+              </div>
+            </Tab>
+
+            <Tab
+              tabClassName={s.tab}
+              eventKey={ShopTab.ITEMS}
+              title={renderItemsTitle}
+            >
+              <div className={s.collectionTab}>
+                <Items />
               </div>
             </Tab>
           </Tabs>

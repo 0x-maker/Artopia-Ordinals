@@ -32,6 +32,7 @@ const LOG_PREFIX = 'UploadGenArt';
 const UploadGenArt: React.FC = (): ReactElement => {
   const router = useRouter();
   const {
+    attributes,
     collectionType,
     setCollectionType,
     filesSandbox,
@@ -150,6 +151,17 @@ const UploadGenArt: React.FC = (): ReactElement => {
             </div>
           </div>
           <div className={s.container}>
+            {attributes && (
+              <div className={s.traitContainer}>
+                <h3 className={s.traitTitle}>Features</h3>
+                {Object.entries(attributes).map(([key, value]) => (
+                  <p
+                    key={key}
+                    className={s.traitItem}
+                  >{`${key}: ${value.toString()}`}</p>
+                ))}
+              </div>
+            )}
             <div className={s.actionWrapper}>
               <Button
                 disabled={!filesSandbox}
@@ -303,7 +315,6 @@ const UploadGenArt: React.FC = (): ReactElement => {
             )}
           </div>
           <div className={s.container}>
-            <div className={s.checkboxWrapper}></div>
             <div className={s.actionWrapper}>
               <Button
                 disabled={!isValidImageCollection}
