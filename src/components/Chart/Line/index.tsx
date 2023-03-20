@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 // import { Chart } from 'chart.js/auto';
 import 'chart.js/auto';
 import { TChartData } from '@interfaces/chart/data';
+import dayjs from 'dayjs';
 
 type LineChartProps = {
   chartData: TChartData;
@@ -30,6 +31,9 @@ const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
         },
         ticks: {
           count: 5,
+          // beginAtZero: true,
+          mirror: true,
+          // padding: -25,
         },
       },
     },
@@ -37,8 +41,28 @@ const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
       legend: {
         display: false,
       },
+      tooltip: {
+        backgroundColor: '#fff',
+        bodyColor: '#1c1c1c',
+        titleColor: '#1c1c1c',
+        cornerRadius: 2,
+        displayColors: false,
+        borderColor: '#0000001a',
+        borderWidth: 1,
+        callbacks: {
+          label: function (context) {
+            const currentYear = new Date().getFullYear();
+            const date = new Date(context.label);
+            return dayjs(date).format(`M-DD-${currentYear}`);
+            // return `${context.formattedValue} BTC`;
+          },
+          title(tooltipItems) {
+            return `${tooltipItems[0].formattedValue} BTC`;
+          },
+        },
+      },
     },
-    aspectRatio: 1,
+
     elements: {
       point: {
         backgroundColor: '#4F43E2',

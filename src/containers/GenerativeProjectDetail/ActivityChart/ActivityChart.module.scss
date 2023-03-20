@@ -41,10 +41,10 @@
       cursor: pointer;
       transition: all 0.2s ease-in-out;
 
-      &:nth-child(2) {
-        border-left: 1px solid $black-20;
-        border-right: 1px solid $black-20;
-      }
+      // &:nth-child(2) {
+      //   border-left: 1px solid $black-20;
+      //   border-right: 1px solid $black-20;
+      // }
 
       &.active,
       &:hover {

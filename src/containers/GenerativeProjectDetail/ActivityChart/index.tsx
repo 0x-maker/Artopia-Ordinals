@@ -28,19 +28,6 @@ const ActivityChart = () => {
 
   const { projectID } = router.query as { projectID: string };
 
-  // const data = {
-  //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  //   datasets: [
-  //     {
-  //       label: 'Sales',
-  //       data: [65, 59, 80, 81, 56, 55, 40],
-  //       fill: false,
-  //       borderColor: 'rgb(75, 192, 192)',
-  //       tension: 0.1,
-  //     },
-  //   ],
-  // };
-
   const handleFetchChartData = async () => {
     if (projectID) {
       try {
@@ -66,6 +53,7 @@ const ActivityChart = () => {
                 fill: false,
                 borderColor: '#4F43E2',
                 tension: 0.1,
+                borderWidth: 1,
               },
             ],
           });
@@ -92,7 +80,7 @@ const ActivityChart = () => {
           <div className={s.chart_options_item}>
             <SvgInset size={18} svgUrl={`${CDN_URL}/icons/ic-chart-line.svg`} />
             <Text size="18" fontWeight="medium">
-              Sales
+              Volume
             </Text>
           </div>
         </div>

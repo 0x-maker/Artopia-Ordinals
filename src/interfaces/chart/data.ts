@@ -6,5 +6,6 @@ export type TChartData = {
     fill: boolean;
     borderColor: string;
     tension: number;
+    borderWidth: number;
   }[];
 };
