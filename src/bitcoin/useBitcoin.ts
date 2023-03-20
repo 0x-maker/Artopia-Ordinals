@@ -4,12 +4,16 @@ import { useSelector } from 'react-redux';
 import { getUserSelector } from '@redux/user/selector';
 import { useContext, useState, useEffect } from 'react';
 import {
-  broadcastTx,
   submitCancel,
   submitListForSale,
+  submitTxs,
   trackTx,
 } from '@services/bitcoin';
-import { ICollectedUTXOResp, TrackTxType } from '@interfaces/api/bitcoin';
+import {
+  ICollectedUTXOResp,
+  IReqSubmitTxs,
+  TrackTxType,
+} from '@interfaces/api/bitcoin';
 import {
   IBuyInsProps,
   IBuyMulInsProps,
@@ -76,7 +80,9 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       type: TrackTxType.inscription,
     });
     // broadcast tx
-    await broadcastTx(txHex);
+    await submitTxs({
+      txID: txHex,
+    });
   };
 
   const sendBitcoin = async ({
@@ -95,9 +101,6 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       feeRate,
       amount,
     });
-    // broadcast tx
-    await broadcastTx(txHex);
-    await sleep(1);
     await trackTx({
       txhash: txID,
       address: tpAddress,
@@ -106,6 +109,11 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       inscription_number: 0,
       send_amount: amount,
       type: TrackTxType.normal,
+    });
+    await sleep(1);
+    // broadcast tx
+    await submitTxs({
+      txID: txHex,
     });
     // setPendingUTXOs(selectedUTXOs);
   };
@@ -125,15 +133,16 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
     const { taprootChild } = await generateBitcoinTaprootKey(evmAddress);
     const privateKey = taprootChild.privateKey;
     if (!privateKey) throw 'Sign error';
-    const { txID, txHex, splitTxRaw } = await SDK.buyInsBTCTransaction({
-      privateKey,
-      feeRate,
-      inscriptions: assets.inscriptions_by_outputs,
-      price,
-      psbtB64: sellerSignedPsbtB64,
-      receiver: receiverInscriptionAddress,
-      utxos: assets.txrefs,
-    });
+    const { txID, txHex, splitTxRaw, splitTxID } =
+      await SDK.buyInsBTCTransaction({
+        privateKey,
+        feeRate,
+        inscriptions: assets.inscriptions_by_outputs,
+        price,
+        psbtB64: sellerSignedPsbtB64,
+        receiver: receiverInscriptionAddress,
+        utxos: assets.txrefs,
+      });
     await trackTx({
       txhash: txID,
       address: taprootAddress,
@@ -144,13 +153,24 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       type: TrackTxType.buyInscription,
     });
     await sleep(1);
-    if (splitTxRaw) {
-      await broadcastTx(splitTxRaw);
-      await sleep(5);
-    }
+    // if (splitTxRaw) {
+    //   await broadcastTx(splitTxRaw);
+    //   await sleep(5);
+    // }
+    //
+    // // broadcast tx
+    // await broadcastTx(txHex);
 
-    // broadcast tx
-    await broadcastTx(txHex);
+    let submitPayload: IReqSubmitTxs = {
+      txID: txHex,
+    };
+    if (!!splitTxID && !!splitTxRaw) {
+      submitPayload = {
+        txID: txHex,
+        splitTxID: splitTxRaw,
+      };
+    }
+    await submitTxs(submitPayload);
   };
 
   const listInscription = async (payload: IListInsProps) => {
@@ -222,7 +242,9 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       feeRate,
     });
     // broadcast tx
-    await broadcastTx(txHex);
+    await submitTxs({
+      txID: txHex,
+    });
     await sleep(1);
     const tasks = [
       await trackTx({
@@ -264,7 +286,7 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
   const buyMulInscription = async (payload: IBuyMulInsProps) => {
     const { privateKey, tpAddress } = await signKey();
     const assets = await SDK.getCurrentAssetsForCreateTx(tpAddress);
-    const { txID, txHex, splitTxRaw } = SDK.buyMulInsBTCTransaction({
+    const { txID, txHex, splitTxRaw, splitTxID } = SDK.buyMulInsBTCTransaction({
       privateKey,
       buyInfos: payload.buyInfos,
       feeRate: payload.feeRate,
@@ -280,13 +302,19 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       send_amount: payload.price,
       type: TrackTxType.buyInscription,
     });
+
     await sleep(1);
-    if (splitTxRaw) {
-      await broadcastTx(splitTxRaw);
-      await sleep(5);
+    let submitPayload: IReqSubmitTxs = {
+      txID: txHex,
+    };
+    if (!!splitTxID && !!splitTxRaw) {
+      submitPayload = {
+        txID: txHex,
+        splitTxID: splitTxRaw,
+      };
     }
-    // broadcast tx
-    await broadcastTx(txHex);
+    await submitTxs(submitPayload);
+    await sleep(1);
   };
 
   return {

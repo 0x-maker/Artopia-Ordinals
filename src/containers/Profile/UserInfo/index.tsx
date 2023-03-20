@@ -36,6 +36,7 @@ export const UserInfo = ({ toggle }: IProps): JSX.Element => {
   const { walletAddress } = router.query as { walletAddress: string };
 
   const isOwner = currentUser?.id === user?.id;
+  const showHistory = isLoadedHistory && isOwner;
 
   const isTwVerified = useMemo(() => {
     return currentUser?.profileSocial?.twitterVerified || false;
@@ -108,7 +109,7 @@ export const UserInfo = ({ toggle }: IProps): JSX.Element => {
                     size={18}
                     svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
                   />
-                  {isLoadedHistory && (
+                  {showHistory && (
                     <SvgInset
                       onClick={toggle}
                       size={18}
