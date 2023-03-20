@@ -156,7 +156,7 @@ export const CollectionItems = ({
 
   return (
     <div className={cn(className, s.collections)}>
-      <Row className={s.items_projects}>
+      <Row>
         {isLoaded === false ? (
           <Col xs={12}>
             {[...Array(LIMIT)].map((_, index) => (
