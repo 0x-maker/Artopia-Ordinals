@@ -28,7 +28,7 @@ import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBT
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import { isImageURL } from '@utils/url';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
-import { ellipsisCenter, formatAddressDisplayName } from '@utils/format';
+import { ellipsisCenter, ellipsisCenterBTCAddress } from '@utils/format';
 
 interface IPros {
   project: ICollectedNFTItem;
@@ -168,9 +168,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
         : project.artistName || '';
     if (artistName) return artistName;
     if (currentUser?.walletAddressBtcTaproot) {
-      return `Owned by ${formatAddressDisplayName(
-        currentUser?.walletAddressBtcTaproot
-      )}`;
+      return `Owned by ${ellipsisCenterBTCAddress({
+        str: currentUser?.walletAddressBtcTaproot,
+      })}`;
     }
     return '';
   }, [

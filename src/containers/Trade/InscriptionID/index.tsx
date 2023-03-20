@@ -12,7 +12,7 @@ import { ROUTE_PATH } from '@constants/route-path';
 import useWindowSize from '@hooks/useWindowSize';
 import { IGetMarketplaceBtcListItem } from '@interfaces/api/marketplace-btc';
 import { getInscriptionDetail } from '@services/marketplace-btc';
-import { ellipsisCenter, formatAddressDisplayName } from '@utils/format';
+import { ellipsisCenter, ellipsisCenterBTCAddress } from '@utils/format';
 import { getApiKey } from '@utils/swr';
 
 import s from './TokenID.module.scss';
@@ -148,7 +148,7 @@ const InscriptionID: React.FC = (): React.ReactElement => {
               href={`${ROUTE_PATH.PROFILE}/${tokenData?.owner}`}
               className={s.projectName}
             >
-              {formatAddressDisplayName(tokenData?.owner || '', 6)}
+              {ellipsisCenterBTCAddress({ str: tokenData?.owner || '' })}
             </Link>
           </Text>
           {renderButtons()}
