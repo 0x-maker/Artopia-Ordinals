@@ -149,4 +149,23 @@
     height: rem(200px);
     position: relative;
   }
+
+  @include mobile {
+    display: flex;
+    flex-wrap: wrap;
+
+    &_text {
+      margin-right: 0;
+      font-size: rem(14px);
+      line-height: rem(22px);
+    }
+
+    &_btn {
+      margin-top: rem(4px);
+      padding: rem(3px) rem(12px);
+      font-weight: 500;
+      font-size: rem(14px);
+      line-height: rem(24px);
+    }
+  }
 }

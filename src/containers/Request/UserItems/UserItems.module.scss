@@ -101,6 +101,13 @@
     display: inline-flex;
     align-items: center;
     text-decoration: none;
+
+    span {
+      width: 100%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 
   &_collectionNum {
@@ -115,5 +122,68 @@
     font-size: 14px;
     line-height: 22px;
     color: $primary-333;
+  }
+
+  @include w-max(960px) {
+    &_header {
+      width: auto;
+    }
+
+    &_id {
+      width: rem(40px);
+    }
+
+    &_artist {
+      width: rem(200px);
+
+      .users_name {
+        font-size: 12px;
+        line-height: 20px;
+      }
+
+      .users_collectionNum {
+        font-size: rem(11px);
+      }
+    }
+
+    &_referenceLink {
+      width: rem(130px);
+    }
+
+    &_expiration {
+      width: rem(130px);
+      text-align: center;
+    }
+
+    &_statusWrapper {
+      width: rem(130px);
+
+      .users_status {
+        font-size: rem(12px);
+      }
+    }
+
+    &_infinite {
+      overflow: hidden !important;
+      width: fit-content;
+    }
+
+    &_row {
+      width: auto;
+      padding-left: 0;
+      padding-right: 0;
+      font-size: rem(12px);
+    }
+
+    &_tooltip,
+    &_btn {
+      font-size: rem(12px);
+    }
+
+    &_link {
+      span {
+        width: 95%;
+      }
+    }
   }
 }

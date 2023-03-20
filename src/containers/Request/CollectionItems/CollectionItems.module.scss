@@ -122,4 +122,63 @@
     line-height: 22px;
     color: $primary-333;
   }
+
+  @include w-max(960px) {
+    &_header {
+      width: auto;
+    }
+
+    &_id {
+      width: rem(40px);
+    }
+
+    &_img {
+      width: rem(80px);
+    }
+
+    &_name {
+      width: rem(114px);
+    }
+
+    &_maxSupply {
+      width: rem(114px);
+    }
+
+    &_price {
+      width: rem(114px);
+    }
+
+    &_artistWrapper {
+      width: rem(114px);
+    }
+
+    &_expiration {
+      width: rem(114px);
+    }
+
+    &_statusWrapper {
+      width: rem(114px);
+
+      .collections_status {
+        font-size: rem(12px);
+      }
+    }
+
+    &_infinite {
+      overflow: hidden !important;
+      width: fit-content;
+    }
+
+    &_row {
+      padding-left: 0;
+      padding-right: 0;
+      font-size: rem(12px);
+      line-height: rem(20px);
+    }
+
+    &_btn,
+    &_tooltip {
+      font-size: rem(12px);
+    }
+  }
 }
