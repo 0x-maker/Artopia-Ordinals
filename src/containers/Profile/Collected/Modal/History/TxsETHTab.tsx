@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { AssetsContext } from '@contexts/assets-context';
-import { toast } from 'react-hot-toast';
 import Text from '@components/Text';
 import { formatUnixDateTime } from '@utils/time';
 import { Stack } from 'react-bootstrap';
@@ -9,15 +8,12 @@ import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
 import s from '@containers/Profile/Collected/Modal/History/styles.module.scss';
 import Table from '@components/Table';
+import { ITxHistoryBuyInsETH } from '@interfaces/api/bitcoin';
+import { onClickCopy } from '@utils/copy';
 
 const TxsETHTab = () => {
   const { txsETH } = useContext(AssetsContext);
   const TABLE_HISTORY_HEADING = ['Date', 'Status', 'Inscription', 'Amount'];
-  const handleCopy = (text: string): void => {
-    navigator.clipboard.writeText(text);
-    toast.remove();
-    toast.success('Copied');
-  };
 
   const renderLink = (txHash: string, explore: string) => {
     if (!txHash) return null;
@@ -30,7 +26,7 @@ const TxsETHTab = () => {
           size={18}
           svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
           className={s.wrapHistory_copy}
-          onClick={() => handleCopy(txHash)}
+          onClick={() => onClickCopy(txHash)}
         />
         <SvgInset
           size={16}
@@ -39,6 +35,63 @@ const TxsETHTab = () => {
           onClick={() => window.open(`${explore}/${txHash}`)}
         />
       </Stack>
+    );
+  };
+
+  const renderItemInsID = (
+    inscriptionID: string,
+    number: string | number | undefined
+  ) => {
+    return (
+      <div key={inscriptionID}>
+        <Stack direction="horizontal" gap={3}>
+          <Text size="16" fontWeight="medium" color="black-100">
+            {`${ellipsisCenter({
+              str: inscriptionID,
+              limit: 6,
+            })}`}
+          </Text>
+          <SvgInset
+            size={18}
+            svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
+            className={s.wrapHistory_copy}
+            onClick={() => onClickCopy(inscriptionID)}
+          />
+          <SvgInset
+            size={16}
+            svgUrl={`${CDN_URL}/icons/ic-share.svg`}
+            className={s.wrapHistory_copy}
+            onClick={() =>
+              window.open(`https://ordinals.com/inscription/${inscriptionID}`)
+            }
+          />
+        </Stack>
+        {!!number && (
+          <Text size="16" fontWeight="medium" color="black-100">
+            {`#${number}`}
+          </Text>
+        )}
+      </div>
+    );
+  };
+
+  const renderInsRow = (item: ITxHistoryBuyInsETH) => {
+    if (item.inscription_id) {
+      return renderItemInsID(item.inscription_id, undefined);
+    }
+    if (!!item.inscription_list && !!item.inscription_list.length) {
+      return (
+        <>
+          {item.inscription_list.map(inscriptionID =>
+            renderItemInsID(inscriptionID, undefined)
+          )}
+        </>
+      );
+    }
+    return (
+      <Text size="16" fontWeight="medium" color="black-100">
+        ---
+      </Text>
     );
   };
 
@@ -61,7 +114,7 @@ const TxsETHTab = () => {
                 size={18}
                 svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
                 className={s.wrapHistory_copy}
-                onClick={() => handleCopy(item.order_id)}
+                onClick={() => onClickCopy(item.order_id)}
               />
             </Stack>
           </>
@@ -81,38 +134,7 @@ const TxsETHTab = () => {
             </div>
           </>
         ),
-        number: (
-          <>
-            {!!item.inscription_id && (
-              <div>
-                <Stack direction="horizontal" gap={3}>
-                  <Text size="16" fontWeight="medium" color="black-100">
-                    {`${ellipsisCenter({
-                      str: item.inscription_id,
-                      limit: 6,
-                    })}`}
-                  </Text>
-                  <SvgInset
-                    size={18}
-                    svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
-                    className={s.wrapHistory_copy}
-                    onClick={() => handleCopy(item.inscription_id)}
-                  />
-                  <SvgInset
-                    size={16}
-                    svgUrl={`${CDN_URL}/icons/ic-share.svg`}
-                    className={s.wrapHistory_copy}
-                    onClick={() =>
-                      window.open(
-                        `https://ordinals.com/inscription/${item.inscription_id}`
-                      )
-                    }
-                  />
-                </Stack>
-              </div>
-            )}
-          </>
-        ),
+        number: <>{renderInsRow(item)}</>,
         amount: (
           <>
             <Text size="16" fontWeight="medium" color="black-100">

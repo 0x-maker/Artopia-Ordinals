@@ -91,7 +91,9 @@ const ListView = () => {
                   className={styles.checkbox}
                 />
               </th>
-              <th>{titleItems}</th>
+              <th onClick={onClickItems} className={s.selectItem}>
+                {titleItems}
+              </th>
               <th>Owner</th>
               <th>Buy now</th>
             </tr>

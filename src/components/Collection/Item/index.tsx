@@ -18,13 +18,14 @@ import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromET
 import usePurchaseStatus from '@hooks/usePurchaseStatus';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
+import { useRouter } from 'next/router';
 
 const CollectionItem = ({
   data,
   className,
   showCollectionName,
   total,
-  layout = 'shop',
+  layout = 'mint',
 }: {
   data: Token;
   className?: string;
@@ -32,6 +33,8 @@ const CollectionItem = ({
   total?: string | number;
   layout?: 'mint' | 'shop';
 }) => {
+  const router = useRouter();
+
   const tokenID = data.tokenID;
   const showInscriptionID =
     data.genNFTAddr === '1000012' && !!data.inscriptionIndex && !!total;
@@ -92,7 +95,7 @@ const CollectionItem = ({
         ? removeSelectedOrder(data.orderID)
         : addSelectedOrder(data.orderID);
     } else {
-      window.open(tokenUrl);
+      router.push(tokenUrl);
     }
   };
 
@@ -155,8 +158,34 @@ const CollectionItem = ({
       );
     }
     return (
-      <Link href={tokenUrl}>
-        <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+      <div
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        onClick={(event: any) => {
+          if (event.stopPropagation) {
+            event.stopPropagation();
+          }
+        }}
+      >
+        <Link href={tokenUrl}>
+          <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+        </Link>
+      </div>
+    );
+  };
+
+  const ComponentLink = ({
+    isDiv,
+    children,
+  }: {
+    isDiv: boolean;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    children: any;
+  }) => {
+    return isDiv ? (
+      <div onClick={onSelectItem}>{children}</div>
+    ) : (
+      <Link className={s.collectionCard_inner} href={tokenUrl}>
+        {children}
       </Link>
     );
   };
@@ -168,11 +197,7 @@ const CollectionItem = ({
       }`}
     >
       <div className={s.collectionCard_inner_wrapper}>
-        <div
-          className={s.collectionCard_inner}
-          // href={`${tokenUrl}`}
-          onClick={onSelectItem}
-        >
+        <ComponentLink isDiv={!!(isBuyable && layout === 'shop')}>
           <div
             className={`${s.collectionCard_thumb} ${
               thumb === LOGO_MARKETPLACE_URL ? s.isDefault : ''
@@ -256,17 +281,15 @@ const CollectionItem = ({
                   })}
                   direction="horizontal"
                 >
-                  <Link href={tokenUrl}>
-                    <Heading
-                      as={'h4'}
-                      className={`token_id ml-auto ${s.textOverflow}}`}
-                      style={{
-                        maxWidth: data.stats?.price ? '70%' : '100%',
-                      }}
-                    >
-                      {renderHeadDesc()}
-                    </Heading>
-                  </Link>
+                  <Heading
+                    as={'h4'}
+                    className={`token_id ml-auto ${s.textOverflow}}`}
+                    style={{
+                      maxWidth: data.stats?.price ? '70%' : '100%',
+                    }}
+                  >
+                    {renderHeadDesc()}
+                  </Heading>
                   {showCollectionName && data?.project?.name && (
                     <div className={s.collectionCard_info_wrapper_ownerName}>
                       {data?.project?.name}
@@ -296,7 +319,7 @@ const CollectionItem = ({
               </div>
             </div>
           )}
-        </div>
+        </ComponentLink>
       </div>
     </div>
   );

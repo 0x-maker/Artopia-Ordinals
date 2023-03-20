@@ -47,4 +47,6 @@ export interface IBuyMulInsProps {
   price: number;
   receiver: string;
   buyInfos: BuyReqInfo[];
+  numbers: number[];
+  inscriptionIDs: string[];
 }
