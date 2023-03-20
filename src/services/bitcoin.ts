@@ -14,7 +14,8 @@ import {
   IListingPayload,
   IPendingUTXO,
   IReqGenAddressByETH,
-  IReqSubmitSwapETH,
+  IReqSubmitTxs,
+  IReqSubmitTxsParams,
   IRespGenAddressByETH,
   IRetrieveOrderPayload,
   IRetrieveOrderResp,
@@ -386,17 +387,16 @@ export const getTokenRate = async (
   }
 };
 
-export const submitSwapETH = async (
-  payload: IReqSubmitSwapETH
+export const submitTxs = async (
+  payload: IReqSubmitTxs
 ): Promise<IRespGenAddressByETH> => {
   try {
-    const res = await post<IReqSubmitSwapETH, never>(
-      '/dex/update-eth-order-tx',
-      payload
-    );
+    const res = await post<IReqSubmitTxsParams, never>('/wallet/submit-tx', {
+      txs: payload,
+    });
     return res;
   } catch (err: unknown) {
-    log('failed to get submitSwapETH', LogLevel.ERROR, LOG_PREFIX);
+    log('failed to get submitTxs', LogLevel.ERROR, LOG_PREFIX);
     throw err;
   }
 };

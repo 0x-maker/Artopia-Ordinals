@@ -204,9 +204,12 @@ export interface IRespGenAddressByETH {
   has_royalty: boolean;
 }
 
-export interface IReqSubmitSwapETH {
-  order_id: string;
-  txhash: string;
+export interface IReqSubmitTxs {
+  [key: string]: string;
+}
+
+export interface IReqSubmitTxsParams {
+  txs: IReqSubmitTxs;
 }
 
 export interface ITxHistoryBuyInsETH {
