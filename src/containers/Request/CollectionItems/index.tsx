@@ -24,6 +24,7 @@ import { CDN_URL } from '@constants/config';
 import { convertIpfsToHttp } from '@utils/image';
 import { IconVerified } from '@components/IconVerified';
 import { formatAddressDisplayName } from '@utils/format';
+import useWindowSize from '@hooks/useWindowSize';
 
 import SkeletonItem from '../SkeletonItem';
 import s from './CollectionItems.module.scss';
@@ -35,6 +36,7 @@ interface CollectionItemsProps {
 export const CollectionItems = ({
   className,
 }: CollectionItemsProps): JSX.Element => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
   const {
     keyword = '',
@@ -164,24 +166,68 @@ export const CollectionItems = ({
         ) : (
           <Col md={12}>
             <div className={cn(s.collections_header)}>
-              <div className="col-md-1 d-flex justify-content-start">
-                Proposal ID
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_id
+                )}
+              >
+                {mobileScreen ? 'ID' : 'Proposal ID'}
               </div>
-              <div className="col-md-2 d-flex justify-content-start">Image</div>
-              <div className="col-md-2 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-2 d-flex justify-content-start',
+                  s.collections_img
+                )}
+              >
+                Image
+              </div>
+              <div
+                className={cn(
+                  'col-md-2 d-flex justify-content-start',
+                  s.collections_name
+                )}
+              >
                 Collection
               </div>
-              <div className="col-md-1 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_maxSupply
+                )}
+              >
                 Max Supply
               </div>
-              <div className="col-md-1 d-flex justify-content-start">Price</div>
-              <div className="col-md-1 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_price
+                )}
+              >
+                Price
+              </div>
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_artistWrapper
+                )}
+              >
                 Artist
               </div>
-              <div className="col-md-1 d-flex justify-content-center">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-center',
+                  s.collections_expiration
+                )}
+              >
                 Expiration
               </div>
-              <div className="col-md-1 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_statusWrapper
+                )}
+              >
                 Status
               </div>
               <div className="col-md-2 invisible">Action</div>
@@ -191,6 +237,7 @@ export const CollectionItems = ({
               <Empty content="No Data Available." />
             ) : (
               <InfiniteScroll
+                className={s.collections_infinite}
                 dataLength={combineList.length}
                 next={debounceFetchCombineList}
                 hasMore
@@ -205,10 +252,20 @@ export const CollectionItems = ({
               >
                 {combineList?.map((item: any) => (
                   <div key={item.id} className={s.collections_row}>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_id
+                      )}
+                    >
                       {item?.seq_id}
                     </div>
-                    <div className="col-md-2 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-2 d-flex justify-content-start',
+                        s.collections_img
+                      )}
+                    >
                       <a
                         className={s.collections_link}
                         href={`${ROUTE_PATH.GENERATIVE}/${item?.project?.token_id}`}
@@ -217,13 +274,18 @@ export const CollectionItems = ({
                         <Image
                           className={s.collections_pointer}
                           src={convertIpfsToHttp(item?.project?.thumbnail)}
-                          width={120}
-                          height={120}
+                          width={mobileScreen ? 60 : 120}
+                          height={mobileScreen ? 60 : 120}
                           alt={item?.project?.name}
                         />
                       </a>
                     </div>
-                    <div className="col-md-2 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-2 d-flex justify-content-start',
+                        s.collections_name
+                      )}
+                    >
                       <a
                         className={s.collections_link}
                         href={`${ROUTE_PATH.GENERATIVE}/${item?.project?.token_id}`}
@@ -239,13 +301,28 @@ export const CollectionItems = ({
                         </span>
                       </a>
                     </div>
-                    <div className="col-md-1 d-flex justify-content-center">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_maxSupply
+                      )}
+                    >
                       {item?.project?.max_supply}
                     </div>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_price
+                      )}
+                    >
                       {formatBTCPrice(item?.project?.mint_price)} BTC
                     </div>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_artistWrapper
+                      )}
+                    >
                       <div className={s.collections_pointer}>
                         <a
                           className={s.collections_link}
@@ -269,10 +346,18 @@ export const CollectionItems = ({
                         </a>
                       </div>
                     </div>
-                    <div className="col-md-1 d-flex justify-content-center">{`${dayjs(
-                      item?.expired_at
-                    ).format('MMM DD')}`}</div>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-center',
+                        s.collections_expiration
+                      )}
+                    >{`${dayjs(item?.expired_at).format('MMM DD')}`}</div>
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_statusWrapper
+                      )}
+                    >
                       {getStatusProposal(item?.status)}
                     </div>
                     <div className="col-md-2 d-flex justify-content-end">

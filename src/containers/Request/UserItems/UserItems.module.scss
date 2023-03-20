@@ -103,7 +103,7 @@
     text-decoration: none;
 
     span {
-      width: 95%;
+      width: 100%;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
@@ -175,8 +175,15 @@
       font-size: rem(12px);
     }
 
+    &_tooltip,
     &_btn {
       font-size: rem(12px);
+    }
+
+    &_link {
+      span {
+        width: 95%;
+      }
     }
   }
 }
