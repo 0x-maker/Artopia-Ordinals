@@ -496,7 +496,10 @@ const ModalSweepBTC = React.memo(({ tokens, onHide, ...rest }: IProps) => {
                           sizes="medium"
                           variants="outline"
                           className={s.buyBtn}
-                          onClick={onHide}
+                          onClick={() => {
+                            window.location.reload();
+                            onHide();
+                          }}
                         >
                           Continue collecting
                         </ButtonIcon>

@@ -455,7 +455,10 @@ const ModalBuyListed = React.memo(
                             sizes="medium"
                             variants="outline"
                             className={s.buyBtn}
-                            onClick={onHide}
+                            onClick={() => {
+                              window.location.reload();
+                              onHide();
+                            }}
                           >
                             Continue collecting
                           </ButtonIcon>
