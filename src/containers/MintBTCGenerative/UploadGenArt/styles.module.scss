@@ -17,6 +17,27 @@
     }
   }
 
+  .traitContainer {
+    padding-bottom: 24px;
+    border-bottom: 1px solid $black-10;
+    margin-bottom: 24px;
+
+    .traitTitle {
+      font-size: rem(20);
+      line-height: rem(30);
+      margin-bottom: rem(8);
+      font-weight: 500;
+      color: $black-100;
+    }
+
+    .traitItem {
+      font-size: rem(16);
+      line-height: rem(26);
+      color: $black-100;
+      font-weight: 400;
+    }
+  }
+
   .uploadSuccessWrapper {
     display: flex;
     flex-direction: column;
