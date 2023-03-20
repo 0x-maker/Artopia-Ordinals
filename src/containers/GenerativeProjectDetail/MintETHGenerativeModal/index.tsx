@@ -37,6 +37,7 @@ import {
 import { Col, Row } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
 import FeeRate from '../MintFeeRate';
+import FeeRateCustom from '../MintFeeRateCustom';
 import useMintFeeRate from '../MintFeeRate/useMintFeeRate';
 import s from './styles.module.scss';
 import { getBTCAddress } from './utils';
@@ -525,6 +526,20 @@ const MintEthModal: React.FC = () => {
                               )}
                             </>
                           )}
+
+                          {step === 'info' &&
+                            isShowAdvance &&
+                            projectFeeRate && (
+                              <FeeRateCustom
+                                feeRate={projectFeeRate}
+                                selectedRateType={rateType}
+                                handleChangeRateType={handleChangeRateType}
+                                useCustomRate={true}
+                                handleChangeCustomRate={handleChangeCustomRate}
+                                customRate={customRate}
+                                payType="eth"
+                              />
+                            )}
 
                           {step === 'info' && useWallet === 'another' && (
                             <ButtonIcon
