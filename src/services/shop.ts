@@ -37,7 +37,7 @@ export const getSalesVolume = async (
   try {
     const qs = '?' + querystring.stringify(query);
     const res = await get<IGetSalesVolumeResponse>(
-      `${API_PATH}/${projectID}/charts${qs}`
+      `/charts${API_PATH}/${projectID}${qs}`
     );
     return res;
   } catch (err: unknown) {
