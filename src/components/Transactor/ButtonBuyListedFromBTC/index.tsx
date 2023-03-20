@@ -47,7 +47,12 @@ const ButtonBuyListedFromBTC = React.memo(
     };
 
     return (
-      <>
+      <div
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+        }}
+        className={cs(s.container, `${className}`)}
+      >
         <ButtonIcon
           sizes={sizes}
           className={cs(s.container, `${className}`)}
@@ -69,7 +74,7 @@ const ButtonBuyListedFromBTC = React.memo(
             onHide={hideModal}
           />
         )}
-      </>
+      </div>
     );
   }
 );

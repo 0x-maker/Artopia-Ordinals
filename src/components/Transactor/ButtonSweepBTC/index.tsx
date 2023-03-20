@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const ButtonSweepBTC = React.memo(
-  ({ className, sizes = 'xsmall', tokens }: IProps) => {
+  ({ className, sizes = 'mid', tokens }: IProps) => {
     const [isShow, setShow] = React.useState(false);
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
@@ -54,6 +54,7 @@ const ButtonSweepBTC = React.memo(
           disabled={true}
           className={cs(s.container, `${className}`)}
           onClick={openModal}
+          variants="blue-deep"
         >
           Buy <span /> - BTC
         </ButtonIcon>
@@ -65,6 +66,7 @@ const ButtonSweepBTC = React.memo(
           sizes={sizes}
           className={cs(s.container, `${className}`)}
           onClick={openModal}
+          variants="blue-deep"
         >
           Buy {tokens.length} {tokens.length === 1 ? 'item' : 'items'} <span />{' '}
           {amount.str} BTC

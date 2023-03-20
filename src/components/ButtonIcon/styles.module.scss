@@ -256,6 +256,27 @@
     }
   }
 
+  &.outline-blue-deep {
+    background-color: transparent;
+    border: 2px solid #4f43e2;
+    color: #4f43e2;
+
+    &.medium {
+      padding-top: rem(9px);
+      padding-bottom: rem(9px);
+    }
+
+    &:hover {
+      border-color: #4f43e2;
+    }
+
+    &:disabled {
+      border-color: #4f43e2;
+      color: $black-20;
+      border: none;
+    }
+  }
+
   &.outline-small {
     background-color: transparent;
     border: 1px inset $black-100;
