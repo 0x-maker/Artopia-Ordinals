@@ -459,12 +459,29 @@ export const ProfileProvider: React.FC<PropsWithChildren> = ({
       ]);
       const filterNTFs = [
         ...mintingNFTs,
-        ...mintedNFTs.filter(
-          mintedNft =>
-            !mintingNFTs.find(
-              mintingNft => mintingNft.inscriptionID === mintedNft.inscriptionID
-            )
-        ),
+        ...mintedNFTs
+          .filter(
+            mintedNft =>
+              !mintingNFTs.find(
+                mintingNft =>
+                  mintingNft.inscriptionID === mintedNft.inscriptionID
+              )
+          )
+          .sort((nftA, nftB) => {
+            if (
+              (nftA?.tokenNumber || Number(nftA?.inscriptionNumber) || 0) <
+              (nftB?.tokenNumber || Number(nftB?.inscriptionNumber) || 0)
+            ) {
+              return -1;
+            }
+            if (
+              (nftA?.tokenNumber || Number(nftA?.inscriptionNumber) || 0) >
+              (nftB?.tokenNumber || Number(nftB?.inscriptionNumber) || 0)
+            ) {
+              return 1;
+            }
+            return 0;
+          }),
       ].filter(item => {
         const isSending =
           !!item?.inscriptionID && !!getStorageIns(item?.inscriptionID);
