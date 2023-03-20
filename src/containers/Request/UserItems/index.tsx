@@ -23,6 +23,7 @@ import { ROUTE_PATH } from '@constants/route-path';
 import { getDaoArtists, voteDaoArtist } from '@services/request';
 import { formatAddressDisplayName } from '@utils/format';
 import { DEFAULT_USER_AVATAR } from '@constants/common';
+import useWindowSize from '@hooks/useWindowSize';
 
 import SkeletonItem from '../SkeletonItem';
 import s from './UserItems.module.scss';
@@ -32,6 +33,7 @@ interface UserItemsProps {
 }
 
 export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
   const {
     keyword = '',
@@ -140,13 +142,19 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
         ) : (
           <Col md={12}>
             <div className={s.users_header}>
-              <div className={cn('col-md-1', s.users_header_id)}>
-                Proposal ID
+              <div className={cn('col-md-1', s.users_id)}>
+                {mobileScreen ? 'ID' : 'Proposal ID'}
               </div>
-              <div className="col-md-3">Artist</div>
-              <div className="col-md-2">Twitter & Website</div>
-              <div className="col-md-2">Expiration</div>
-              <div className="col-md-2">Status</div>
+              <div className={cn('col-md-3', s.users_artist)}>Artist</div>
+              <div className={cn('col-md-2', s.users_referenceLink)}>
+                Twitter & Website
+              </div>
+              <div className={cn('col-md-2', s.users_expiration)}>
+                Expiration
+              </div>
+              <div className={cn('col-md-1', s.users_statusWrapper)}>
+                Status
+              </div>
               <div className="invisible col-md-3" />
             </div>
 
@@ -154,6 +162,7 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
               <Empty content="No Data Available." />
             ) : (
               <InfiniteScroll
+                className={s.users_infinite}
                 dataLength={combineList.length}
                 next={debounceFetchCombineList}
                 hasMore
@@ -168,8 +177,10 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
               >
                 {combineList?.map((item: any) => (
                   <div key={item.id} className={s.users_row}>
-                    <div className="col-md-1">{item?.seq_id}</div>
-                    <div className="col-md-3">
+                    <div className={cn('col-md-1', s.users_id)}>
+                      {item?.seq_id}
+                    </div>
+                    <div className={cn('col-md-3', s.users_artist)}>
                       <div
                         className={cn(
                           'd-flex align-items-center',
@@ -190,12 +201,12 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                               convertIpfsToHttp(item?.user?.avatar) ||
                               DEFAULT_USER_AVATAR
                             }
-                            width={48}
-                            height={48}
+                            width={mobileScreen ? 34 : 48}
+                            height={mobileScreen ? 34 : 48}
                             alt={item?.user?.display_name}
                           />
                           <div>
-                            <div>
+                            <div className={s.users_name}>
                               {item?.user?.display_name ||
                                 formatAddressDisplayName(
                                   item?.user?.wallet_address_btc_taproot
@@ -225,7 +236,7 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                         </a>
                       </div>
                     </div>
-                    <div className="col-md-2">
+                    <div className={cn('col-md-2', s.users_referenceLink)}>
                       <div className="d-flex flex-column">
                         {item?.user?.profile_social?.twitter ? (
                           <div>
@@ -259,10 +270,10 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                         )}
                       </div>
                     </div>
-                    <div className="col-md-2">{`${dayjs(
-                      item?.expired_at
-                    ).format('MMM DD')}`}</div>
-                    <div className="col-md-2">
+                    <div
+                      className={cn('col-md-2', s.users_expiration)}
+                    >{`${dayjs(item?.expired_at).format('MMM DD')}`}</div>
+                    <div className={cn('col-md-2', s.users_statusWrapper)}>
                       {getStatusProposal(item?.status)}
                     </div>
                     <div className="col-md-2 d-flex justify-content-end">

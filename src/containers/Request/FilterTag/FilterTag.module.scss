@@ -33,4 +33,16 @@
     letter-spacing: 0.01em;
     text-transform: initial;
   }
+
+  @include mobile {
+    margin: 0 0 rem(12px) 0;
+    width: 100%;
+    flex-wrap: wrap;
+
+    &_tag,
+    &_clearBtn {
+      margin-top: rem(12px);
+      padding: rem(3px) rem(12px);
+    }
+  }
 }

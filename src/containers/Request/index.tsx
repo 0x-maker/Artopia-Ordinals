@@ -73,7 +73,10 @@ const RequestPage = (): JSX.Element => {
                   />
                 ))}
               </div>
-              <SubmitDaoButton className={s.request_submitBtn} currentTabActive={currentTabActive} />
+              <SubmitDaoButton
+                className={s.request_submitBtn}
+                currentTabActive={currentTabActive}
+              />
             </div>
           </Col>
         </Row>

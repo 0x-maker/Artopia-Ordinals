@@ -43,7 +43,7 @@
   }
 
   &_modal {
-    [class*='_title'] {
+    [class*="_title"] {
       font-weight: 500;
       font-size: rem(24px);
       line-height: rem(34px);
@@ -112,7 +112,7 @@
           border: solid white;
           border-width: 0 2px 2px 0;
           transform: rotate(45deg);
-          content: '';
+          content: "";
         }
       }
 
