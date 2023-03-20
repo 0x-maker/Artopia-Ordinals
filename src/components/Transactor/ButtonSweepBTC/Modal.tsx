@@ -124,11 +124,17 @@ const ModalSweepBTC = React.memo(({ tokens, ...rest }: IProps) => {
         };
       });
 
+      const numbers = buyableTokens.map(token =>
+        Number(token.orderInscriptionIndex || 0)
+      );
+      const inscriptionIDs = buyableTokens.map(token => token.inscriptionIndex);
       await buyMulInscription({
         buyInfos: buyInfos,
         feeRate: currentRate,
         price: new BigNumber(amount.amountOrigin).toNumber(),
         receiver: values.address,
+        numbers: numbers,
+        inscriptionIDs,
       });
       toast.success('Bought inscriptions successfully');
       setTimeout(() => {

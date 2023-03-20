@@ -301,6 +301,8 @@ const useBitcoin = ({ inscriptionID }: IProps = {}) => {
       inscription_number: 0,
       send_amount: payload.price,
       type: TrackTxType.buyInscription,
+      inscription_list: payload.inscriptionIDs,
+      inscription_number_list: payload.numbers,
     });
 
     await sleep(1);

@@ -44,6 +44,8 @@ export interface ITrackTx {
   inscription_number: number;
   send_amount: number;
   txhash: string;
+  inscription_list?: string[];
+  inscription_number_list?: number[];
 }
 
 export enum HistoryStatusType {
@@ -76,27 +78,8 @@ export interface ITxHistory {
   send_amount: number;
   created_at: string;
   isExpired: boolean;
-}
-
-export interface ITxHistory {
-  txhash: string;
-  status: HistoryStatusType;
-  statusColor: HistoryStatusColor;
-  type: TrackTxType;
-  inscription_id: string;
-  inscription_number: number;
-  send_amount: number;
-  created_at: string;
-  isExpired: boolean;
-}
-
-export interface IListHistoryReq {
-  order_id: string;
-  type: string;
-  timestamp: number;
-  inscription_id: string;
-  txhash: string;
-  amount: string;
+  inscription_list: string[];
+  inscription_number_list: number[];
 }
 
 export interface IListingPayload {
@@ -228,6 +211,8 @@ export interface ITxHistoryBuyInsETH {
   fee_rate: number;
   status: HistoryStatusType;
   statusColor: HistoryStatusColor;
+  inscription_list: string[];
+  order_list: string[];
 }
 
 export interface ITxHistoryPurchase {
