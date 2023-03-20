@@ -92,7 +92,11 @@ const TableActivities = () => {
                   ? transaction?.user_a?.walletAddressBtcTaproot
                   : transaction?.user_a?.walletAddress
               }`}
-              className="hover-underline"
+              className={`hover-underline ${
+                (!transaction?.user_a?.walletAddressBtcTaproot ||
+                  !transaction?.user_a?.walletAddress) &&
+                'pointer-none'
+              }`}
             >
               {fromAddress}
             </Link>
@@ -105,7 +109,11 @@ const TableActivities = () => {
                   ? transaction?.user_b?.walletAddressBtcTaproot
                   : transaction?.user_b?.walletAddress
               }`}
-              className="hover-underline"
+              className={`hover-underline ${
+                (!transaction?.user_b?.walletAddressBtcTaproot ||
+                  !transaction?.user_b?.walletAddress) &&
+                'pointer-none'
+              }`}
             >
               {toAddress}
             </Link>

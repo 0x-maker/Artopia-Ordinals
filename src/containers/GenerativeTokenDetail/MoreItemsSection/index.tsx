@@ -9,6 +9,9 @@ import cs from 'classnames';
 import { useEffect, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import s from './styles.module.scss';
+import ButtonIcon from '@components/ButtonIcon';
+import { useRouter } from 'next/router';
+import { ROUTE_PATH } from '@constants/route-path';
 
 const LOG_PREFIX = 'MoreItemsSection';
 
@@ -28,8 +31,8 @@ type TMoreItemsSection = {
 };
 
 const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
-  // const router = useRouter();
-  // const { projectID } = router.query;
+  const router = useRouter();
+  const { projectID } = router.query;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [listItems, setListItems] = useState<Token[] | null>(null);
@@ -67,6 +70,15 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
         <Heading as="h4" fontWeight="bold">
           More from this collection
         </Heading>
+        <ButtonIcon
+          sizes="large"
+          variants="outline-small"
+          onClick={() => {
+            router.push(`${ROUTE_PATH.GENERATIVE}/${projectID}`);
+          }}
+        >
+          View Collection
+        </ButtonIcon>
         {/* <div className={s.dropDownWrapper}>
           <Select
             isSearchable={false}
