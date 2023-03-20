@@ -137,6 +137,11 @@ const ModalSweepBTC = React.memo(({ tokens, onHide, ...rest }: IProps) => {
 
   const removeUnBuyableToken = (data?: { [key: string]: string }) => {
     const orderIDs = Object.keys(data || {});
+    if (orderIDs.length === tokens.length) {
+      return toast.error(
+        'All your selected inscriptions not available for buy now.'
+      );
+    }
     for (const orderID of orderIDs) {
       removeSelectedOrder(orderID);
     }
