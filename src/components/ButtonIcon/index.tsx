@@ -9,6 +9,7 @@ type ButtonVariantsType =
   | 'secondary-2'
   | 'outline'
   | 'outline-small'
+  | 'outline-blue-deep'
   | 'ghost'
   | 'filter'
   | 'blue'

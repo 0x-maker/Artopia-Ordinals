@@ -51,23 +51,6 @@ const ListViewItem = ({ data }: Props) => {
     if (!isBuyable) return null;
     return (
       <div className={`${styles.row} ${styles.buy_btn}`}>
-        {isBuyETH && (
-          <Link
-            href=""
-            onClick={() => {
-              // DO NOTHING
-            }}
-            className={styles.eth_btn}
-          >
-            <ButtonBuyListedFromETH
-              sizes={isLayoutShop ? 'small' : 'medium'}
-              inscriptionID={data.tokenID}
-              price={data.priceETH}
-              inscriptionNumber={Number(data.inscriptionIndex || 0)}
-              orderID={data.orderID}
-            />
-          </Link>
-        )}
         {isBuyBTC && (
           <Link
             href=""
@@ -77,9 +60,26 @@ const ListViewItem = ({ data }: Props) => {
             }}
           >
             <ButtonBuyListedFromBTC
-              sizes={isLayoutShop ? 'small' : 'medium'}
+              sizes={isLayoutShop ? 'xsmall' : 'medium'}
               inscriptionID={data.tokenID}
               price={data.priceBTC}
+              inscriptionNumber={Number(data.inscriptionIndex || 0)}
+              orderID={data.orderID}
+            />
+          </Link>
+        )}
+        {isBuyETH && (
+          <Link
+            href=""
+            onClick={() => {
+              // DO NOTHING
+            }}
+            className={styles.eth_btn}
+          >
+            <ButtonBuyListedFromETH
+              sizes={isLayoutShop ? 'xsmall' : 'medium'}
+              inscriptionID={data.tokenID}
+              price={data.priceETH}
               inscriptionNumber={Number(data.inscriptionIndex || 0)}
               orderID={data.orderID}
             />
@@ -90,7 +90,9 @@ const ListViewItem = ({ data }: Props) => {
   };
 
   return (
-    <tr>
+    <tr
+      style={{ backgroundColor: isSelectedOrder ? '#C6C7F8' : 'transparent' }}
+    >
       <td className={styles.checkbox} onClick={onSelectItem}>
         {isBuyable && (
           <SvgInset

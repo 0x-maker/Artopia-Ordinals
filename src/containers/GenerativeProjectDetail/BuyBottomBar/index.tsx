@@ -33,8 +33,8 @@ const BuyBottomBar: React.FC = (): React.ReactElement => {
   return (
     <div className={s.container}>
       <div className={s.leftContainer}>
-        <ButtonSweepETH tokens={selectedItems} />
         <ButtonSweepBTC tokens={selectedItems} />
+        <ButtonSweepETH tokens={selectedItems} />
       </div>
       <div className={s.rightContainer}>
         <input
@@ -59,7 +59,7 @@ const BuyBottomBar: React.FC = (): React.ReactElement => {
                   ...props.style,
                   background: getTrackBackground({
                     values: [selectedItems.length],
-                    colors: ['#1C1C1C', '#F2F2F2'],
+                    colors: ['#4F43E2', '#C6C7F8'],
                     min: MIN,
                     max: max,
                   }),
