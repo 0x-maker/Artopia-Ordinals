@@ -10,8 +10,8 @@ import { ROUTE_PATH } from '@constants/route-path';
 import { GENERATIVE_PROJECT_CONTRACT } from '@constants/contract-address';
 import { getTokenUri } from '@services/token-uri';
 import { GLB_EXTENSION } from '@constants/file';
+import { HOST_ORDINALS_EXPLORER } from '@constants/config';
 
-const EXPLORER = 'https://dev-v5.generativeexplorer.com';
 // CDN_URL;
 type ContentVariantsType = 'full' | 'absolute';
 
@@ -50,9 +50,11 @@ const NFTDisplayBox = ({
     serIsLoaded(true);
   };
 
-  const getURLContent = () => `${EXPLORER}/content/${inscriptionID}`;
+  const getURLContent = () =>
+    `${HOST_ORDINALS_EXPLORER}/content/${inscriptionID}`;
 
-  const getURLPreview = () => `${EXPLORER}/preview/${inscriptionID}`;
+  const getURLPreview = () =>
+    `${HOST_ORDINALS_EXPLORER}/preview/${inscriptionID}`;
 
   const contentClass = cs(s.wrapper_content, contentClassName);
 

@@ -21,6 +21,7 @@ import { retrieveOrder } from '@services/bitcoin';
 import usePurchaseStatus from '@hooks/usePurchaseStatus';
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBTC';
+import { HOST_ORDINALS_EXPLORER } from '@constants/config';
 
 const InscriptionID: React.FC = (): React.ReactElement => {
   const router = useRouter();
@@ -110,7 +111,7 @@ const InscriptionID: React.FC = (): React.ReactElement => {
         <a
           color={'text-black-80'}
           className={s.row_right}
-          href={`https://dev-v5.generativeexplorer.com/inscription/${tokenData?.inscriptionID}`}
+          href={`${HOST_ORDINALS_EXPLORER}/inscription/${tokenData?.inscriptionID}`}
           target="_blank"
           rel="noreferrer"
         >

@@ -2,23 +2,22 @@ import React, { useState } from 'react';
 import Table from '@components/Table';
 import s from './styles.module.scss';
 import { Loading } from '@components/Loading';
-import { ICollection } from '@interfaces/shop';
+import { IItem } from '@interfaces/shop';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { formatBTCPrice } from '@utils/format';
-import { getCollectionList } from '@services/shop';
+import { formatAddress, formatBTCPrice } from '@utils/format';
+import { getItemList } from '@services/shop';
 import _uniqBy from 'lodash/uniqBy';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
-import Link from 'next/link';
 import { ROUTE_PATH } from '@constants/route-path';
 import { useRouter } from 'next/router';
 import useAsyncEffect from 'use-async-effect';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
+import { HOST_ORDINALS_EXPLORER } from '@constants/config';
 
 const TABLE_HEADINGS = [
   'Name',
-  'Price',
-  '15M volume',
+  '1H volume',
   '1D volume',
   '7D volume',
   'Seller',
@@ -29,7 +28,7 @@ const LOG_PREFIX = 'ItemsTab';
 const Items: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true); // Use only for first load
-  const [itemList, setItemList] = useState<Array<ICollection>>([]);
+  const [itemList, setItemList] = useState<Array<IItem>>([]);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -39,12 +38,22 @@ const Items: React.FC = (): React.ReactElement => {
     }
   };
 
-  const tableData = itemList.map(collection => {
+  const tableData = itemList.map(item => {
+    const seller = (): string => {
+      if (item.sellerDisplayName) {
+        return item.sellerDisplayName;
+      }
+      if (item.sellerAddress) {
+        return formatAddress(item.sellerAddress);
+      }
+      return '-';
+    };
+
     return {
-      id: collection.project.tokenId,
+      id: item.inscription_id,
       config: {
         onClick: () => {
-          router.push(`${ROUTE_PATH.GENERATIVE}/${collection.project.tokenId}`);
+          router.push(`${ROUTE_PATH.LIVE}/${item.inscription_id}`);
         },
       },
       render: {
@@ -52,80 +61,44 @@ const Items: React.FC = (): React.ReactElement => {
           <div className={s.name}>
             <img
               className={s.projectThumbnail}
-              src={collection.project.thumbnail}
-              alt={collection.project.name}
+              src={`${HOST_ORDINALS_EXPLORER}`}
+              alt={item.name}
               onError={handleImageError}
             />
             <div className={s.projectInfo}>
-              <Link
-                onClick={(e: React.MouseEvent<HTMLAnchorElement>): void => {
-                  e.stopPropagation();
-                }}
-                href={`${ROUTE_PATH.PROFILE}/${
-                  collection.owner?.walletAddress_btc_taproot || ''
-                }`}
-                className={s.owner}
-              >
-                {collection.owner?.displayName}
-              </Link>
-              <p className={s.collectionName}>{collection.project.name}</p>
+              <p>{item.name}</p>
+              <p className={s.collectionName}>{`#${item.inscription_id}`}</p>
             </div>
           </div>
         ),
-        price: (
-          <div className={s.floorPrice}>
-            <span>
-              {formatBTCPrice(
-                collection.projectMarketplaceData.floor_price,
-                '—'
-              )}{' '}
-              {formatBTCPrice(
-                collection.projectMarketplaceData.floor_price,
-                '—'
-              ) === '—'
-                ? ''
-                : 'BTC'}
-            </span>
-          </div>
-        ),
-        volume15m: (
+        volume1h: (
           <div className={s.volume}>
             <span>
-              {formatBTCPrice(collection.projectMarketplaceData.volume, '—')}{' '}
-              {formatBTCPrice(collection.projectMarketplaceData.volume, '—') ===
-              '—'
-                ? ''
-                : 'BTC'}
+              {!item.volumeOneHour.amount || item.volumeOneHour.amount === '0'
+                ? '—'
+                : `${formatBTCPrice(item.volumeOneHour.amount, '—')} BTC`}
             </span>
           </div>
         ),
         volume1d: (
           <div className={s.volume}>
             <span>
-              {formatBTCPrice(collection.projectMarketplaceData.volume, '—')}{' '}
-              {formatBTCPrice(collection.projectMarketplaceData.volume, '—') ===
-              '—'
-                ? ''
-                : 'BTC'}
+              {!item.volumeOneDay.amount || item.volumeOneDay.amount === '0'
+                ? '—'
+                : `${formatBTCPrice(item.volumeOneDay.amount, '—')} BTC`}
             </span>
           </div>
         ),
         volume7d: (
           <div className={s.volume}>
             <span>
-              {formatBTCPrice(collection.projectMarketplaceData.volume, '—')}{' '}
-              {formatBTCPrice(collection.projectMarketplaceData.volume, '—') ===
-              '—'
-                ? ''
-                : 'BTC'}
+              {!item.volumeOneWeek.amount || item.volumeOneWeek.amount === '0'
+                ? '—'
+                : `${formatBTCPrice(item.volumeOneWeek.amount, '—')} BTC`}
             </span>
           </div>
         ),
-        seller: (
-          <div className={s.owners}>
-            {collection.project.mintingInfo.index.toLocaleString()}
-          </div>
-        ),
+        seller: <div className={s.owners}>{seller()}</div>,
       },
     };
   });
@@ -133,14 +106,14 @@ const Items: React.FC = (): React.ReactElement => {
   const handleFetchItems = async (): Promise<void> => {
     try {
       const newPage = page + 1;
-      const { result, total } = await getCollectionList({
+      const { result, total } = await getItemList({
         limit: 50,
         page: newPage,
       });
       if (result && Array.isArray(result)) {
         const newList = _uniqBy(
           [...itemList, ...result],
-          nft => nft.project.contractAddress + nft.project.tokenId
+          nft => nft.inscription_id
         );
         setItemList(newList);
       }
@@ -157,7 +130,7 @@ const Items: React.FC = (): React.ReactElement => {
   }, []);
 
   return (
-    <div className={s.collection}>
+    <div className={s.item}>
       {isLoading && (
         <div className={s.loadingWrapper}>
           <Loading isLoaded={false} />

@@ -1,6 +1,6 @@
 import s from './styles.module.scss';
 import { ShopTab } from '@enums/shop';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import Image from 'next/image';
 import Collection from './Collection';
@@ -10,13 +10,20 @@ import ListCollectionModal from './ListCollectionModal';
 import Items from './Items';
 import SvgInset from '@components/SvgInset';
 import cs from 'classnames';
+import { useRouter } from 'next/router';
+import { LocalStorageKey } from '@enums/local-storage';
 
 const ShopController: React.FC = (): React.ReactElement => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<ShopTab>(ShopTab.COLLECTION);
   const [showListCollectionModal, setShowListCollectionModal] = useState(false);
 
   const handleSelectTab = (tab: ShopTab): void => {
     setActiveTab(tab);
+    sessionStorage.setItem(LocalStorageKey.SHOP_ACTIVE_TAB, tab);
+    router.replace({
+      query: { ...router.query, tab: tab },
+    });
   };
 
   const handleOpenListCollectionModal = (): void => {
@@ -56,6 +63,19 @@ const ShopController: React.FC = (): React.ReactElement => {
     ),
     []
   );
+
+  useEffect(() => {
+    const query = router.query as { tab: string };
+    let tabName: string = query.tab;
+    // Use query first
+    if (!tabName) {
+      tabName = sessionStorage.getItem(LocalStorageKey.SHOP_ACTIVE_TAB) || '';
+    }
+
+    if (Object.values(ShopTab).includes(tabName as ShopTab)) {
+      handleSelectTab(tabName as ShopTab);
+    }
+  }, []);
 
   return (
     <>
