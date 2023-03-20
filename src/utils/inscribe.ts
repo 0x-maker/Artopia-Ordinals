@@ -1,4 +1,4 @@
-import { MINT_TRANSFER_FEE } from '@constants/config';
+import { HOST_ORDINALS_EXPLORER, MINT_TRANSFER_FEE } from '@constants/config';
 import { InscribeMintFeeRate } from '@enums/inscribe';
 
 export const calculateMintFee = (
@@ -28,5 +28,5 @@ export const calculateNetworkFee = (
 
 export const getOrdinalImgURL = (inscriptionID: string) => {
   if (!inscriptionID) return '';
-  return `https://dev-v5.generativeexplorer.com/preview/${inscriptionID}`;
+  return `${HOST_ORDINALS_EXPLORER}/preview/${inscriptionID}`;
 };

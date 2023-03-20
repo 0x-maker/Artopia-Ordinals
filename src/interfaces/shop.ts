@@ -49,3 +49,14 @@ export interface ICollection {
   owner: ICollectionOwner;
   projectMarketplaceData: ICollectionMarketplace;
 }
+
+export interface IItem {
+  inscription_id: string;
+  volumeOneHour: ICollectionVolume;
+  volumeOneDay: ICollectionVolume;
+  volumeOneWeek: ICollectionVolume;
+  sellerAddress: string;
+  sellerDisplayName: string;
+  name: string;
+  image: string;
+}

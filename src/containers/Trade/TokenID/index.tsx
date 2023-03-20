@@ -21,6 +21,7 @@ import { Container } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
 import s from './TokenID.module.scss';
 import MarkdownPreview from '@components/MarkdownPreview';
+import { HOST_ORDINALS_EXPLORER } from '@constants/config';
 
 const LOG_PREFIX = 'BUY-NFT-BTC-DETAIL';
 
@@ -74,7 +75,7 @@ const TokenID: React.FC = (): React.ReactElement => {
         <a
           color={'text-black-80'}
           className={s.row_right}
-          href={`https://dev-v5.generativeexplorer.com/inscription/${tokenData?.inscriptionID}`}
+          href={`${HOST_ORDINALS_EXPLORER}/inscription/${tokenData?.inscriptionID}`}
           target="_blank"
           rel="noreferrer"
         >

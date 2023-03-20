@@ -47,9 +47,7 @@ const LOG_PREFIX = 'RecentWorks';
 
 export const RecentWorks = (): JSX.Element => {
   const router = useRouter();
-
   const { category: categoryNameParams } = router.query;
-
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isLoadedMore, setIsLoadMore] = useState<boolean>(false);
   const [projects, setProjects] = useState<IGetProjectListResponse>();

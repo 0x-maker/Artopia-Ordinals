@@ -55,6 +55,27 @@
         display: inline-flex;
         align-items: center;
         gap: rem(8);
+
+        &:hover {
+          .tabName {
+            color: $black-60;
+          }
+
+          .tabIcon {
+            :global(svg path) {
+              stroke: $black-60;
+            }
+          }
+
+          .tabIcon {
+            &.tabItemIcon {
+              :global(svg path) {
+                fill: $black-60;
+                stroke: none;
+              }
+            }
+          }
+        }
       }
 
       .tabName {
@@ -63,9 +84,20 @@
         font-weight: 500;
         font-size: rem(16);
         line-height: rem(26);
+      }
 
-        &:hover {
-          color: $black-60;
+      .tabIcon {
+        :global(svg path) {
+          stroke: $black-40;
+        }
+      }
+
+      .tabIcon {
+        &.tabItemIcon {
+          :global(svg path) {
+            fill: $black-40;
+            stroke: none;
+          }
         }
       }
     }
@@ -75,6 +107,21 @@
 
       .tabName {
         color: $primary-brand;
+      }
+
+      .tabIcon {
+        :global(svg path) {
+          stroke: $primary-brand;
+        }
+      }
+
+      .tabIcon {
+        &.tabItemIcon {
+          :global(svg path) {
+            fill: $primary-brand;
+            stroke: none;
+          }
+        }
       }
     }
   }
