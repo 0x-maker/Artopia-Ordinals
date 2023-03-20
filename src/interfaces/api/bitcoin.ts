@@ -1,11 +1,7 @@
 import * as GENERATIVE_SDK from 'generative-sdk';
 
-export interface IInscriptionByOutputValue {
-  offset: number;
-  id: string;
-}
 export interface IInscriptionByOutput {
-  [key: string]: IInscriptionByOutputValue[];
+  [key: string]: GENERATIVE_SDK.Inscription[];
 }
 
 export interface ICollectedUTXOResp {
@@ -114,6 +110,19 @@ export interface IRetrieveOrderPayload {
   inscriptionID?: string;
 }
 
+export interface IRetrieveOrdersPayload {
+  order_list: string[];
+}
+
+export interface IRetrieveOrdersResp {
+  raw_psbt_list: {
+    [key: string]: string;
+  };
+  raw_psbt_list_not_avail: {
+    [key: string]: string;
+  };
+}
+
 export interface IRetrieveOrderResp {
   raw_psbt: string;
   buyable: boolean;
@@ -177,8 +186,9 @@ export interface ITokenPriceResp {
 }
 
 export interface IReqGenAddressByETH {
-  order_id: string;
+  order_id?: string;
   fee_rate: number;
+  order_list?: string[];
   receive_address: string;
   refund_address: string;
   is_estimate: boolean;

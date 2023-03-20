@@ -3,6 +3,28 @@
   margin-bottom: rem(16);
 }
 
+.itemsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid $black-5;
+  margin-top: rem(20px);
+  padding-bottom: rem(8px);
+}
+
+.icCheckbox {
+  cursor: pointer;
+}
+
+.textItems {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  margin-left: 16px;
+  color: #898989;
+}
+
 .layout_left {
   max-height: calc(100vh - #{rem(210)});
   overflow-y: scroll;
@@ -58,6 +80,8 @@
 .layout_middle {
   flex: 0 0 100%;
   width: 100%;
+  margin-bottom: rem(4px);
+  position: relative;
 
   @include min-tablet {
     padding: rem(24);
@@ -75,9 +99,19 @@
     width: 60%;
   }
 
+  .buy_bottom {
+    position: absolute;
+    left: rem(0);
+    right: rem(0);
+    bottom: rem(16px);
+    border-top: 1px solid #f2f2f2;
+    z-index: 2;
+    background: white;
+  }
+
   .spacing {
     padding-top: rem(24);
-    max-height: calc(100vh - #{rem(300)});
+    max-height: calc(100vh - #{rem(340)});
     overflow-y: scroll;
 
     @include disable-scrollbar;
@@ -291,4 +325,13 @@
 
 .checkbox > input:active {
   border: 2px solid #34495e;
+}
+
+.tokenListWrapper {
+  position: relative;
+  min-height: rem(584px);
+}
+
+.tokenLoadListWrapper {
+  position: relative;
 }
