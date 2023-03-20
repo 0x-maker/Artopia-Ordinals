@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row';
 import { toast } from 'react-hot-toast';
 import copy from 'copy-to-clipboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import { Empty } from '@components/Collection/Empty';
 import Button from '@components/Button';
@@ -35,7 +36,13 @@ export const CollectionItems = ({
   className,
 }: CollectionItemsProps): JSX.Element => {
   const router = useRouter();
-  const { keyword = '', status = '', sort = '', id = '', tab } = router.query;
+  const {
+    keyword = '',
+    status = '',
+    sort = '',
+    seq_id = '',
+    tab,
+  } = router.query;
   let timeoutId = -1;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -47,7 +54,7 @@ export const CollectionItems = ({
   const initData = async (): Promise<void> => {
     setIsLoaded(false);
     const collections = await getDaoProjects({
-      id,
+      seq_id,
       keyword,
       status,
       sort,
@@ -65,14 +72,14 @@ export const CollectionItems = ({
       initData();
     }, 300);
     return () => clearTimeout(timeoutId);
-  }, [keyword, status, sort, id, tab, timeoutId]);
+  }, [keyword, status, sort, seq_id, tab, timeoutId]);
 
   const fetchCombineList = async () => {
     try {
       setIsLoading(true);
       if (totalPerPage > LIMIT) {
         const nextCollections = await getDaoProjects({
-          id,
+          seq_id,
           keyword,
           status,
           sort,
@@ -140,7 +147,7 @@ export const CollectionItems = ({
   // };
 
   const copyLink = (id: string) => {
-    copy(`${location.origin}${ROUTE_PATH.DAO}?id=${id}&tab=0`);
+    copy(`${location.origin}${ROUTE_PATH.DAO}?seq_id=${id}&tab=0`);
     toast.remove();
     toast.success('Copied');
   };
@@ -269,16 +276,31 @@ export const CollectionItems = ({
                       {getStatusProposal(item?.status)}
                     </div>
                     <div className="col-md-2 d-flex justify-content-end">
-                      <span
-                        className={s.collections_share}
-                        onClick={() => copyLink(item?.id)}
+                      <OverlayTrigger
+                        placement="bottom"
+                        delay={{ show: 100, hide: 200 }}
+                        overlay={
+                          <Tooltip id="play-tooltip">
+                            <div className={s.collections_tooltip}>
+                              Copy link to share this proposal
+                            </div>
+                          </Tooltip>
+                        }
                       >
-                        <SvgInset
-                          className={s.icCopy}
-                          size={16}
-                          svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
-                        />
-                      </span>
+                        <div>
+                          <span
+                            className={s.collections_share}
+                            onClick={() => copyLink(item?.seq_id)}
+                          >
+                            <SvgInset
+                              className={s.icCopy}
+                              size={16}
+                              svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
+                            />
+                          </span>
+                        </div>
+                      </OverlayTrigger>
+
                       {/* <Button
                         className={cn(s.collections_btn, s.collections_mr6)}
                         disabled={item?.action?.can_vote === false}
