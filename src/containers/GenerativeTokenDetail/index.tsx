@@ -261,24 +261,24 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     if (!isBuyable) return null;
     return (
       <Row className={s.buy_btc}>
-        {isBuyETH && (
-          <Col md="5" lg="5" className={s.buy_btc_wrap}>
-            <ButtonBuyListedFromETH
-              sizes={'large'}
-              inscriptionID={tokenData.tokenID}
-              price={tokenData.priceETH}
-              inscriptionNumber={Number(tokenData.inscriptionIndex || 0)}
-              orderID={tokenData.orderID}
-              isDetail={true}
-            />
-          </Col>
-        )}
         {isBuyBTC && (
           <Col md="5" lg="5" className={s.buy_btc_wrap}>
             <ButtonBuyListedFromBTC
               sizes={'large'}
               inscriptionID={tokenData.tokenID}
               price={tokenData.priceBTC}
+              inscriptionNumber={Number(tokenData.inscriptionIndex || 0)}
+              orderID={tokenData.orderID}
+              isDetail={true}
+            />
+          </Col>
+        )}
+        {isBuyETH && (
+          <Col md="5" lg="5" className={s.buy_btc_wrap}>
+            <ButtonBuyListedFromETH
+              sizes={'large'}
+              inscriptionID={tokenData.tokenID}
+              price={tokenData.priceETH}
               inscriptionNumber={Number(tokenData.inscriptionIndex || 0)}
               orderID={tokenData.orderID}
               isDetail={true}

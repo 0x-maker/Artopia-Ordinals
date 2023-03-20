@@ -33,7 +33,9 @@ const ButtonBuyListedFromBTC = React.memo(
     const walletCtx = useContext(WalletContext);
     const taprootAddress = user?.walletAddressBtcTaproot;
 
-    const openModal = async () => {
+    const openModal = async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
       if (!user || !user.walletAddressBtcTaproot) {
         await walletCtx.connect();
       }
