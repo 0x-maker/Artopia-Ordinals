@@ -232,9 +232,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
             onClick={() => ''}
             className={s.projectCard_status_buyBtn}
           >
-            <ButtonBuyListedFromETH
+            <ButtonBuyListedFromBTC
               inscriptionID={project.inscriptionID}
-              price={project.priceETH}
+              price={project.priceBTC}
               inscriptionNumber={Number(project.inscriptionNumber)}
               orderID={project.orderID}
             />
@@ -244,9 +244,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
             onClick={() => ''}
             className={s.projectCard_status_buyBtn}
           >
-            <ButtonBuyListedFromBTC
+            <ButtonBuyListedFromETH
               inscriptionID={project.inscriptionID}
-              price={project.priceBTC}
+              price={project.priceETH}
               inscriptionNumber={Number(project.inscriptionNumber)}
               orderID={project.orderID}
             />
@@ -409,7 +409,11 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
               <div>
                 {project.status !== CollectedNFTStatus.Success ? (
                   project.quantity && (
-                    <Text size={'16'} fontWeight="medium">
+                    <Text
+                      size={'16'}
+                      fontWeight="medium"
+                      style={{ lineBreak: 'auto' }}
+                    >
                       {project.quantity > 1
                         ? `Quantity: ${project.quantity}`
                         : `${subTitle2}`}
