@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AssetsContext } from '@contexts/assets-context';
 import { toast } from 'react-hot-toast';
-import { TrackTxType } from '@interfaces/api/bitcoin';
+import { ITxHistory, TrackTxType } from '@interfaces/api/bitcoin';
 import Text from '@components/Text';
 import { formatUnixDateTime } from '@utils/time';
 import { Stack } from 'react-bootstrap';
@@ -18,6 +18,63 @@ const TxsTab = () => {
     navigator.clipboard.writeText(text);
     toast.remove();
     toast.success('Copied');
+  };
+
+  const renderItemInsID = (
+    inscriptionID: string,
+    number: string | number | undefined
+  ) => {
+    return (
+      <div key={inscriptionID}>
+        <Stack direction="horizontal" gap={3}>
+          <Text size="16" fontWeight="medium" color="black-100">
+            {`${ellipsisCenter({
+              str: inscriptionID,
+              limit: 6,
+            })}`}
+          </Text>
+          <SvgInset
+            size={18}
+            svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
+            className={s.wrapHistory_copy}
+            onClick={() => handleCopy(inscriptionID)}
+          />
+          <SvgInset
+            size={16}
+            svgUrl={`${CDN_URL}/icons/ic-share.svg`}
+            className={s.wrapHistory_copy}
+            onClick={() =>
+              window.open(`https://ordinals.com/inscription/${inscriptionID}`)
+            }
+          />
+        </Stack>
+        {!!number && (
+          <Text size="16" fontWeight="medium" color="black-100">
+            {`#${number}`}
+          </Text>
+        )}
+      </div>
+    );
+  };
+
+  const renderInsRow = (item: ITxHistory) => {
+    if (item.inscription_id) {
+      return renderItemInsID(item.inscription_id, item.inscription_number);
+    }
+    if (!!item.inscription_list && !!item.inscription_list.length) {
+      return (
+        <>
+          {item.inscription_list.map(inscriptionID =>
+            renderItemInsID(inscriptionID, undefined)
+          )}
+        </>
+      );
+    }
+    return (
+      <Text size="16" fontWeight="medium" color="black-100">
+        ---
+      </Text>
+    );
   };
 
   const mapTxType = (type: TrackTxType) => {
@@ -85,45 +142,7 @@ const TxsTab = () => {
               </div>
             </>
           ),
-          number: (
-            <>
-              {!!item.inscription_id && !!item.inscription_number ? (
-                <div>
-                  <Stack direction="horizontal" gap={3}>
-                    <Text size="16" fontWeight="medium" color="black-100">
-                      {`${ellipsisCenter({
-                        str: item.inscription_id,
-                        limit: 6,
-                      })}`}
-                    </Text>
-                    <SvgInset
-                      size={18}
-                      svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
-                      className={s.wrapHistory_copy}
-                      onClick={() => handleCopy(item.inscription_id)}
-                    />
-                    <SvgInset
-                      size={16}
-                      svgUrl={`${CDN_URL}/icons/ic-share.svg`}
-                      className={s.wrapHistory_copy}
-                      onClick={() =>
-                        window.open(
-                          `https://ordinals.com/inscription/${item.inscription_id}`
-                        )
-                      }
-                    />
-                  </Stack>
-                  <Text size="16" fontWeight="medium" color="black-100">
-                    {`#${item.inscription_number}`}
-                  </Text>
-                </div>
-              ) : (
-                <Text size="16" fontWeight="medium" color="black-100">
-                  ---
-                </Text>
-              )}
-            </>
-          ),
+          number: <>{renderInsRow(item)}</>,
           amount: (
             <>
               <Text size="16" fontWeight="medium" color="black-100">

@@ -6,7 +6,7 @@ import s from './styles.module.scss';
 import { Tab, Tabs } from 'react-bootstrap';
 import TxsTab from '@containers/Profile/Collected/Modal/History/TxsTab';
 import TxsETHTab from '@containers/Profile/Collected/Modal/History/TxsETHTab';
-import TxsPurchaseTab from '@containers/Profile/Collected/Modal/History/TxsPurchaseTab';
+import TxsSaleTab from '@containers/Profile/Collected/Modal/History/TxsSaleTab';
 
 interface IProps {
   showModal: boolean;
@@ -42,9 +42,9 @@ const HistoryModal = ({ showModal, onClose }: IProps): JSX.Element => {
             </div>
             <div className={s.modalBody}>
               <h3 className={s.modalTitle}>History</h3>
-              <Tabs className={s.tabs} defaultActiveKey="txs">
-                <Tab tabClassName={s.tab} eventKey="txs" title="Others">
-                  <TxsTab />
+              <Tabs className={s.tabs} defaultActiveKey="txsSale">
+                <Tab tabClassName={s.tab} eventKey="txsSale" title="Sales">
+                  <TxsSaleTab />
                 </Tab>
                 <Tab
                   tabClassName={s.tab}
@@ -53,8 +53,8 @@ const HistoryModal = ({ showModal, onClose }: IProps): JSX.Element => {
                 >
                   <TxsETHTab />
                 </Tab>
-                <Tab tabClassName={s.tab} eventKey="txsPurchase" title="Sales">
-                  <TxsPurchaseTab />
+                <Tab tabClassName={s.tab} eventKey="txs" title="Others">
+                  <TxsTab />
                 </Tab>
               </Tabs>
             </div>

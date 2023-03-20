@@ -54,3 +54,15 @@ export interface ICollectionSalesVolume {
   timestamp: string;
   amount: string | number;
 }
+export interface IItem {
+  inscription_id: string;
+  volumeOneHour: ICollectionVolume | null;
+  volumeOneDay: ICollectionVolume | null;
+  volumeOneWeek: ICollectionVolume | null;
+  sellerAddress: string;
+  sellerDisplayName: string;
+  name: string;
+  image: string;
+  buyerAddress: string;
+  buyerDisplayName: string;
+}

@@ -24,7 +24,7 @@ import { TokenOffer } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
 import { wordCase } from '@utils/common';
 import {
-  formatAddressDisplayName,
+  ellipsisCenterBTCAddress,
   formatLongAddress,
   formatTokenId,
 } from '@utils/format';
@@ -261,24 +261,24 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
     if (!isBuyable) return null;
     return (
       <Row className={s.buy_btc}>
-        {isBuyETH && (
-          <Col md="5" lg="5" className={s.buy_btc_wrap}>
-            <ButtonBuyListedFromETH
-              sizes={'large'}
-              inscriptionID={tokenData.tokenID}
-              price={tokenData.priceETH}
-              inscriptionNumber={Number(tokenData.inscriptionIndex || 0)}
-              orderID={tokenData.orderID}
-              isDetail={true}
-            />
-          </Col>
-        )}
         {isBuyBTC && (
           <Col md="5" lg="5" className={s.buy_btc_wrap}>
             <ButtonBuyListedFromBTC
               sizes={'large'}
               inscriptionID={tokenData.tokenID}
               price={tokenData.priceBTC}
+              inscriptionNumber={Number(tokenData.inscriptionIndex || 0)}
+              orderID={tokenData.orderID}
+              isDetail={true}
+            />
+          </Col>
+        )}
+        {isBuyETH && (
+          <Col md="5" lg="5" className={s.buy_btc_wrap}>
+            <ButtonBuyListedFromETH
+              sizes={'large'}
+              inscriptionID={tokenData.tokenID}
+              price={tokenData.priceETH}
               inscriptionNumber={Number(tokenData.inscriptionIndex || 0)}
               orderID={tokenData.orderID}
               isDetail={true}
@@ -301,12 +301,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               className={s.projectName}
             >
               {tokenData?.owner?.displayName ||
-                formatAddressDisplayName(
-                  tokenData?.owner?.walletAddressBtcTaproot ||
+                ellipsisCenterBTCAddress({
+                  str:
+                    tokenData?.owner?.walletAddressBtcTaproot ||
                     tokenData?.owner?.walletAddress ||
                     '',
-                  6
-                )}
+                })}
             </Link>
           </Text>
         ) : (
@@ -316,7 +316,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               href={`${ROUTE_PATH.PROFILE}/${tokenData?.ownerAddr}`}
               className={s.projectName}
             >
-              {formatAddressDisplayName(tokenData?.ownerAddr || '', 6)}
+              {ellipsisCenterBTCAddress({ str: tokenData?.ownerAddr || '' })}
             </Link>
           </Text>
         )}

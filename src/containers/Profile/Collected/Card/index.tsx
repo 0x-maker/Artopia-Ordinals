@@ -26,9 +26,9 @@ import s from './CollectedCard.module.scss';
 import { AssetsContext } from '@contexts/assets-context';
 import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBTC';
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
-import { capitalizeFirstLetter } from '@utils/string';
 import { isImageURL } from '@utils/url';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
+import { ellipsisCenter, ellipsisCenterBTCAddress } from '@utils/format';
 
 interface IPros {
   project: ICollectedNFTItem;
@@ -150,13 +150,34 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
       ? LOGO_MARKETPLACE_URL
       : undefined;
 
-  const projectName =
-    project.status === CollectedNFTStatus.Success ? project.projectName : '';
+  const formatInscriptionID = React.useMemo(() => {
+    return project.inscriptionID
+      ? ellipsisCenter({ str: project.inscriptionID, limit: 6 })
+      : '';
+  }, [project.inscriptionID]);
 
-  const artistName =
-    project.artistName === 'Unverified User'
-      ? project.projectName || ''
-      : project.artistName || '';
+  const subTitle1 = React.useMemo(() => {
+    if (project.status !== CollectedNFTStatus.Success) return '';
+    return project.projectName ? project.projectName : formatInscriptionID;
+  }, [project.status, project.projectName, formatInscriptionID]);
+
+  const subTitle2 = React.useMemo(() => {
+    const artistName =
+      project.artistName === 'Unverified User'
+        ? project.projectName || ''
+        : project.artistName || '';
+    if (artistName) return artistName;
+    if (currentUser?.walletAddressBtcTaproot) {
+      return `Owned by ${ellipsisCenterBTCAddress({
+        str: currentUser?.walletAddressBtcTaproot,
+      })}`;
+    }
+    return '';
+  }, [
+    project.artistName,
+    project.projectName,
+    currentUser?.walletAddressBtcTaproot,
+  ]);
 
   const isNotShowBlur =
     project.status === CollectedNFTStatus.Success ||
@@ -211,9 +232,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
             onClick={() => ''}
             className={s.projectCard_status_buyBtn}
           >
-            <ButtonBuyListedFromETH
+            <ButtonBuyListedFromBTC
               inscriptionID={project.inscriptionID}
-              price={project.priceETH}
+              price={project.priceBTC}
               inscriptionNumber={Number(project.inscriptionNumber)}
               orderID={project.orderID}
             />
@@ -223,9 +244,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
             onClick={() => ''}
             className={s.projectCard_status_buyBtn}
           >
-            <ButtonBuyListedFromBTC
+            <ButtonBuyListedFromETH
               inscriptionID={project.inscriptionID}
-              price={project.priceBTC}
+              price={project.priceETH}
               inscriptionNumber={Number(project.inscriptionNumber)}
               orderID={project.orderID}
             />
@@ -335,9 +356,9 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
                     </Text>
                   </div>
                 )}
-                {projectName && (
+                {subTitle1 && (
                   <Text size="20" fontWeight="medium" color="black-40-solid">
-                    {projectName}
+                    {subTitle1}
                   </Text>
                 )}
               </div>
@@ -388,15 +409,19 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
               <div>
                 {project.status !== CollectedNFTStatus.Success ? (
                   project.quantity && (
-                    <Text size={'16'} fontWeight="medium">
+                    <Text
+                      size={'16'}
+                      fontWeight="medium"
+                      style={{ lineBreak: 'auto' }}
+                    >
                       {project.quantity > 1
                         ? `Quantity: ${project.quantity}`
-                        : `${capitalizeFirstLetter(artistName)}`}
+                        : `${subTitle2}`}
                     </Text>
                   )
                 ) : (
                   <Text size={'16'} fontWeight="medium">
-                    {`${capitalizeFirstLetter(artistName)}`}
+                    {`${subTitle2}`}
                   </Text>
                 )}
               </div>

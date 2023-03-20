@@ -1,11 +1,7 @@
 import * as GENERATIVE_SDK from 'generative-sdk';
 
-export interface IInscriptionByOutputValue {
-  offset: number;
-  id: string;
-}
 export interface IInscriptionByOutput {
-  [key: string]: IInscriptionByOutputValue[];
+  [key: string]: GENERATIVE_SDK.Inscription[];
 }
 
 export interface ICollectedUTXOResp {
@@ -48,6 +44,8 @@ export interface ITrackTx {
   inscription_number: number;
   send_amount: number;
   txhash: string;
+  inscription_list?: string[];
+  inscription_number_list?: number[];
 }
 
 export enum HistoryStatusType {
@@ -80,27 +78,8 @@ export interface ITxHistory {
   send_amount: number;
   created_at: string;
   isExpired: boolean;
-}
-
-export interface ITxHistory {
-  txhash: string;
-  status: HistoryStatusType;
-  statusColor: HistoryStatusColor;
-  type: TrackTxType;
-  inscription_id: string;
-  inscription_number: number;
-  send_amount: number;
-  created_at: string;
-  isExpired: boolean;
-}
-
-export interface IListHistoryReq {
-  order_id: string;
-  type: string;
-  timestamp: number;
-  inscription_id: string;
-  txhash: string;
-  amount: string;
+  inscription_list: string[];
+  inscription_number_list: number[];
 }
 
 export interface IListingPayload {
@@ -112,6 +91,19 @@ export interface IListingPayload {
 export interface IRetrieveOrderPayload {
   orderID?: string;
   inscriptionID?: string;
+}
+
+export interface IRetrieveOrdersPayload {
+  order_list: string[];
+}
+
+export interface IRetrieveOrdersResp {
+  raw_psbt_list: {
+    [key: string]: string;
+  };
+  raw_psbt_list_not_avail: {
+    [key: string]: string;
+  };
 }
 
 export interface IRetrieveOrderResp {
@@ -177,8 +169,9 @@ export interface ITokenPriceResp {
 }
 
 export interface IReqGenAddressByETH {
-  order_id: string;
+  order_id?: string;
   fee_rate: number;
+  order_list?: string[];
   receive_address: string;
   refund_address: string;
   is_estimate: boolean;
@@ -194,9 +187,12 @@ export interface IRespGenAddressByETH {
   has_royalty: boolean;
 }
 
-export interface IReqSubmitSwapETH {
-  order_id: string;
-  txhash: string;
+export interface IReqSubmitTxs {
+  [key: string]: string;
+}
+
+export interface IReqSubmitTxsParams {
+  txs: IReqSubmitTxs;
 }
 
 export interface ITxHistoryBuyInsETH {
@@ -215,6 +211,8 @@ export interface ITxHistoryBuyInsETH {
   fee_rate: number;
   status: HistoryStatusType;
   statusColor: HistoryStatusColor;
+  inscription_list: string[];
+  order_list: string[];
 }
 
 export interface ITxHistoryPurchase {

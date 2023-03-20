@@ -7,7 +7,12 @@ import { ROUTE_PATH } from '@constants/route-path';
 import { ProfileContext } from '@contexts/profile-context';
 import { useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
-import { formatAddressDisplayName, formatWebDomain } from '@utils/format';
+import {
+  ellipsisCenterBTCAddress,
+  formatAddress,
+  formatAddressDisplayName,
+  formatWebDomain,
+} from '@utils/format';
 import copy from 'copy-to-clipboard';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -70,10 +75,7 @@ export const UserInfo = ({ toggle }: IProps): JSX.Element => {
                   className={s.userInfo_content_wrapper_info_name}
                 >
                   {currentUser?.displayName ||
-                    formatAddressDisplayName(
-                      currentUser?.walletAddressBtcTaproot,
-                      6
-                    ) ||
+                    formatAddress(currentUser?.walletAddressBtcTaproot, 10) ||
                     formatAddressDisplayName(walletAddress)}
                 </Heading>
                 <div className={s.userInfo_content_wrapper_info_icon}>
@@ -94,10 +96,10 @@ export const UserInfo = ({ toggle }: IProps): JSX.Element => {
                     svgUrl={`${CDN_URL}/icons/Frame%20427319538.svg`}
                   />
                   <Text size={'18'} fontWeight={'regular'}>
-                    {formatAddressDisplayName(
-                      currentUser?.walletAddressBtcTaproot || '',
-                      6
-                    )}
+                    {ellipsisCenterBTCAddress({
+                      str: currentUser?.walletAddressBtcTaproot || '',
+                      numbPre: 10,
+                    })}
                   </Text>
                   <SvgInset
                     onClick={() => {

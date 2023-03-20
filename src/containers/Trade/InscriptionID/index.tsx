@@ -12,7 +12,7 @@ import { ROUTE_PATH } from '@constants/route-path';
 import useWindowSize from '@hooks/useWindowSize';
 import { IGetMarketplaceBtcListItem } from '@interfaces/api/marketplace-btc';
 import { getInscriptionDetail } from '@services/marketplace-btc';
-import { ellipsisCenter, formatAddressDisplayName } from '@utils/format';
+import { ellipsisCenter, ellipsisCenterBTCAddress } from '@utils/format';
 import { getApiKey } from '@utils/swr';
 
 import s from './TokenID.module.scss';
@@ -21,6 +21,7 @@ import { retrieveOrder } from '@services/bitcoin';
 import usePurchaseStatus from '@hooks/usePurchaseStatus';
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBTC';
+import { HOST_ORDINALS_EXPLORER } from '@constants/config';
 
 const InscriptionID: React.FC = (): React.ReactElement => {
   const router = useRouter();
@@ -75,16 +76,6 @@ const InscriptionID: React.FC = (): React.ReactElement => {
 
     return (
       <Stack direction="horizontal" className={'justify-between'} gap={2}>
-        {isBuyETH && (
-          <ButtonBuyListedFromETH
-            sizes="large"
-            inscriptionID={tokenData?.inscriptionID || ''}
-            price={orderData?.priceETH || ''}
-            inscriptionNumber={Number(inscriptionData?.inscriptionNumber || 0)}
-            orderID={orderData?.orderID || ''}
-            className={s.action_button}
-          />
-        )}
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
             sizes="large"
@@ -94,6 +85,16 @@ const InscriptionID: React.FC = (): React.ReactElement => {
             orderID={orderData?.orderID || ''}
             className={s.action_button}
             isDetail={true}
+          />
+        )}
+        {isBuyETH && (
+          <ButtonBuyListedFromETH
+            sizes="large"
+            inscriptionID={tokenData?.inscriptionID || ''}
+            price={orderData?.priceETH || ''}
+            inscriptionNumber={Number(inscriptionData?.inscriptionNumber || 0)}
+            orderID={orderData?.orderID || ''}
+            className={s.action_button}
           />
         )}
       </Stack>
@@ -110,7 +111,7 @@ const InscriptionID: React.FC = (): React.ReactElement => {
         <a
           color={'text-black-80'}
           className={s.row_right}
-          href={`https://dev-v5.generativeexplorer.com/inscription/${tokenData?.inscriptionID}`}
+          href={`${HOST_ORDINALS_EXPLORER}/inscription/${tokenData?.inscriptionID}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -148,7 +149,7 @@ const InscriptionID: React.FC = (): React.ReactElement => {
               href={`${ROUTE_PATH.PROFILE}/${tokenData?.owner}`}
               className={s.projectName}
             >
-              {formatAddressDisplayName(tokenData?.owner || '', 6)}
+              {ellipsisCenterBTCAddress({ str: tokenData?.owner || '' })}
             </Link>
           </Text>
           {renderButtons()}

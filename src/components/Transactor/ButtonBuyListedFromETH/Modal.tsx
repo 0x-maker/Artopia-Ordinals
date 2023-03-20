@@ -115,6 +115,7 @@ const ModalBuyListed = React.memo(
           new BigNumber(depositData.eth_amount).div(1e18).toString()
         );
         setIsSent(true);
+        toast.success('Bought inscription successfully.');
         setIsSubmitting(false);
       } catch (err: unknown) {
         setIsSubmitting(false);
@@ -226,6 +227,7 @@ const ModalBuyListed = React.memo(
                           )} ETH`}</p>
                         </div>
                       )}
+                      {!!error && <p className={s.inputError}>{error}</p>}
                       <div className={s.payment_space} />
                       <FeeRate
                         handleChangeFee={handleChangeFee}
@@ -365,7 +367,6 @@ const ModalBuyListed = React.memo(
                     >
                       Buy now
                     </ButtonIcon>
-                    {error && <p className={s.inputError}>{error}</p>}
                   </form>
                 )}
                 {step === 'deposit' && !!depositData?.order_id && (
@@ -454,7 +455,10 @@ const ModalBuyListed = React.memo(
                             sizes="medium"
                             variants="outline"
                             className={s.buyBtn}
-                            onClick={onHide}
+                            onClick={() => {
+                              window.location.reload();
+                              onHide();
+                            }}
                           >
                             Continue collecting
                           </ButtonIcon>

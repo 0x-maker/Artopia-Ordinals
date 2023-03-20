@@ -16,26 +16,37 @@ import { Stack } from 'react-bootstrap';
 import s from './styles.module.scss';
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import usePurchaseStatus from '@hooks/usePurchaseStatus';
+import SvgInset from '@components/SvgInset';
+import { CDN_URL } from '@constants/config';
+import { useRouter } from 'next/router';
 
 const CollectionItem = ({
   data,
   className,
   showCollectionName,
   total,
+  layout = 'mint',
 }: {
   data: Token;
   className?: string;
   showCollectionName?: boolean;
   total?: string | number;
+  layout?: 'mint' | 'shop';
 }) => {
+  const router = useRouter();
+
   const tokenID = data.tokenID;
   const showInscriptionID =
     data.genNFTAddr === '1000012' && !!data.inscriptionIndex && !!total;
 
   const { mobileScreen } = useWindowSize();
-  const { isWhitelistProject, isLayoutShop } = useContext(
-    GenerativeProjectDetailContext
-  );
+  const {
+    isWhitelistProject,
+    isLayoutShop,
+    selectedOrders,
+    removeSelectedOrder,
+    addSelectedOrder,
+  } = useContext(GenerativeProjectDetailContext);
 
   const { isWaiting, isBuyETH, isBuyBTC, isBuyable } = usePurchaseStatus({
     buyable: data?.buyable,
@@ -46,6 +57,8 @@ const CollectionItem = ({
   });
 
   const imgRef = useRef<HTMLImageElement>(null);
+
+  const isSelectedOrder = selectedOrders.includes(data.orderID);
 
   const [thumb, setThumb] = useState<string>(data.image);
 
@@ -76,43 +89,39 @@ const CollectionItem = ({
     return `${ROUTE_PATH.GENERATIVE}/${data.project.tokenID}/${tokenID}`;
   }, [isWhitelistProject, tokenID, data.project.tokenID]);
 
+  const onSelectItem = () => {
+    if (isBuyable && layout === 'shop') {
+      isSelectedOrder
+        ? removeSelectedOrder(data.orderID)
+        : addSelectedOrder(data.orderID);
+    } else {
+      router.push(tokenUrl);
+    }
+  };
+
   const renderBuyButton = () => {
     if (!isBuyable) return null;
     return (
       <div className={s.row}>
-        {isBuyETH && (
-          <Link
-            href=""
-            onClick={() => {
-              // DO NOTHING
-            }}
-            className={s.wrapButton}
-          >
-            <ButtonBuyListedFromETH
-              sizes={isLayoutShop ? 'small' : 'medium'}
-              inscriptionID={tokenID}
-              price={data.priceETH}
-              inscriptionNumber={Number(data.inscriptionIndex || 0)}
-              orderID={data.orderID}
-            />
-          </Link>
-        )}
         {isBuyBTC && (
-          <Link
-            href=""
+          <ButtonBuyListedFromBTC
             className={s.wrapButton}
-            onClick={() => {
-              // DO NOTHING
-            }}
-          >
-            <ButtonBuyListedFromBTC
-              sizes={isLayoutShop ? 'small' : 'medium'}
-              inscriptionID={tokenID}
-              price={data.priceBTC}
-              inscriptionNumber={Number(data.inscriptionIndex || 0)}
-              orderID={data.orderID}
-            />
-          </Link>
+            sizes={isLayoutShop ? 'small' : 'medium'}
+            inscriptionID={tokenID}
+            price={data.priceBTC}
+            inscriptionNumber={Number(data.inscriptionIndex || 0)}
+            orderID={data.orderID}
+          />
+        )}
+        {isBuyETH && (
+          <ButtonBuyListedFromETH
+            className={s.wrapButton}
+            sizes={isLayoutShop ? 'small' : 'medium'}
+            inscriptionID={tokenID}
+            price={data.priceETH}
+            inscriptionNumber={Number(data.inscriptionIndex || 0)}
+            orderID={data.orderID}
+          />
         )}
       </div>
     );
@@ -134,7 +143,38 @@ const CollectionItem = ({
         >{`${data?.orderInscriptionIndex} / ${total}`}</span>
       );
     }
-    return <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>;
+    return (
+      <div
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        onClick={(event: any) => {
+          if (event.stopPropagation) {
+            event.stopPropagation();
+          }
+        }}
+        className={layout === 'shop' ? s.tokenNumber : ''}
+      >
+        <Link href={tokenUrl}>
+          <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+        </Link>
+      </div>
+    );
+  };
+
+  const ComponentLink = ({
+    isDiv,
+    children,
+  }: {
+    isDiv: boolean;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    children: any;
+  }) => {
+    return isDiv ? (
+      <div onClick={onSelectItem}>{children}</div>
+    ) : (
+      <Link className={s.collectionCard_inner} href={tokenUrl}>
+        {children}
+      </Link>
+    );
   };
 
   return (
@@ -143,13 +183,27 @@ const CollectionItem = ({
         isLayoutShop ? s.isShop : ''
       }`}
     >
-      <div className={s.collectionCard_inner_wrapper}>
-        <Link className={s.collectionCard_inner} href={`${tokenUrl}`}>
+      <div
+        className={cs(
+          s.collectionCard_inner_wrapper,
+          isSelectedOrder ? s.isSelected : null
+        )}
+      >
+        <ComponentLink isDiv={!!(isBuyable && layout === 'shop')}>
           <div
             className={`${s.collectionCard_thumb} ${
               thumb === LOGO_MARKETPLACE_URL ? s.isDefault : ''
             }`}
           >
+            {isBuyable && layout === 'shop' && (
+              <SvgInset
+                className={s.collectionCard_thumb_selectIcon}
+                size={14}
+                svgUrl={`${CDN_URL}/icons/${
+                  isSelectedOrder ? 'ic_checkboxed' : 'ic_checkbox'
+                }.svg`}
+              />
+            )}
             <div className={s.collectionCard_thumb_inner}>
               <img
                 onError={onThumbError}
@@ -221,7 +275,7 @@ const CollectionItem = ({
                 >
                   <Heading
                     as={'h4'}
-                    className={`token_id ml-auto ${s.textOverflow}}`}
+                    className={`token_id ml-auto ${s.textOverflow}`}
                     style={{
                       maxWidth: data.stats?.price ? '70%' : '100%',
                     }}
@@ -249,7 +303,7 @@ const CollectionItem = ({
                 {showInscriptionID && (
                   <Heading
                     as={isLayoutShop ? 'p' : 'h4'}
-                    className={`token_id ml-auto ${s.textOverflow}}`}
+                    className={`token_id ml-auto ${s.textOverflow}`}
                   >
                     #{data?.inscriptionIndex}
                   </Heading>
@@ -257,7 +311,7 @@ const CollectionItem = ({
               </div>
             </div>
           )}
-        </Link>
+        </ComponentLink>
       </div>
     </div>
   );

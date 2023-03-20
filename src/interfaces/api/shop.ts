@@ -1,5 +1,5 @@
+import { ICollection, IItem } from '@interfaces/shop';
 import { ICollectionSalesVolume } from './../shop';
-import { ICollection } from '@interfaces/shop';
 import { IPagingParams, IPagingResponse } from './paging';
 
 export type IGetCollectionListParams = IPagingParams;
@@ -14,4 +14,9 @@ export interface IGetSalesVolumeResponse {
 
 export interface IGetSaleVolumeQuery {
   dateRange?: string;
+}
+export type IGetItemListParams = IPagingParams;
+
+export interface IGetItemListResponse extends IPagingResponse {
+  result: Array<IItem>;
 }

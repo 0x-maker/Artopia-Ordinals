@@ -42,7 +42,8 @@
   }
 
   &_statusContainer {
-    height: rem(150px);
+    min-height: rem(150px);
+    height: 100%;
     padding: {
       top: rem(24px);
       left: rem(16px);
@@ -259,6 +260,7 @@
 
       &_underline {
         text-decoration: underline;
+        color: $blue-100;
       }
     }
   }
