@@ -18,6 +18,7 @@ import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromET
 import usePurchaseStatus from '@hooks/usePurchaseStatus';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
+import { useRouter } from 'next/router';
 
 const CollectionItem = ({
   data,
@@ -32,6 +33,8 @@ const CollectionItem = ({
   total?: string | number;
   layout?: 'mint' | 'shop';
 }) => {
+  const router = useRouter();
+
   const tokenID = data.tokenID;
   const showInscriptionID =
     data.genNFTAddr === '1000012' && !!data.inscriptionIndex && !!total;
@@ -92,7 +95,7 @@ const CollectionItem = ({
         ? removeSelectedOrder(data.orderID)
         : addSelectedOrder(data.orderID);
     } else {
-      window.open(tokenUrl);
+      router.push(tokenUrl);
     }
   };
 
@@ -168,9 +171,9 @@ const CollectionItem = ({
       }`}
     >
       <div className={s.collectionCard_inner_wrapper}>
-        <div
+        <Link
           className={s.collectionCard_inner}
-          // href={`${tokenUrl}`}
+          href={isBuyable && layout === 'shop' ? '' : `${tokenUrl}`}
           onClick={onSelectItem}
         >
           <div
@@ -256,17 +259,15 @@ const CollectionItem = ({
                   })}
                   direction="horizontal"
                 >
-                  <Link href={tokenUrl}>
-                    <Heading
-                      as={'h4'}
-                      className={`token_id ml-auto ${s.textOverflow}}`}
-                      style={{
-                        maxWidth: data.stats?.price ? '70%' : '100%',
-                      }}
-                    >
-                      {renderHeadDesc()}
-                    </Heading>
-                  </Link>
+                  <Heading
+                    as={'h4'}
+                    className={`token_id ml-auto ${s.textOverflow}}`}
+                    style={{
+                      maxWidth: data.stats?.price ? '70%' : '100%',
+                    }}
+                  >
+                    {renderHeadDesc()}
+                  </Heading>
                   {showCollectionName && data?.project?.name && (
                     <div className={s.collectionCard_info_wrapper_ownerName}>
                       {data?.project?.name}
@@ -296,7 +297,7 @@ const CollectionItem = ({
               </div>
             </div>
           )}
-        </div>
+        </Link>
       </div>
     </div>
   );
