@@ -116,4 +116,13 @@
     line-height: 22px;
     color: $primary-333;
   }
+
+  @include mobile {
+    &_header {
+      overflow-x: scroll;
+      &_id {
+        width: rem(200px);
+      }
+    }
+  }
 }

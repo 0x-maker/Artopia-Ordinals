@@ -130,7 +130,7 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
 
   return (
     <div className={cn(className, s.users)}>
-      <Row className={s.items_projects}>
+      <Row>
         {isLoaded === false ? (
           <Col md={12}>
             {[...Array(LIMIT)].map((_, index) => (
@@ -140,7 +140,9 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
         ) : (
           <Col md={12}>
             <div className={s.users_header}>
-              <div className="col-md-1">Proposal ID</div>
+              <div className={cn('col-md-1', s.users_header_id)}>
+                Proposal ID
+              </div>
               <div className="col-md-3">Artist</div>
               <div className="col-md-2">Twitter & Website</div>
               <div className="col-md-2">Expiration</div>

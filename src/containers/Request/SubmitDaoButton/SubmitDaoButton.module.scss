@@ -43,7 +43,7 @@
   }
 
   &_modal {
-    [class*="_title"] {
+    [class*='_title'] {
       font-weight: 500;
       font-size: rem(24px);
       line-height: rem(34px);
@@ -112,7 +112,7 @@
           border: solid white;
           border-width: 0 2px 2px 0;
           transform: rotate(45deg);
-          content: "";
+          content: '';
         }
       }
 
@@ -148,5 +148,24 @@
   &_loadingWrapper {
     height: rem(200px);
     position: relative;
+  }
+
+  @include mobile {
+    display: flex;
+    flex-wrap: wrap;
+
+    &_text {
+      margin-right: 0;
+      font-size: rem(14px);
+      line-height: rem(22px);
+    }
+
+    &_btn {
+      margin-top: rem(4px);
+      padding: rem(3px) rem(12px);
+      font-weight: 500;
+      font-size: rem(14px);
+      line-height: rem(24px);
+    }
   }
 }
