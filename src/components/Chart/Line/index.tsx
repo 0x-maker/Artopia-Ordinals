@@ -3,63 +3,54 @@ import React, { useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 // import { Chart } from 'chart.js/auto';
 import 'chart.js/auto';
+import { TChartData } from '@interfaces/chart/data';
 
-// type ChartData = {
-//   labels: string[];
-//   datasets: {
-//     label: string;
-//     data: number[];
-//     fill: boolean;
-//     borderColor: string;
-//     tension: number;
-//   }[];
-// };
+type LineChartProps = {
+  chartData: TChartData;
+};
 
-// type LineChartProps = {
-//   chartData: ChartData;
-// };
+const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
+  const ref = useRef();
 
-const LineChart: React.FC = () =>
-  // { chartData }
-  {
-    const ref = useRef();
-    const data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Sales',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
+  const chartOptions: ChartOptions<'line'> = {
+    scales: {
+      x: {
+        title: {
+          display: false,
+          text: 'Time',
         },
-      ],
-    };
-
-    const chartOptions: ChartOptions<'line'> = {
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Time',
-          },
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'Sales',
-          },
-          min: 0,
-          max: 100,
+        grid: {
+          display: false,
         },
       },
-    };
-
-    return (
-      <div>
-        <Line ref={ref} data={data} options={chartOptions} />
-      </div>
-    );
+      y: {
+        title: {
+          display: false,
+          text: 'Sales',
+        },
+        ticks: {
+          count: 5,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    aspectRatio: 1,
+    elements: {
+      point: {
+        backgroundColor: '#4F43E2',
+      },
+    },
   };
+
+  return (
+    <div>
+      <Line ref={ref} data={chartData} options={chartOptions} />
+    </div>
+  );
+};
 
 export default LineChart;

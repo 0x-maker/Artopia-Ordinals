@@ -49,3 +49,8 @@ export interface ICollection {
   owner: ICollectionOwner;
   projectMarketplaceData: ICollectionMarketplace;
 }
+
+export interface ICollectionSalesVolume {
+  timestamp: string;
+  amount: string | number;
+}

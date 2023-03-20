@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: rem(24);
 
   .chart_options {
     .chart_options_item {
@@ -52,4 +53,8 @@
       }
     }
   }
+}
+
+.wrapper_chart {
+  margin-bottom: rem(24);
 }
