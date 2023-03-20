@@ -25,7 +25,7 @@ const CollectionItem = ({
   className,
   showCollectionName,
   total,
-  layout = 'shop',
+  layout = 'mint',
 }: {
   data: Token;
   className?: string;
@@ -158,8 +158,34 @@ const CollectionItem = ({
       );
     }
     return (
-      <Link href={tokenUrl}>
-        <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+      <div
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+        onClick={(event: any) => {
+          if (event.stopPropagation) {
+            event.stopPropagation();
+          }
+        }}
+      >
+        <Link href={tokenUrl}>
+          <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+        </Link>
+      </div>
+    );
+  };
+
+  const ComponentLink = ({
+    isDiv,
+    children,
+  }: {
+    isDiv: boolean;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    children: any;
+  }) => {
+    return isDiv ? (
+      <div onClick={onSelectItem}>{children}</div>
+    ) : (
+      <Link className={s.collectionCard_inner} href={tokenUrl}>
+        {children}
       </Link>
     );
   };
@@ -171,11 +197,7 @@ const CollectionItem = ({
       }`}
     >
       <div className={s.collectionCard_inner_wrapper}>
-        <Link
-          className={s.collectionCard_inner}
-          href={isBuyable && layout === 'shop' ? '' : `${tokenUrl}`}
-          onClick={onSelectItem}
-        >
+        <ComponentLink isDiv={!!(isBuyable && layout === 'shop')}>
           <div
             className={`${s.collectionCard_thumb} ${
               thumb === LOGO_MARKETPLACE_URL ? s.isDefault : ''
@@ -297,7 +319,7 @@ const CollectionItem = ({
               </div>
             </div>
           )}
-        </Link>
+        </ComponentLink>
       </div>
     </div>
   );
