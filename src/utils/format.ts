@@ -203,6 +203,26 @@ export const ellipsisCenter = (payload: {
   }
 };
 
+export const ellipsisCenterBTCAddress = (payload: {
+  str: string;
+  dots?: string;
+  numbPre?: number;
+  numbSuf?: number;
+}) => {
+  const { str, numbPre = 4, numbSuf = 6, dots = '...' } = payload;
+  try {
+    const size = str.length;
+    if (size < numbPre + numbSuf + dots.length) {
+      return str;
+    }
+    const leftStr = str.substring(0, numbPre);
+    const rightStr = str.substring(size - numbSuf, size);
+    return leftStr + dots + rightStr;
+  } catch {
+    return str;
+  }
+};
+
 export const formatWebDomain = (link: string): string => {
   return link ? new URL(link).hostname : '';
 };
