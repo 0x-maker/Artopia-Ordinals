@@ -109,7 +109,7 @@ export const UserInfo = ({ toggle }: IProps): JSX.Element => {
                     size={18}
                     svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
                   />
-                  {isLoadedHistory && (
+                  {showHistory && (
                     <SvgInset
                       onClick={toggle}
                       size={18}
