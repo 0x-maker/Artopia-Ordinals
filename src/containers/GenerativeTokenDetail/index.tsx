@@ -24,7 +24,7 @@ import { TokenOffer } from '@interfaces/token';
 import { getUserSelector } from '@redux/user/selector';
 import { wordCase } from '@utils/common';
 import {
-  formatAddressDisplayName,
+  ellipsisCenterBTCAddress,
   formatLongAddress,
   formatTokenId,
 } from '@utils/format';
@@ -301,12 +301,12 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               className={s.projectName}
             >
               {tokenData?.owner?.displayName ||
-                formatAddressDisplayName(
-                  tokenData?.owner?.walletAddressBtcTaproot ||
+                ellipsisCenterBTCAddress({
+                  str:
+                    tokenData?.owner?.walletAddressBtcTaproot ||
                     tokenData?.owner?.walletAddress ||
                     '',
-                  6
-                )}
+                })}
             </Link>
           </Text>
         ) : (
@@ -316,7 +316,7 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
               href={`${ROUTE_PATH.PROFILE}/${tokenData?.ownerAddr}`}
               className={s.projectName}
             >
-              {formatAddressDisplayName(tokenData?.ownerAddr || '', 6)}
+              {ellipsisCenterBTCAddress({ str: tokenData?.ownerAddr || '' })}
             </Link>
           </Text>
         )}
