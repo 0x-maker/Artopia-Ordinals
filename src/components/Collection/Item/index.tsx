@@ -104,38 +104,24 @@ const CollectionItem = ({
     return (
       <div className={s.row}>
         {isBuyETH && (
-          <Link
-            href=""
-            onClick={() => {
-              // DO NOTHING
-            }}
+          <ButtonBuyListedFromETH
             className={s.wrapButton}
-          >
-            <ButtonBuyListedFromETH
-              sizes={isLayoutShop ? 'small' : 'medium'}
-              inscriptionID={tokenID}
-              price={data.priceETH}
-              inscriptionNumber={Number(data.inscriptionIndex || 0)}
-              orderID={data.orderID}
-            />
-          </Link>
+            sizes={isLayoutShop ? 'small' : 'medium'}
+            inscriptionID={tokenID}
+            price={data.priceETH}
+            inscriptionNumber={Number(data.inscriptionIndex || 0)}
+            orderID={data.orderID}
+          />
         )}
         {isBuyBTC && (
-          <Link
-            href=""
+          <ButtonBuyListedFromBTC
             className={s.wrapButton}
-            onClick={() => {
-              // DO NOTHING
-            }}
-          >
-            <ButtonBuyListedFromBTC
-              sizes={isLayoutShop ? 'small' : 'medium'}
-              inscriptionID={tokenID}
-              price={data.priceBTC}
-              inscriptionNumber={Number(data.inscriptionIndex || 0)}
-              orderID={data.orderID}
-            />
-          </Link>
+            sizes={isLayoutShop ? 'small' : 'medium'}
+            inscriptionID={tokenID}
+            price={data.priceBTC}
+            inscriptionNumber={Number(data.inscriptionIndex || 0)}
+            orderID={data.orderID}
+          />
         )}
       </div>
     );
