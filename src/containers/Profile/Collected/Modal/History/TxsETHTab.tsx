@@ -106,17 +106,19 @@ const TxsETHTab = () => {
                 ? formatUnixDateTime({ dateTime: Number(item.created_at) })
                 : '---'}
             </Text>
-            <Stack direction="horizontal" gap={2} style={{ marginTop: 3 }}>
-              <Text size="16" fontWeight="medium" color="black-100">
-                ID #{ellipsisCenter({ str: item.order_id, limit: 3 })}
-              </Text>
-              <SvgInset
-                size={18}
-                svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
-                className={s.wrapHistory_copy}
-                onClick={() => onClickCopy(item.order_id)}
-              />
-            </Stack>
+            {!!item.order_id && (
+              <Stack direction="horizontal" gap={2} style={{ marginTop: 3 }}>
+                <Text size="16" fontWeight="medium" color="black-100">
+                  ID #{ellipsisCenter({ str: item.order_id, limit: 3 })}
+                </Text>
+                <SvgInset
+                  size={18}
+                  svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
+                  className={s.wrapHistory_copy}
+                  onClick={() => onClickCopy(item.order_id)}
+                />
+              </Stack>
+            )}
           </>
         ),
         hash: (
