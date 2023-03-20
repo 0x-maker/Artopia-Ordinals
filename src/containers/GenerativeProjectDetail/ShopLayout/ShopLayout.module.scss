@@ -194,6 +194,9 @@
     width: 25%;
     padding-left: rem(24);
     border-left: 1px solid $black-5;
+    display: flex;
+    flex-direction: column;
+    gap: rem(24);
   }
 
   @include min-pc-wide {
@@ -291,4 +294,11 @@
 
 .checkbox > input:active {
   border: 2px solid #34495e;
+}
+
+.divider {
+  width: calc(100% + #{rem(24)});
+  height: 1px;
+  background-color: $black-5;
+  margin-left: rem(-24);
 }

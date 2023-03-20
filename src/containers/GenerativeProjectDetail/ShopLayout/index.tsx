@@ -25,6 +25,7 @@ import TokenTopFilter from '../TokenTopFilter';
 import collectionStyles from '../styles.module.scss';
 import ListView from './ListView';
 import styles from './ShopLayout.module.scss';
+import ActivityChart from '../ActivityChart';
 
 type Props = {
   showReportMsg?: boolean;
@@ -301,6 +302,8 @@ const ShopLayout = (props: Props) => {
         </div>
         <div className={`${styles.layout_right}`}>
           <ActivityStats />
+          <div className={styles.divider}></div>
+          <ActivityChart />
         </div>
       </div>
     </div>

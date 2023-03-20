@@ -1,0 +1,55 @@
+.wrapper {
+  flex: 1;
+}
+
+.wrapper_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .chart_options {
+    .chart_options_item {
+      display: flex;
+      align-items: center;
+      gap: rem(6);
+      padding-bottom: rem(10);
+      position: relative;
+      width: fit-content;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: $primary-brand;
+        border-radius: rem(40px);
+      }
+    }
+  }
+
+  .chart_filters {
+    display: flex;
+    align-items: center;
+    border: 1px solid $black-20;
+    border-radius: rem(2);
+
+    .chart_filters_item {
+      padding: rem(4) rem(12);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:nth-child(2) {
+        border-left: 1px solid $black-20;
+        border-right: 1px solid $black-20;
+      }
+
+      &.active,
+      &:hover {
+        background-color: $primary-brand;
+        color: $white;
+      }
+    }
+  }
+}
