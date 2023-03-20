@@ -8,11 +8,11 @@
     left: 0;
     height: 100vh;
     width: 100vw;
-    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow-y: auto;
+    z-index: 1000;
   }
 
   .modalWrapper {
@@ -22,19 +22,21 @@
     z-index: 20;
     border-radius: 2px;
     width: 90%;
+    overflow-y: auto;
+    max-height: 90vh;
   }
 
   .showInfo {
     @include min-tablet {
-      width: 808px;
+      width: 668px;
     }
 
     @include min-pc {
-      width: 918px;
+      width: 668px;
     }
 
     @include min-pc-superWide {
-      width: rem(918px);
+      width: rem(668px);
     }
   }
 
@@ -389,11 +391,11 @@
 
 .payment {
   margin-top: rem(24px);
-  margin-bottom: rem(34px);
+  margin-bottom: rem(24px);
 
   @include mobile {
     margin-top: rem(16px);
-    margin-bottom: rem(20px);
+    margin-bottom: rem(16px);
   }
 
   .paymentPrice {
@@ -542,7 +544,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: rem(24px);
+  margin-bottom: rem(16px);
 
   @include mobile {
     margin-bottom: rem(16px);

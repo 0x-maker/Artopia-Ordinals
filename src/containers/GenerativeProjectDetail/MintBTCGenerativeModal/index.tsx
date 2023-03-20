@@ -26,6 +26,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
 import FeeRate from '../MintFeeRate';
+import FeeRateCustom from '../MintFeeRateCustom';
 import useMintFeeRate from '../MintFeeRate/useMintFeeRate';
 import s from './styles.module.scss';
 
@@ -512,6 +513,20 @@ const MintBTCGenerativeModal: React.FC = () => {
                               )}
                             </>
                           )}
+
+                          {step === 'info' &&
+                            isShowAdvance &&
+                            projectFeeRate && (
+                              <FeeRateCustom
+                                feeRate={projectFeeRate}
+                                selectedRateType={rateType}
+                                handleChangeRateType={handleChangeRateType}
+                                useCustomRate={true}
+                                handleChangeCustomRate={handleChangeCustomRate}
+                                customRate={customRate}
+                                payType="btc"
+                              />
+                            )}
 
                           {step === 'info' && useWallet === 'another' && (
                             <ButtonIcon

@@ -1,9 +1,7 @@
-import SvgInset from '@components/SvgInset';
-import { CDN_URL } from '@constants/config';
 import { IProjectMintFeeRate } from '@interfaces/api/project';
 import { formatBTCPrice, formatEthPrice } from '@utils/format';
 import cs from 'classnames';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import s from './styles.module.scss';
 import { IFeeRateType } from './useMintFeeRate';
@@ -24,27 +22,27 @@ const MintFeeRate = ({
   handleChangeRateType,
   selectedRateType,
   feeRate,
-  handleChangeCustomRate,
-  customRate,
+  // handleChangeCustomRate,
+  // customRate,
   payType = 'btc',
 }: IProps) => {
   const { economy, faster, fastest } = feeRate;
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
 
-  const [cusRate, setCurRate] = useState('');
+  // const [cusRate, setCurRate] = useState('');
 
-  const max = 50;
-  const min = 0;
+  // const max = 50;
+  // const min = 0;
 
-  const onChangeCustomSats = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (typeof handleChangeCustomRate === 'function') {
-      setCurRate(e.target.value);
+  // const onChangeCustomSats = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (typeof handleChangeCustomRate === 'function') {
+  //     setCurRate(e.target.value);
 
-      const value = Math.max(min, Math.min(max, Number(e.target.value)));
-      handleChangeCustomRate(`${value}`);
-    }
-  };
+  //     const value = Math.max(min, Math.min(max, Number(e.target.value)));
+  //     handleChangeCustomRate(`${value}`);
+  //   }
+  // };
   return (
     <div className={s.container}>
       <p className={s.header}>Select the network fee you want to pay:</p>
@@ -112,7 +110,7 @@ const MintFeeRate = ({
             </p>
           </div>
         </Col>
-        <Col className={s.row}>
+        {/* <Col className={s.row}>
           <div
             className={cs(s.mintFeeItem, {
               [`${s.mintFeeItem__active}`]: selectedRateType === 'customRate',
@@ -161,9 +159,9 @@ const MintFeeRate = ({
               )}
             </div>
           </div>
-        </Col>
+        </Col> */}
       </Row>
-      {selectedRateType === 'customRate' &&
+      {/* {selectedRateType === 'customRate' &&
         customRate &&
         Number(customRate) > 0 &&
         feeRate.customRate &&
@@ -176,7 +174,7 @@ const MintFeeRate = ({
               time.
             </p>
           </div>
-        )}
+        )} */}
     </div>
   );
 };
