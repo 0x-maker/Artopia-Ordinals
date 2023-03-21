@@ -32,6 +32,7 @@ const FilterOptions = ({ attributes, isHideStatusLabel }: Props) => {
     setFilterBuyNow,
     marketplaceData,
     projectData,
+    isProMode,
   } = useContext(GenerativeProjectDetailContext);
 
   const filterdropdownRef = useRef<HTMLDivElement>(null);
@@ -119,7 +120,7 @@ const FilterOptions = ({ attributes, isHideStatusLabel }: Props) => {
           >
             <label htmlFor={`trait-${attrName}`}>{attrName}</label>
             <Stack direction="horizontal" gap={3} className={styles.checkbox}>
-              <Text as="span" color="black-40">
+              <Text as="span" color="black-20">
                 {rarity}
               </Text>
               <input
@@ -146,7 +147,11 @@ const FilterOptions = ({ attributes, isHideStatusLabel }: Props) => {
   useOnClickOutside(filterdropdownRef, () => setCurrentTraitOpen(''));
 
   return (
-    <div className={styles.filter_wrapper}>
+    <div
+      className={`${styles.filter_wrapper} ${
+        isProMode ? `${styles.isDark}` : ''
+      }`}
+    >
       {!isHideStatusLabel && (
         <Heading fontWeight="semibold" className={styles.filter_title}>
           Filter

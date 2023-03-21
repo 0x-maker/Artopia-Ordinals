@@ -10,13 +10,13 @@ interface IProps {
   className?: string;
 }
 
-const Skeleton: React.FC = ({
+const Skeleton: React.FC<IProps> = ({
   width,
   height,
   isLoaded,
   fill = false,
   className,
-}: IProps) => {
+}) => {
   const { isProMode } = useContext(GenerativeProjectDetailContext);
   if (isLoaded) return null;
 

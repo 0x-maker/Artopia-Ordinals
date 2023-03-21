@@ -73,4 +73,48 @@
       }
     }
   }
+
+  &.isDark {
+    * {
+      color: $black-20-v2;
+    }
+
+    .dropdown_box {
+      border-color: $black-40-solid;
+    }
+
+    .icon {
+      svg,
+      path {
+        stroke: $white-100;
+      }
+    }
+
+    .dropdown {
+      box-shadow: 35px 15px 120px 0 #00000026;
+      background-color: $primary-333;
+
+      .input_wrapper {
+        border: 1px solid $black-40-solid;
+
+        * {
+          color: $white-100;
+        }
+
+        .divider {
+          background-color: $black-40-solid;
+        }
+
+        .input {
+          input {
+            background: transparent;
+
+            &::placeholder {
+              color: $black-20-v2;
+            }
+          }
+        }
+      }
+    }
+  }
 }

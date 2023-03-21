@@ -17,8 +17,14 @@ import { Stack } from 'react-bootstrap';
 import { CDN_URL } from '@constants/config';
 
 const LayoutForMintout = () => {
-  const { project, isHasBtcWallet, creatorAddress, isTwVerified, isEdit } =
-    useContext(ProjectLayoutContext);
+  const {
+    project,
+    isHasBtcWallet,
+    creatorAddress,
+    isTwVerified,
+    isEdit,
+    isDarkMode,
+  } = useContext(ProjectLayoutContext);
   const router = useRouter();
 
   return (
@@ -77,7 +83,7 @@ const LayoutForMintout = () => {
                   </div>
                   <ButtonIcon
                     sizes="small"
-                    variants={'ghost'}
+                    variants={isDarkMode ? 'ghost-darkmode' : 'ghost'}
                     onClick={() => {
                       router.push(
                         `${ROUTE_PATH.GENERATIVE}/${project?.tokenID}`
@@ -90,7 +96,7 @@ const LayoutForMintout = () => {
                       />
                     }
                   >
-                    Open Project info
+                    Open Project Info
                   </ButtonIcon>
                 </Stack>
                 <div className={s.creator_info_name}>

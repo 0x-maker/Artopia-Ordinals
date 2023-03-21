@@ -230,3 +230,65 @@
     overflow-y: scroll;
   }
 }
+
+// =============================================
+// DARK MODE
+
+.filter_wrapper.isDark {
+  .selectInput {
+    :global(*) {
+      @include hideScrollbar;
+    }
+
+    :global(.select__control) {
+      background-color: $black-100;
+      border: 1px solid $black-40-solid;
+    }
+
+    :global(.select__menu) {
+      box-shadow: 35px 15px 120px 0 #00000026;
+      background-color: $primary-333;
+    }
+
+    :global(.select__placeholder) {
+      color: $black-20-v2;
+    }
+
+    :global(.select__input-container) {
+      color: $white-100;
+    }
+
+    :global(.select__option) {
+      &:hover {
+        background-color: $black-60-solid;
+        color: $white-100;
+      }
+    }
+
+    :global(.select__option--is-focused) {
+      background-color: $black-60-solid;
+    }
+
+    :global(.select__option--is-selected) {
+      background-color: $black-60-solid;
+      color: $white-100;
+
+      &:hover {
+        background-color: $black-60-solid;
+        color: $white-100;
+      }
+    }
+  }
+
+  .checkbox > input {
+    border: 2px solid $black-20-v2;
+  }
+
+  .checkbox > input:active {
+    border: none;
+  }
+
+  .checkbox > input:checked {
+    border: none;
+  }
+}
