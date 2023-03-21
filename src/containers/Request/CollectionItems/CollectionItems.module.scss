@@ -29,6 +29,9 @@
     font-size: rem(16px);
     line-height: rem(26px);
     color: #333;
+    &:hover {
+      background-color: $primary-light;
+    }
   }
 
   &_status {
@@ -126,6 +129,8 @@
   @include w-max(960px) {
     &_header {
       width: auto;
+      font-size: rem(12px);
+      line-height: rem(20px);
     }
 
     &_id {
@@ -174,6 +179,9 @@
       padding-right: 0;
       font-size: rem(12px);
       line-height: rem(20px);
+      .collections_maxSupply {
+        justify-content: center !important;
+      }
     }
 
     &_btn,

@@ -140,14 +140,6 @@ export const CollectionItems = ({
     }
   };
 
-  // const goToCollectionPage = (tokenId: string): void => {
-  //   router.push(`${ROUTE_PATH.GENERATIVE}/${tokenId}`);
-  // };
-
-  // const goToProfilePage = (walletAddress: string): void => {
-  //   router.push(`${ROUTE_PATH.PROFILE}/${walletAddress}`);
-  // };
-
   const copyLink = (id: string) => {
     copy(`${location.origin}${ROUTE_PATH.DAO}?seq_id=${id}&tab=0`);
     toast.remove();

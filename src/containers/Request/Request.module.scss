@@ -57,6 +57,14 @@
   @include mobile {
     padding: rem(20px) 0;
 
+    &_category {
+      margin-bottom: rem(16px);
+      [class*='_text'] {
+        font-size: rem(14px);
+        line-height: rem(22px);
+      }
+    }
+
     &_title {
       font-weight: 500;
       font-size: rem(24px);

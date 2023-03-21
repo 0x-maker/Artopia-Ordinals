@@ -43,6 +43,13 @@
     &_clearBtn {
       margin-top: rem(12px);
       padding: rem(3px) rem(12px);
+      font-size: rem(12px);
+      line-height: rem(24px);
+    }
+    &_tag {
+      svg {
+        margin-left: rem(4px);
+      }
     }
   }
 }
