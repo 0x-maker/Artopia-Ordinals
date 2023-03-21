@@ -29,6 +29,7 @@
     font-size: rem(16px);
     line-height: rem(26px);
     color: #333;
+
     &:hover {
       background-color: $primary-light;
     }
@@ -179,6 +180,7 @@
       padding-right: 0;
       font-size: rem(12px);
       line-height: rem(20px);
+
       .collections_maxSupply {
         justify-content: center !important;
       }

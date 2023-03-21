@@ -59,7 +59,8 @@
 
     &_category {
       margin-bottom: rem(16px);
-      [class*='_text'] {
+
+      [class*="_text"] {
         font-size: rem(14px);
         line-height: rem(22px);
       }
