@@ -106,7 +106,7 @@ const CollectionItem = ({
       <div className={s.row}>
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
-            className={s.wrapButton}
+            className={isLayoutShop ? s.wrapButtonShop : s.wrapButton}
             sizes={isLayoutShop ? 'small' : 'medium'}
             inscriptionID={tokenID}
             price={data.priceBTC}
@@ -116,7 +116,7 @@ const CollectionItem = ({
         )}
         {isBuyETH && (
           <ButtonBuyListedFromETH
-            className={s.wrapButton}
+            className={isLayoutShop ? s.wrapButtonShop : s.wrapButton}
             sizes={isLayoutShop ? 'small' : 'medium'}
             inscriptionID={tokenID}
             price={data.priceETH}
@@ -157,13 +157,19 @@ const CollectionItem = ({
           href={tokenUrl}
           className={layout === 'shop' ? s.tokenNumber : ''}
         >
-          <Heading as={isLayoutShop ? 'p' : 'h4'}>
-            {projectData?.name} #{text}
-          </Heading>
+          {layout === 'shop' ? (
+            <Heading as={isLayoutShop ? 'p' : 'h4'}>
+              {projectData?.name} #{text}
+            </Heading>
+          ) : (
+            <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+          )}
         </Link>
-        <Text fontWeight="medium" size="16" color="black-40-solid">
-          Inscription #{data?.inscriptionIndex}
-        </Text>
+        {layout === 'shop' && (
+          <Text fontWeight="medium" size="16" color="black-40-solid">
+            Inscription #{data?.inscriptionIndex}
+          </Text>
+        )}
       </div>
     );
   };
