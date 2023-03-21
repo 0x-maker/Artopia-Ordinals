@@ -4,7 +4,7 @@ import cs from 'classnames';
 import s from './styles.module.scss';
 
 type LinkProps = {
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   href: string;
   className?: string;
   target?: string;
@@ -32,7 +32,7 @@ export default function Link({
               if (!isKeepDefaultEvent) {
                 e.preventDefault();
               }
-              onClick();
+              onClick(e);
             }
           : undefined
       }

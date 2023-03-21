@@ -7,6 +7,7 @@ import {
   IMarketplaceStatsResponse,
   IMakeOffersParams,
   IMakeOffersQuery,
+  IFirstSaleStatsResponse,
 } from '@interfaces/api/marketplace';
 import queryString from 'query-string';
 
@@ -91,6 +92,21 @@ export const getMarketplaceStats = async ({
     );
   } catch (err: unknown) {
     log('failed to get project stats', LogLevel.ERROR, LOG_PREFIX);
+    return null;
+  }
+};
+
+export const getFirstSaleStats = async ({
+  projectID,
+}: {
+  projectID: string;
+}): Promise<IFirstSaleStatsResponse | null> => {
+  try {
+    return await get<IFirstSaleStatsResponse>(
+      `${API_PATH}/stats/${projectID}/first-sale`
+    );
+  } catch (err: unknown) {
+    log('failed to get project first sale stats', LogLevel.ERROR, LOG_PREFIX);
     return null;
   }
 };

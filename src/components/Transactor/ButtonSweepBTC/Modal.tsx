@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BaseModal, { IBaseModalProps } from '@components/Transactor';
 import s from '@components/Transactor/form.module.scss';
 import { Formik } from 'formik';
@@ -20,6 +20,7 @@ import * as SDK from 'generative-sdk';
 import useFeeRate from '@containers/Profile/FeeRate/useFeeRate';
 import isEmpty from 'lodash/isEmpty';
 import FeeRate, { IRef } from '@containers/Profile/FeeRate';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 interface IFormValues {
   price: string;
@@ -35,6 +36,7 @@ const ModalSweepBTC = React.memo(({ tokens, ...rest }: IProps) => {
   const user = useSelector(getUserSelector);
   const { satoshiAmount: balance, buyMulInscription } = useBitcoin();
   const [error, setError] = useState('');
+  const { removeSelectedOrder } = useContext(GenerativeProjectDetailContext);
   const [ordersData, setOrdersData] = React.useState<
     IRetrieveOrdersResp | undefined
   >(undefined);
@@ -112,6 +114,18 @@ const ModalSweepBTC = React.memo(({ tokens, ...rest }: IProps) => {
     }
     return errors;
   };
+  const removeUnBuyableToken = (data?: { [key: string]: string }) => {
+    const orderIDs = Object.keys(data || {});
+    if (orderIDs.length === tokens.length) {
+      const error =
+        'All your selected inscriptions are not available for buying now.';
+      setError(error);
+      return toast.error(error);
+    }
+    for (const orderID of orderIDs) {
+      removeSelectedOrder(orderID);
+    }
+  };
 
   const handleSubmit = async (values: IFormValues) => {
     try {
@@ -154,6 +168,7 @@ const ModalSweepBTC = React.memo(({ tokens, ...rest }: IProps) => {
       const orders = await retrieveOrders({
         order_list: tokens.map(token => token.orderID),
       });
+      removeUnBuyableToken(orders?.raw_psbt_list_not_avail);
       setOrdersData(orders);
     } catch (err) {
       onSetError(err);

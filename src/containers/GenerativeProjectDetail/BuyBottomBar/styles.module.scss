@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 16px;
+    gap: 8px;
   }
 
   .rightContainer {
@@ -44,10 +44,10 @@
     }
 
     .thumb {
-      width: rem(8px);
-      height: rem(8px);
-      border-radius: rem(8px);
-      background: #1c1c1c;
+      width: rem(12px);
+      height: rem(12px);
+      border-radius: rem(6px);
+      background: #4f43e2;
     }
   }
 }

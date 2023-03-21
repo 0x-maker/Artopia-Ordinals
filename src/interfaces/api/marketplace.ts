@@ -15,6 +15,15 @@ export interface IMarketplaceStatsResponse {
   stats: MarketplaceStats;
 }
 
+export interface IFirstSaleStatsResponse {
+  amount: string;
+  amountByPaytype: {
+    btc: string;
+    eth: string;
+  };
+  projectID: string;
+}
+
 export type IMakeOffersParams = IMakeOffers;
 
 export interface IMakeOffersQuery extends IPagingParams {

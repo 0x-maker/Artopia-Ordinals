@@ -6,8 +6,10 @@ import {
 } from '@constants/seo-default-info';
 import GenerativeTokenDetail from '@containers/GenerativeTokenDetail';
 import MarketplaceLayout from '@layouts/Marketplace';
+import { getProjectDetail } from '@services/project';
 import { getTokenUri } from '@services/token-uri';
-import { formatTokenId } from '@utils/format';
+import { formatBTCPrice, formatEthPrice, formatTokenId } from '@utils/format';
+import { filterCreatorName } from '@utils/generative';
 import { GetServerSidePropsContext, NextPage } from 'next';
 
 const GenerativeTokenDetailPage: NextPage = () => {
@@ -22,22 +24,49 @@ export default GenerativeTokenDetailPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query } = context;
-  const { tokenID } = query as { tokenID: string };
+  const { tokenID, projectID } = query as {
+    tokenID: string;
+    projectID: string;
+  };
   try {
-    const res = await getTokenUri({
+    const projectData = await getProjectDetail({
+      contractAddress: GENERATIVE_PROJECT_CONTRACT,
+      projectID: projectID,
+    });
+    const tokenData = await getTokenUri({
       contractAddress: GENERATIVE_PROJECT_CONTRACT,
       tokenID,
     });
-    const tokenName = `${res.project.name} #${formatTokenId(
-      res.tokenID || ''
-    )}`;
+    const isFromAuthentic = tokenData.project.fromAuthentic;
+    const tokenIndex = isFromAuthentic
+      ? tokenData?.nftTokenId || ''
+      : tokenData?.orderInscriptionIndex
+      ? tokenData?.orderInscriptionIndex
+      : tokenData?.inscriptionIndex
+      ? tokenData?.inscriptionIndex
+      : formatTokenId(tokenData?.tokenID || '');
+    const tokenName = `${
+      tokenData.project.name
+    } #${tokenIndex} by ${filterCreatorName(projectData)}`;
+
+    const isBuyable = tokenData && tokenData.buyable && tokenData.sell_verified;
+    const isBuyBTC = isBuyable && !!tokenData.priceBTC && !!tokenData?.orderID;
+    const isBuyETH = isBuyable && !!tokenData.priceETH;
+
+    let tokenDescription = '';
+    if (isBuyBTC) {
+      tokenDescription += `${formatBTCPrice(tokenData.priceBTC)} BTC`;
+    }
+    if (isBuyETH) {
+      tokenDescription += ` (${formatEthPrice(tokenData.priceETH)} ETH)`;
+    }
 
     return {
       props: {
         seoInfo: {
-          title: `${SEO_TITLE} | ${tokenName}`,
-          description: res.description,
-          image: res.thumbnail || SEO_IMAGE,
+          title: `${tokenName}`,
+          description: tokenDescription,
+          image: tokenData.thumbnail || SEO_IMAGE,
         },
       },
     };

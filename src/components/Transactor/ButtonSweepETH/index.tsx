@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const ButtonSweepETH = React.memo(
-  ({ className, sizes = 'xsmall', tokens }: IProps) => {
+  ({ className, sizes = 'mid', tokens }: IProps) => {
     const [isShow, setShow] = React.useState(false);
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
@@ -51,7 +51,7 @@ const ButtonSweepETH = React.memo(
       return (
         <ButtonIcon
           sizes={sizes}
-          variants="outline"
+          variants="outline-blue-deep"
           disabled={true}
           className={cs(s.container, `${className}`)}
           onClick={openModal}
@@ -65,7 +65,7 @@ const ButtonSweepETH = React.memo(
       <>
         <ButtonIcon
           sizes={sizes}
-          variants="outline"
+          variants="outline-blue-deep"
           className={cs(s.container, `${className}`)}
           onClick={openModal}
         >

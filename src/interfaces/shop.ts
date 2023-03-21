@@ -50,13 +50,19 @@ export interface ICollection {
   projectMarketplaceData: ICollectionMarketplace;
 }
 
+export interface ICollectionSalesVolume {
+  timestamp: string;
+  amount: string | number;
+}
 export interface IItem {
   inscription_id: string;
-  volumeOneHour: ICollectionVolume;
-  volumeOneDay: ICollectionVolume;
-  volumeOneWeek: ICollectionVolume;
+  volumeOneHour: ICollectionVolume | null;
+  volumeOneDay: ICollectionVolume | null;
+  volumeOneWeek: ICollectionVolume | null;
   sellerAddress: string;
   sellerDisplayName: string;
   name: string;
   image: string;
+  buyerAddress: string;
+  buyerDisplayName: string;
 }

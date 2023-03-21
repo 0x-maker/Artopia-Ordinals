@@ -76,16 +76,6 @@ const InscriptionID: React.FC = (): React.ReactElement => {
 
     return (
       <Stack direction="horizontal" className={'justify-between'} gap={2}>
-        {isBuyETH && (
-          <ButtonBuyListedFromETH
-            sizes="large"
-            inscriptionID={tokenData?.inscriptionID || ''}
-            price={orderData?.priceETH || ''}
-            inscriptionNumber={Number(inscriptionData?.inscriptionNumber || 0)}
-            orderID={orderData?.orderID || ''}
-            className={s.action_button}
-          />
-        )}
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
             sizes="large"
@@ -95,6 +85,16 @@ const InscriptionID: React.FC = (): React.ReactElement => {
             orderID={orderData?.orderID || ''}
             className={s.action_button}
             isDetail={true}
+          />
+        )}
+        {isBuyETH && (
+          <ButtonBuyListedFromETH
+            sizes="large"
+            inscriptionID={tokenData?.inscriptionID || ''}
+            price={orderData?.priceETH || ''}
+            inscriptionNumber={Number(inscriptionData?.inscriptionNumber || 0)}
+            orderID={orderData?.orderID || ''}
+            className={s.action_button}
           />
         )}
       </Stack>

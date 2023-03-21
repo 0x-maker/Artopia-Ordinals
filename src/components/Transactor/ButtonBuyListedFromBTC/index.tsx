@@ -33,7 +33,9 @@ const ButtonBuyListedFromBTC = React.memo(
     const walletCtx = useContext(WalletContext);
     const taprootAddress = user?.walletAddressBtcTaproot;
 
-    const openModal = async () => {
+    const openModal = async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
       if (!user || !user.walletAddressBtcTaproot) {
         await walletCtx.connect();
       }
@@ -45,7 +47,12 @@ const ButtonBuyListedFromBTC = React.memo(
     };
 
     return (
-      <>
+      <div
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+        }}
+        className={cs(s.container, `${className}`)}
+      >
         <ButtonIcon
           sizes={sizes}
           className={cs(s.container, `${className}`)}
@@ -67,7 +74,7 @@ const ButtonBuyListedFromBTC = React.memo(
             onHide={hideModal}
           />
         )}
-      </>
+      </div>
     );
   }
 );

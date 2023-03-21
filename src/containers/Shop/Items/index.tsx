@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import Table from '@components/Table';
 import s from './styles.module.scss';
 import { Loading } from '@components/Loading';
 import { IItem } from '@interfaces/shop';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { formatAddress, formatBTCPrice } from '@utils/format';
-import { getItemList } from '@services/shop';
+import { ellipsisCenterBTCAddress, formatBTCPrice } from '@utils/format';
+import { getItemList, getOnSaleItemList } from '@services/shop';
 import _uniqBy from 'lodash/uniqBy';
 import log from '@utils/logger';
 import { LogLevel } from '@enums/log-level';
@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import useAsyncEffect from 'use-async-effect';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { HOST_ORDINALS_EXPLORER } from '@constants/config';
+import Link from '@components/Link';
 
 const TABLE_HEADINGS = [
   'Name',
@@ -21,6 +22,7 @@ const TABLE_HEADINGS = [
   '1D volume',
   '7D volume',
   'Seller',
+  'Buyer',
 ];
 
 const LOG_PREFIX = 'ItemsTab';
@@ -30,7 +32,7 @@ const Items: React.FC = (): React.ReactElement => {
   const [isLoading, setIsLoading] = useState(true); // Use only for first load
   const [itemList, setItemList] = useState<Array<IItem>>([]);
   const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     if (e.target) {
@@ -39,14 +41,64 @@ const Items: React.FC = (): React.ReactElement => {
   };
 
   const tableData = itemList.map(item => {
-    const seller = (): string => {
+    const seller = (): React.ReactNode => {
       if (item.sellerDisplayName) {
-        return item.sellerDisplayName;
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.sellerAddress}`}
+          >
+            {item.sellerDisplayName}
+          </Link>
+        );
       }
       if (item.sellerAddress) {
-        return formatAddress(item.sellerAddress);
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.sellerAddress}`}
+          >
+            {ellipsisCenterBTCAddress({ str: item.sellerAddress })}
+          </Link>
+        );
       }
-      return '-';
+      return '—';
+    };
+
+    const buyer = (): React.ReactNode => {
+      if (item.buyerDisplayName) {
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.buyerAddress}`}
+          >
+            {item.buyerDisplayName}
+          </Link>
+        );
+      }
+      if (item.buyerAddress) {
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.buyerAddress}`}
+          >
+            {ellipsisCenterBTCAddress({ str: item.buyerAddress })}
+          </Link>
+        );
+      }
+      return '—';
     };
 
     return {
@@ -61,20 +113,22 @@ const Items: React.FC = (): React.ReactElement => {
           <div className={s.name}>
             <img
               className={s.projectThumbnail}
-              src={`${HOST_ORDINALS_EXPLORER}`}
+              src={`${HOST_ORDINALS_EXPLORER}/content/${item.inscription_id}`}
               alt={item.name}
               onError={handleImageError}
             />
             <div className={s.projectInfo}>
               <p>{item.name}</p>
-              <p className={s.collectionName}>{`#${item.inscription_id}`}</p>
+              <p className={s.collectionName}>{`#${ellipsisCenterBTCAddress({
+                str: item.inscription_id,
+              })}`}</p>
             </div>
           </div>
         ),
         volume1h: (
           <div className={s.volume}>
             <span>
-              {!item.volumeOneHour.amount || item.volumeOneHour.amount === '0'
+              {!item.volumeOneHour?.amount || item.volumeOneHour.amount === '0'
                 ? '—'
                 : `${formatBTCPrice(item.volumeOneHour.amount, '—')} BTC`}
             </span>
@@ -83,7 +137,7 @@ const Items: React.FC = (): React.ReactElement => {
         volume1d: (
           <div className={s.volume}>
             <span>
-              {!item.volumeOneDay.amount || item.volumeOneDay.amount === '0'
+              {!item.volumeOneDay?.amount || item.volumeOneDay.amount === '0'
                 ? '—'
                 : `${formatBTCPrice(item.volumeOneDay.amount, '—')} BTC`}
             </span>
@@ -92,13 +146,14 @@ const Items: React.FC = (): React.ReactElement => {
         volume7d: (
           <div className={s.volume}>
             <span>
-              {!item.volumeOneWeek.amount || item.volumeOneWeek.amount === '0'
+              {!item.volumeOneWeek?.amount || item.volumeOneWeek.amount === '0'
                 ? '—'
                 : `${formatBTCPrice(item.volumeOneWeek.amount, '—')} BTC`}
             </span>
           </div>
         ),
         seller: <div className={s.owners}>{seller()}</div>,
+        buyer: <div className={s.owners}>{buyer()}</div>,
       },
     };
   });
@@ -106,19 +161,32 @@ const Items: React.FC = (): React.ReactElement => {
   const handleFetchItems = async (): Promise<void> => {
     try {
       const newPage = page + 1;
-      const { result, total } = await getItemList({
+      const { result: nonSaleResult } = await getItemList({
         limit: 50,
         page: newPage,
       });
-      if (result && Array.isArray(result)) {
-        const newList = _uniqBy(
-          [...itemList, ...result],
+      const { result: onSaleResult } = await getOnSaleItemList({
+        limit: 50,
+        page: newPage,
+      });
+      let newList = [...itemList];
+      if (nonSaleResult && Array.isArray(nonSaleResult)) {
+        newList = _uniqBy(
+          [...newList, ...nonSaleResult],
           nft => nft.inscription_id
         );
-        setItemList(newList);
       }
+      if (onSaleResult && Array.isArray(onSaleResult)) {
+        newList = _uniqBy(
+          [...newList, ...onSaleResult],
+          nft => nft.inscription_id
+        );
+      }
+      if (nonSaleResult.length === 0 && onSaleResult.length === 0) {
+        setHasMore(false);
+      }
+      setItemList(newList);
       setPage(newPage);
-      setTotal(total);
     } catch (err: unknown) {
       log('can not fetch data', LogLevel.ERROR, LOG_PREFIX);
     }
@@ -141,7 +209,7 @@ const Items: React.FC = (): React.ReactElement => {
           dataLength={itemList.length}
           next={handleFetchItems}
           className={s.collectionScroller}
-          hasMore={itemList.length < total}
+          hasMore={hasMore}
           loader={
             <div className={s.scrollLoading}>
               <Loading isLoaded={false} />

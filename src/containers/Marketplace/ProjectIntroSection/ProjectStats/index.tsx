@@ -7,11 +7,16 @@ import { IProjectMarketplaceData } from '@interfaces/api/project';
 import useAsyncEffect from 'use-async-effect';
 import { projectMarketplaceData } from '@services/project';
 import s from './ProjectStats.module.scss';
+import { IFirstSaleStatsResponse } from '@interfaces/api/marketplace';
+import { getFirstSaleStats } from '@services/marketplace';
 
 export const ProjectStats = (): JSX.Element => {
   const { project, isRoyalty } = useContext(ProjectLayoutContext);
   const [marketplaceData, setMarketplaceData] =
     useState<IProjectMarketplaceData>();
+  const [firstSaleVal, setFirstSaleVal] =
+    useState<IFirstSaleStatsResponse | null>(null);
+
   useAsyncEffect(async () => {
     if (project?.tokenID && project?.contractAddress) {
       const data = await projectMarketplaceData({
@@ -21,6 +26,16 @@ export const ProjectStats = (): JSX.Element => {
       setMarketplaceData(data);
     }
   }, [project]);
+
+  useAsyncEffect(async () => {
+    if (project?.tokenID) {
+      const data = await getFirstSaleStats({
+        projectID: project.tokenID,
+      });
+      setFirstSaleVal(data);
+    }
+  }, [project]);
+
   return (
     <div className={s.stats}>
       <div className={s.stats_item}>
@@ -68,17 +83,23 @@ export const ProjectStats = (): JSX.Element => {
           </Heading>
         </div>
       )}
+      {!!firstSaleVal?.amount && firstSaleVal.amount !== '0' && (
+        <div className={`${s.stats_item} ${s.stats_item__icon}`}>
+          <Text size="12" fontWeight="medium">
+            1st sales
+          </Text>
+          <Heading className={s.stats_item_text} as="h6" fontWeight="medium">
+            {formatBTCPrice(firstSaleVal?.amount, undefined, 4)} BTC
+          </Heading>
+        </div>
+      )}
       {!!marketplaceData?.volume && (
         <div className={`${s.stats_item} ${s.stats_item__icon}`}>
           <Text size="12" fontWeight="medium">
             Volume
           </Text>
           <Heading className={s.stats_item_text} as="h6" fontWeight="medium">
-            {/* <SvgInset
-              size={24}
-              svgUrl={`${CDN_URL}/icons/Frame%20427319538.svg`}
-            />{' '} */}
-            {formatBTCPrice(marketplaceData?.volume)} BTC
+            {formatBTCPrice(marketplaceData?.volume, undefined, 4)} BTC
           </Heading>
         </div>
       )}

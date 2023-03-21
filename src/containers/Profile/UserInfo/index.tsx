@@ -9,6 +9,7 @@ import { useAppSelector } from '@redux';
 import { getUserSelector } from '@redux/user/selector';
 import {
   ellipsisCenterBTCAddress,
+  formatAddress,
   formatAddressDisplayName,
   formatWebDomain,
 } from '@utils/format';
@@ -74,10 +75,7 @@ export const UserInfo = ({ toggle }: IProps): JSX.Element => {
                   className={s.userInfo_content_wrapper_info_name}
                 >
                   {currentUser?.displayName ||
-                    formatAddressDisplayName(
-                      currentUser?.walletAddressBtcTaproot,
-                      6
-                    ) ||
+                    formatAddress(currentUser?.walletAddressBtcTaproot, 10) ||
                     formatAddressDisplayName(walletAddress)}
                 </Heading>
                 <div className={s.userInfo_content_wrapper_info_icon}>
