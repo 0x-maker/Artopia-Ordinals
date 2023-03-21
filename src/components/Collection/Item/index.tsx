@@ -190,7 +190,17 @@ const CollectionItem = ({
           href={tokenUrl}
           className={layout === 'shop' ? s.tokenNumber : ''}
         >
-          <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+          <Heading as={isLayoutShop ? 'p' : 'h4'}>
+            {projectData?.name} #{text}
+          </Heading>
+          <Text fontWeight="medium" size="20" color="black-40">
+            Inscription #
+            {data?.inscriptionIndex ||
+              ellipsisCenter({
+                str: tokenID,
+                limit: 3,
+              })}
+          </Text>
         </Link>
       </div>
     );

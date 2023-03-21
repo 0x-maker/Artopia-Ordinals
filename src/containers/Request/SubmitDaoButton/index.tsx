@@ -103,7 +103,7 @@ const SubmitCollection = ({
     <>
       <div className={s.submitDaoButton_text}>
         {user
-          ? 'It’s free and simple to release art on Bitcon.'
+          ? 'It’s free and simple to release art on Bitcoin.'
           : 'Connect wallet to submit a collection.'}
       </div>
       <Button

@@ -140,7 +140,7 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
     project.status === CollectedNFTStatus.Success
       ? `${
           project.tokenNumber
-            ? `${project.projectName} #${project.tokenNumber}`
+            ? `${project.projectName}`
             : `Inscription #${project.inscriptionNumber}`
         }`
       : project.projectName || '';
@@ -162,7 +162,7 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
     if (project.status !== CollectedNFTStatus.Success) return '';
     return project.projectName
       ? `Inscription #${project.inscriptionNumber}`
-      : formatInscriptionID;
+      : `Inscription ID: ${formatInscriptionID}`;
   }, [project.status, project.projectName, formatInscriptionID]);
 
   const subTitle2 = React.useMemo(() => {
@@ -353,8 +353,17 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
                 {renderStatusText()}
                 {tokenIdName && (
                   <div className={s.projectCard_creator}>
-                    <Text size={'20'} fontWeight="medium">
+                    <Text
+                      className={s.projectCard_creator_text}
+                      size={'20'}
+                      fontWeight="medium"
+                    >
                       {tokenIdName}
+                    </Text>
+                    <Text size={'20'} fontWeight="medium">
+                      {project.tokenNumber && project.projectName
+                        ? `#${project.tokenNumber}`
+                        : ''}
                     </Text>
                   </div>
                 )}
