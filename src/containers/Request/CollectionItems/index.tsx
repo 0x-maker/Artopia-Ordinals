@@ -2,7 +2,6 @@
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import debounce from 'lodash/debounce';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
@@ -26,6 +25,7 @@ import { formatAddressDisplayName } from '@utils/format';
 
 import SkeletonItem from '../SkeletonItem';
 import s from './CollectionItems.module.scss';
+import { LOGO_MARKETPLACE_URL } from '@constants/common';
 
 interface CollectionItemsProps {
   className?: string;
@@ -145,6 +145,21 @@ export const CollectionItems = ({
     toast.success('Copied');
   };
 
+  const onThumbError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      (e.target as HTMLImageElement).src = LOGO_MARKETPLACE_URL;
+    }
+  };
+
+  const onThumbLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      const naturalWidth = (e.target as HTMLImageElement).naturalWidth;
+      if (naturalWidth < 100) {
+        (e.target as HTMLImageElement).style.imageRendering = 'pixelated';
+      }
+    }
+  };
+
   return (
     <div className={cn(className, s.collections)}>
       <Row className={s.items_projects}>
@@ -207,12 +222,14 @@ export const CollectionItems = ({
                         href={`${ROUTE_PATH.GENERATIVE}/${item?.project?.token_id}`}
                         target="_blank"
                       >
-                        <Image
+                        <img
                           className={s.collections_pointer}
                           src={convertIpfsToHttp(item?.project?.thumbnail)}
                           width={120}
                           height={120}
                           alt={item?.project?.name}
+                          onError={onThumbError}
+                          onLoad={onThumbLoad}
                         />
                       </a>
                     </div>

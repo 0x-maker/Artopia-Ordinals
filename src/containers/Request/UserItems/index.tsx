@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { toast } from 'react-hot-toast';
-import Image from 'next/image';
 import copy from 'copy-to-clipboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -21,7 +20,7 @@ import { CDN_URL } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { getDaoArtists, voteDaoArtist } from '@services/request';
 import { formatAddressDisplayName } from '@utils/format';
-import { DEFAULT_USER_AVATAR } from '@constants/common';
+import { DEFAULT_USER_AVATAR, LOGO_MARKETPLACE_URL } from '@constants/common';
 
 import SkeletonItem from '../SkeletonItem';
 import s from './UserItems.module.scss';
@@ -121,6 +120,21 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
     toast.success('Copied');
   };
 
+  const onThumbError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      (e.target as HTMLImageElement).src = LOGO_MARKETPLACE_URL;
+    }
+  };
+
+  const onThumbLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      const naturalWidth = (e.target as HTMLImageElement).naturalWidth;
+      if (naturalWidth < 100) {
+        (e.target as HTMLImageElement).style.imageRendering = 'pixelated';
+      }
+    }
+  };
+
   return (
     <div className={cn(className, s.users)}>
       <Row className={s.items_projects}>
@@ -175,7 +189,7 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                           }`}
                           target="_blank"
                         >
-                          <Image
+                          <img
                             className={s.users_avatar}
                             src={
                               convertIpfsToHttp(item?.user?.avatar) ||
@@ -184,6 +198,8 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                             width={48}
                             height={48}
                             alt={item?.user?.display_name}
+                            onError={onThumbError}
+                            onLoad={onThumbLoad}
                           />
                           <div>
                             <div>
