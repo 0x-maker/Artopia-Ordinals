@@ -236,11 +236,12 @@ const MintBTCGenerativeModal: React.FC = () => {
       });
       setReceiverAddress(address);
       setsTep('showAddress');
-    } catch (err: unknown) {
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    } catch (err: any) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      if (typeof err === 'string') {
-        setErrMessage(`${err}`);
+      if (err && err.message && typeof err.message === 'string') {
+        setErrMessage(`${err.message}`);
       } else {
         setErrMessage('failed to generate receiver address');
       }
