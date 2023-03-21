@@ -24,9 +24,8 @@
     }
 
     .startedLink {
-      display: flex;
-      align-items: center;
-      gap: rem(5px);
+      margin-left: rem(4);
+      display: inline-block;
       color: $white;
       text-decoration: underline;
 

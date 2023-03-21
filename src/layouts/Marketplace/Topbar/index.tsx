@@ -24,12 +24,7 @@ const Topbar: React.FC = (): React.ReactElement => {
             </p>
           </div>
 
-          <div
-            className={cs(
-              s.right,
-              'd-flex align-items-center justify-content-between'
-            )}
-          >
+          <div className={cs(s.right)}>
             <Link
               className={s.socialLink}
               target="_blank"
