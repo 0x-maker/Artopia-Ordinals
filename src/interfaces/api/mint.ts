@@ -9,7 +9,7 @@ export interface IGetMintReceiverAddressPayload {
   refundUserAddress?: string;
   quantity: number;
   feeRate?: number;
-  isCutomFeeRate?: boolean;
+  isCustomFeeRate?: boolean;
   estMintFeeInfo?: IProjectMintFeeRate;
 }
 
