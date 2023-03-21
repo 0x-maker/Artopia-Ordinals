@@ -44,7 +44,7 @@ const BuyBottomBar: React.FC = (): React.ReactElement => {
   return (
     <div className={s.container}>
       <div className={s.leftContainer}>
-        <ButtonSweepBTC tokens={selectedItems} />
+        <ButtonSweepBTC tokens={selectedItems} className={s.wrapButton} />
         <ButtonSweepETH tokens={selectedItems} className={s.wrapButton} />
       </div>
       <div className={s.sweepContainer}>
