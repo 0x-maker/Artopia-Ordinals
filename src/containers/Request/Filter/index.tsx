@@ -10,6 +10,7 @@ import { CDN_URL } from '@constants/config';
 import SvgInset from '@components/SvgInset';
 import { ProposalStatus, ProposalUserStatus } from '@enums/dao';
 import { DAO_TYPE } from '@constants/dao';
+import useWindowSize from '@hooks/useWindowSize';
 
 import s from './Filter.module.scss';
 
@@ -66,12 +67,21 @@ export const SORT_OPTIONS: Array<{ value: string; label: string }> = [
   },
 ];
 
+export const SORT_ARTIST_OPTIONS: Array<{ value: string; label: string }> = [
+  ...SORT_OPTIONS,
+  {
+    value: 'collection_created,desc',
+    label: 'Sort by: Number collection',
+  },
+];
+
 export const Filter = ({
   className,
   currentTabActive,
 }: FilterProps): JSX.Element => {
   const router = useRouter();
   const { keyword = '', status = '', sort = '' } = router.query;
+  const { mobileScreen } = useWindowSize();
 
   const inputSearchRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<any>(null);
@@ -100,7 +110,15 @@ export const Filter = ({
   }, [status]);
 
   const getValueSort = (newSort: string | string[]) => {
-    return SORT_OPTIONS.find(item => item.value == newSort) || SORT_OPTIONS[0];
+    if (currentTabActive === DAO_TYPE.COLLECTION) {
+      return (
+        SORT_OPTIONS.find(item => item.value == newSort) || SORT_OPTIONS[0]
+      );
+    }
+    return (
+      SORT_ARTIST_OPTIONS.find(item => item.value == newSort) ||
+      SORT_ARTIST_OPTIONS[0]
+    );
   };
 
   useEffect(() => {
@@ -132,7 +150,7 @@ export const Filter = ({
         <div className={s.filter_searchIcon}>
           <label htmlFor="request-keyword">
             <SvgInset
-              size={20}
+              size={mobileScreen ? 16 : 20}
               svgUrl={`${CDN_URL}/icons/ic-search-14x14.svg`}
             />
           </label>{' '}
@@ -164,7 +182,11 @@ export const Filter = ({
           ref={sortRef}
           isSearchable={false}
           isClearable={false}
-          options={SORT_OPTIONS}
+          options={
+            currentTabActive === DAO_TYPE.COLLECTION
+              ? SORT_OPTIONS
+              : SORT_ARTIST_OPTIONS
+          }
           className={cn('select-input', s.filter_select)}
           classNamePrefix="select"
           onChange={(op: SingleValue<SelectOption>) => {
