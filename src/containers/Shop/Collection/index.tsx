@@ -24,7 +24,7 @@ const TABLE_HEADINGS = [
   // '15M volume',
   // '1D volume',
   // '7D volume',
-  'Volume',
+  'Total Sales',
   'Owners',
   'Supply',
 ];
