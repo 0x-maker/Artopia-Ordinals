@@ -50,6 +50,7 @@ import SwapTokenModal from './SwapTokenModal';
 import TokenActivities from './TokenActivities';
 import TransferTokenModal from './TransferTokenModal';
 import s from './styles.module.scss';
+import { getUrlWithQueryParams } from '@utils/url';
 
 const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
   // const router = useRouter();
@@ -385,7 +386,9 @@ const GenerativeTokenDetail: React.FC = (): React.ReactElement => {
                     className={isFromAuthentic ? s.isAuthentic : ''}
                   >
                     <Link
-                      href={`${ROUTE_PATH.GENERATIVE}/${projectData?.tokenID}`}
+                      href={getUrlWithQueryParams(
+                        `${ROUTE_PATH.GENERATIVE}/${projectData?.tokenID}`
+                      )}
                     >
                       {projectName}
                     </Link>

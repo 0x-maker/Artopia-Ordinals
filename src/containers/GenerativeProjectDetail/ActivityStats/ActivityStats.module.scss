@@ -8,10 +8,6 @@
 }
 
 .dropDownWrapper {
-  @include w-max(500px) {
-    width: 100%;
-  }
-
   .selectInput {
     :global(.select__control) {
       background-color: $white-100;

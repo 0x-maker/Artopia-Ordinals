@@ -1,10 +1,10 @@
 import { Token } from '@interfaces/token';
-import React, { useContext } from 'react';
+import React, { SyntheticEvent, useContext, useMemo } from 'react';
 import styles from './styles.module.scss';
 import Link from '@components/Link';
 import { ROUTE_PATH } from '@constants/route-path';
 import { useRouter } from 'next/router';
-import { formatAddressDisplayName } from '@utils/format';
+import { ellipsisCenter, formatAddressDisplayName } from '@utils/format';
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBTC';
 import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
@@ -12,6 +12,7 @@ import usePurchaseStatus from '@hooks/usePurchaseStatus';
 import Text from '@components/Text';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
+import { SATOSHIS_PROJECT_ID } from '@constants/generative';
 
 type Props = {
   data: Token;
@@ -21,12 +22,15 @@ const ListViewItem = ({ data }: Props) => {
   const router = useRouter();
 
   const { projectID } = router.query;
+  const tokenID = data.tokenID;
 
   const {
     isLayoutShop,
     selectedOrders,
     removeSelectedOrder,
     addSelectedOrder,
+    isWhitelistProject,
+    projectData,
   } = useContext(GenerativeProjectDetailContext);
 
   const { isBuyETH, isBuyBTC, isBuyable } = usePurchaseStatus({
@@ -38,6 +42,21 @@ const ListViewItem = ({ data }: Props) => {
   });
 
   const isSelectedOrder = selectedOrders.includes(data.orderID);
+
+  const tokenUrl = useMemo(() => {
+    if (isWhitelistProject)
+      return `${ROUTE_PATH.GENERATIVE}/${SATOSHIS_PROJECT_ID}/${tokenID}`;
+    return `${ROUTE_PATH.GENERATIVE}/${data.project.tokenID}/${tokenID}`;
+  }, [isWhitelistProject, tokenID, data.project.tokenID]);
+
+  const text = data?.orderInscriptionIndex
+    ? data?.orderInscriptionIndex
+    : data?.inscriptionIndex
+    ? data?.inscriptionIndex
+    : ellipsisCenter({
+        str: tokenID,
+        limit: 3,
+      });
 
   const onSelectItem = () => {
     if (isBuyable) {
@@ -113,12 +132,34 @@ const ListViewItem = ({ data }: Props) => {
             src={data?.thumbnail}
             alt={data?.name}
           />
-          <div className={styles.itemName}>
+          {/* <div className={styles.itemName}>
             <Link href="">
               <Text fontWeight="medium">
                 #{data?.orderInscriptionIndex || data?.inscriptionIndex}
               </Text>
             </Link>
+          </div> */}
+          <div
+            onClick={(event: SyntheticEvent) => {
+              if (event.stopPropagation) {
+                event.stopPropagation();
+              }
+            }}
+            className={styles.itemName}
+          >
+            <Link href={tokenUrl}>
+              <Text fontWeight="medium" color="primary-color">
+                {projectData?.name} #{text}
+              </Text>
+            </Link>
+            <Text size="14" fontWeight="medium" color="black-40">
+              Inscription #
+              {data?.inscriptionIndex ||
+                ellipsisCenter({
+                  str: tokenID,
+                  limit: 3,
+                })}
+            </Text>
           </div>
         </Link>
       </td>

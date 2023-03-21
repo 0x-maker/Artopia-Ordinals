@@ -127,6 +127,7 @@
     padding-top: rem(24);
     max-height: calc(100vh - #{rem(340)});
     overflow-y: scroll;
+    overflow-x: hidden;
 
     @include disable-scrollbar;
 
