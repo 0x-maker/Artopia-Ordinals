@@ -59,7 +59,7 @@ export const SearchMembersResult = ({ list }: { list: { artist: User }[] }) => {
             formatAddressDisplayName(user?.artist?.walletAddress)
           }
           avatar={user?.artist?.avatar}
-          memberId={user?.artist?.walletAddress}
+          memberId={user?.artist?.walletAddressBtcTaproot as string}
         />
       ))}
     </>

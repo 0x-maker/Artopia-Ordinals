@@ -352,7 +352,12 @@ export const CollectionItems = ({
                     >
                       {getStatusProposal(item?.status)}
                     </div>
-                    <div className="col-md-2 d-flex justify-content-end">
+                    <div
+                      className={cn(
+                        'col-md-2 d-flex justify-content-end',
+                        s.collections_actions
+                      )}
+                    >
                       <OverlayTrigger
                         placement="bottom"
                         delay={{ show: 100, hide: 200 }}

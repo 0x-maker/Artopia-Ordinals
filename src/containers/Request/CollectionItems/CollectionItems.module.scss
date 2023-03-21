@@ -132,6 +132,7 @@
       width: auto;
       font-size: rem(12px);
       line-height: rem(20px);
+      border-bottom: none;
     }
 
     &_id {
@@ -171,7 +172,7 @@
     }
 
     &_infinite {
-      overflow: hidden !important;
+      overflow: visible !important;
       width: fit-content;
     }
 
@@ -184,11 +185,22 @@
       .collections_maxSupply {
         justify-content: center !important;
       }
+
+      &:first-child {
+        border-top: 1px solid #cecece;
+      }
     }
 
     &_btn,
     &_tooltip {
       font-size: rem(12px);
+    }
+
+    &_actions {
+      position: sticky;
+      right: 0;
+      z-index: 1;
+      background-color: $white-100;
     }
   }
 }
