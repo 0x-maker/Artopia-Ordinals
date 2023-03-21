@@ -1,17 +1,18 @@
+import ButtonIcon from '@components/ButtonIcon';
 import CollectionItem from '@components/Collection/Item';
 import CollectionListLoading from '@components/Collection/Loading';
 import Heading from '@components/Heading';
+import { ROUTE_PATH } from '@constants/route-path';
 import { LogLevel } from '@enums/log-level';
 import { Token } from '@interfaces/token';
 import { getProjectItems } from '@services/project';
 import log from '@utils/logger';
+import { getUrlWithQueryParams } from '@utils/url';
 import cs from 'classnames';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import s from './styles.module.scss';
-import ButtonIcon from '@components/ButtonIcon';
-import { useRouter } from 'next/router';
-import { ROUTE_PATH } from '@constants/route-path';
 
 const LOG_PREFIX = 'MoreItemsSection';
 
@@ -74,7 +75,9 @@ const MoreItemsSection = ({ genNFTAddr }: TMoreItemsSection) => {
           sizes="large"
           variants="outline-small"
           onClick={() => {
-            router.push(`${ROUTE_PATH.GENERATIVE}/${projectID}`);
+            router.push(
+              getUrlWithQueryParams(`${ROUTE_PATH.GENERATIVE}/${projectID}`)
+            );
           }}
         >
           View Collection

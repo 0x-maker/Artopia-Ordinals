@@ -1,6 +1,6 @@
 import Heading from '@components/Heading';
 import Text from '@components/Text';
-import { LOGO_MARKETPLACE_URL } from '@constants/common';
+import { LOGO_MARKETPLACE_URL, URL_PARAMS_PRO_MODE } from '@constants/common';
 import { ROUTE_PATH } from '@constants/route-path';
 import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 import Link from '@components/Link';
@@ -11,7 +11,14 @@ import useWindowSize from '@hooks/useWindowSize';
 import { Token } from '@interfaces/token';
 import { ellipsisCenter, formatAddress } from '@utils/format';
 import cs from 'classnames';
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Stack } from 'react-bootstrap';
 import s from './styles.module.scss';
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
@@ -41,12 +48,13 @@ const CollectionItem = ({
 
   const { mobileScreen } = useWindowSize();
   const {
-    projectData,
     isWhitelistProject,
     isLayoutShop,
     selectedOrders,
     removeSelectedOrder,
     addSelectedOrder,
+    isProMode,
+    projectData,
   } = useContext(GenerativeProjectDetailContext);
 
   const { isWaiting, isBuyETH, isBuyBTC, isBuyable } = usePurchaseStatus({
@@ -144,10 +152,35 @@ const CollectionItem = ({
         >{`${data?.orderInscriptionIndex} / ${total}`}</span>
       );
     }
+    if (isProMode)
+      return (
+        <div
+          onClick={(event: SyntheticEvent) => {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            }
+          }}
+          className={s.tokenNumber}
+        >
+          <Link href={`${tokenUrl}${URL_PARAMS_PRO_MODE}`}>
+            <Text fontWeight="medium">
+              {projectData?.name} #{text}
+            </Text>
+          </Link>
+          <Text fontWeight="medium" color="black-40">
+            Inscription #
+            {data?.inscriptionIndex ||
+              ellipsisCenter({
+                str: tokenID,
+                limit: 3,
+              })}
+          </Text>
+        </div>
+      );
+
     return (
       <div
-        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-        onClick={(event: any) => {
+        onClick={(event: SyntheticEvent) => {
           if (event.stopPropagation) {
             event.stopPropagation();
           }
@@ -157,19 +190,8 @@ const CollectionItem = ({
           href={tokenUrl}
           className={layout === 'shop' ? s.tokenNumber : ''}
         >
-          {layout === 'shop' ? (
-            <Heading as={isLayoutShop ? 'p' : 'h4'}>
-              {projectData?.name} #{text}
-            </Heading>
-          ) : (
-            <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
-          )}
+          <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
         </Link>
-        {layout === 'shop' && (
-          <Text fontWeight="medium" size="16" color="black-40-solid">
-            Inscription #{data?.inscriptionIndex}
-          </Text>
-        )}
       </div>
     );
   };
