@@ -23,6 +23,9 @@ const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
         grid: {
           display: false,
         },
+        ticks: {
+          color: '#fff',
+        },
       },
       y: {
         title: {
@@ -33,6 +36,7 @@ const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
           count: 5,
           // beginAtZero: true,
           mirror: true,
+          color: '#fff',
           // padding: -25,
         },
       },
@@ -42,9 +46,9 @@ const LineChart: React.FC<LineChartProps> = ({ chartData }) => {
         display: false,
       },
       tooltip: {
-        backgroundColor: '#fff',
-        bodyColor: '#1c1c1c',
-        titleColor: '#1c1c1c',
+        backgroundColor: '#333',
+        bodyColor: '#fff',
+        titleColor: '#fff',
         cornerRadius: 2,
         displayColors: false,
         borderColor: '#0000001a',

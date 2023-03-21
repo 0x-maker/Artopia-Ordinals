@@ -9,17 +9,29 @@
   cursor: pointer;
 }
 
+.isChecked {
+  svg rect {
+    fill: #4f43e2;
+  }
+}
+
 .itemThumbnail {
   width: 40px;
   height: 40px;
   padding: 4px;
   object-fit: cover;
   object-position: center;
-  background-color: $primary-light;
+  background-color: $primary-333;
 }
 
 .itemName {
   text-align: left;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.itemTokenNumber {
+  height: rem(22px);
 }
 
 .buy_btn {

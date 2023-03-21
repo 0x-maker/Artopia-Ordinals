@@ -24,8 +24,13 @@ const CollectionList = ({
   isLoaded?: boolean;
   layout?: 'mint' | 'shop';
 }) => {
-  const { showFilter, filterTraits, setFilterTraits, setIsLayoutShop } =
-    useContext(GenerativeProjectDetailContext);
+  const {
+    showFilter,
+    filterTraits,
+    setFilterTraits,
+    setIsLayoutShop,
+    isProMode,
+  } = useContext(GenerativeProjectDetailContext);
 
   const hasTraitAtrribute = useMemo(
     () => projectInfo?.traitStat && projectInfo?.traitStat?.length > 0,
@@ -107,7 +112,13 @@ const CollectionList = ({
           )}
 
           {isLoaded && (
-            <div className={cs(s.collectionList, `row animate-grid`)}>
+            <div
+              className={cs(
+                s.collectionList,
+                isProMode ? s.isDark : '',
+                `row animate-grid`
+              )}
+            >
               {listData?.map(item => (
                 <CollectionItem
                   className={`${

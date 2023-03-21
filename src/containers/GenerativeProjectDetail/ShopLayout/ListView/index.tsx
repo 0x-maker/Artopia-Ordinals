@@ -82,13 +82,13 @@ const ListView = () => {
             <tr>
               <th className={styles.checkbox}>
                 <SvgInset
+                  className={selectedOrders.length ? styles.isChecked : ''}
                   key=""
                   size={14}
                   svgUrl={`${CDN_URL}/icons/${
                     selectedOrders.length > 0 ? 'ic_checkboxed' : 'ic_checkbox'
                   }.svg`}
                   onClick={onClickItems}
-                  className={styles.checkbox}
                 />
               </th>
               <th onClick={onClickItems} className={s.selectItem}>

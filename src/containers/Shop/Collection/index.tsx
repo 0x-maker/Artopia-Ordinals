@@ -18,7 +18,7 @@ import { LOGO_MARKETPLACE_URL, URL_PARAMS_PRO_MODE } from '@constants/common';
 
 const TABLE_HEADINGS = [
   'Name',
-  'Floor price',
+  'Floor Price',
   // '1D change',
   // '7D change',
   // '15M volume',
@@ -99,9 +99,11 @@ const Collection: React.FC = (): React.ReactElement => {
               {formatBTCPrice(
                 collection.projectMarketplaceData.floor_price,
                 '—'
-              ) === '—'
-                ? ''
-                : 'BTC'}
+              ) === '—' ? (
+                ''
+              ) : (
+                <small>BTC</small>
+              )}
             </span>
           </div>
         ),
@@ -160,9 +162,11 @@ const Collection: React.FC = (): React.ReactElement => {
             <span>
               {formatBTCPrice(collection.projectMarketplaceData.volume, '—')}{' '}
               {formatBTCPrice(collection.projectMarketplaceData.volume, '—') ===
-              '—'
-                ? ''
-                : 'BTC'}
+              '—' ? (
+                ''
+              ) : (
+                <small>BTC</small>
+              )}
             </span>
           </div>
         ),

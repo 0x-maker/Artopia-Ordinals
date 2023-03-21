@@ -11,11 +11,11 @@
   }
 
   thead tr {
-    border-bottom: 1px solid #2e2e2e;
+    border-bottom: 1px solid $border-dark;
   }
 
   tbody tr {
-    border-bottom: 1px solid #2e2e2e !important;
+    border-bottom: 1px solid $border-dark !important;
 
     &:nth-child(1) {
       td {
@@ -28,7 +28,7 @@
     }
 
     &:hover {
-      background: #2e2e2e !important;
+      background: $border-dark !important;
     }
   }
 }

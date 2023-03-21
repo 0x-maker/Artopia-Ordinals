@@ -171,6 +171,10 @@
   color: rgba($white, 0.8);
 }
 
+.text-white-100 {
+  color: $white-100;
+}
+
 .text-black-06 {
   color: rgba(#000, 0.6);
 }
@@ -309,4 +313,10 @@
 
 .w-full {
   width: 100%;
+}
+
+.is-dark-mode {
+  body {
+    background: $primary-brand !important;
+  }
 }

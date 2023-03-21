@@ -120,6 +120,7 @@ const CollectionItem = ({
             price={data.priceBTC}
             inscriptionNumber={Number(data.inscriptionIndex || 0)}
             orderID={data.orderID}
+            isShopLayout={isProMode}
           />
         )}
         {isBuyETH && (
@@ -130,6 +131,7 @@ const CollectionItem = ({
             price={data.priceETH}
             inscriptionNumber={Number(data.inscriptionIndex || 0)}
             orderID={data.orderID}
+            isShopLayout={isProMode}
           />
         )}
       </div>
@@ -167,7 +169,7 @@ const CollectionItem = ({
               {projectData?.name} #{text}
             </Text>
           </Link>
-          <Text fontWeight="medium" color="black-40">
+          <Text fontWeight="medium" color="black-40-solid">
             Inscription #
             {data?.inscriptionIndex ||
               ellipsisCenter({
@@ -227,7 +229,7 @@ const CollectionItem = ({
     <div
       className={`${s.collectionCard} ${className} ${
         isLayoutShop ? s.isShop : ''
-      }`}
+      } ${isProMode ? s.isDark : ''}`}
     >
       <div
         className={cs(

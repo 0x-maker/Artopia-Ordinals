@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import s from './FilterMinMax.module.scss';
 import Text from '@components/Text';
 import SvgInset from '@components/SvgInset';
@@ -6,6 +6,7 @@ import { CDN_URL } from '@constants/config';
 import useOnClickOutside from '@hooks/useOnClickOutSide';
 import { debounce } from 'lodash';
 import { convertToSatoshiNumber } from '@utils/format';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 type Props = {
   label?: string;
@@ -28,6 +29,8 @@ const FilterMinMax = (props: Props) => {
     filter,
     setFilter,
   } = props;
+
+  const { isProMode } = useContext(GenerativeProjectDetailContext);
 
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -66,7 +69,10 @@ const FilterMinMax = (props: Props) => {
   };
 
   return (
-    <div className={s.wrapper} ref={dropdownRef}>
+    <div
+      className={`${s.wrapper} ${isProMode ? s.isDark : ''}`}
+      ref={dropdownRef}
+    >
       <div
         className={s.dropdown_box}
         onClick={() => setShowDropdown(!showDropdown)}

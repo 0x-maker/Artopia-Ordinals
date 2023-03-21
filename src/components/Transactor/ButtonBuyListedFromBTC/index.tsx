@@ -7,6 +7,7 @@ import { getUserSelector } from '@redux/user/selector';
 import { formatBTCPrice } from '@utils/format';
 import { WalletContext } from '@contexts/wallet-context';
 import s from './styles.module.scss';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 interface IProps {
   className?: string;
@@ -16,6 +17,7 @@ interface IProps {
   inscriptionNumber: number;
   orderID: string;
   isDetail?: boolean;
+  isShopLayout?: boolean;
 }
 
 const ButtonBuyListedFromBTC = React.memo(
@@ -27,11 +29,13 @@ const ButtonBuyListedFromBTC = React.memo(
     price,
     sizes = 'xsmall',
     isDetail = false,
+    isShopLayout = false,
   }: IProps) => {
     const [isShow, setShow] = React.useState(false);
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
     const taprootAddress = user?.walletAddressBtcTaproot;
+    const { isProMode } = useContext(GenerativeProjectDetailContext);
 
     const openModal = async (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -55,10 +59,15 @@ const ButtonBuyListedFromBTC = React.memo(
       >
         <ButtonIcon
           sizes={sizes}
+          variants={`${isProMode ? 'secondary' : 'primary'}`}
           className={cs(s.container, `${className}`)}
           onClick={openModal}
         >
-          {`${formatBTCPrice(price)} BTC`}
+          {isShopLayout ? (
+            <p className={s.text}>{`${formatBTCPrice(price)} BTC`}</p>
+          ) : (
+            `${formatBTCPrice(price)} BTC`
+          )}
         </ButtonIcon>
         {!!taprootAddress && isShow && (
           <ModalBuyListed

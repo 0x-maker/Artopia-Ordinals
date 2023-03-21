@@ -46,26 +46,42 @@ const TokenTopFilter: React.FC<IProps> = ({
   //   return SORT_OPTIONS.find(op => sort === op.value) ?? SORT_OPTIONS[0];
   // }, [sort]);
 
-  const { showFilter, setShowFilter } = useContext(
+  const { showFilter, setShowFilter, isProMode } = useContext(
     GenerativeProjectDetailContext
   );
 
   return (
     <div className={cs(s.tokenTopFilter, className)}>
       <div className={cs(s.filterWrapper)}>
-        <ButtonIcon
-          variants={showFilter ? 'primary' : 'outline-small'}
-          startIcon={
-            showFilter ? (
-              <SvgInset size={16} svgUrl={`${CDN_URL}/icons/ic-close.svg`} />
-            ) : (
-              <SvgInset size={16} svgUrl={`${CDN_URL}/icons/ic-filter.svg`} />
-            )
-          }
-          onClick={() => setShowFilter(!showFilter)}
-        >
-          Filter
-        </ButtonIcon>
+        {isProMode ? (
+          <ButtonIcon
+            variants={'outline-darkmode'}
+            startIcon={
+              showFilter ? (
+                <SvgInset size={16} svgUrl={`${CDN_URL}/icons/ic-close.svg`} />
+              ) : (
+                <SvgInset size={16} svgUrl={`${CDN_URL}/icons/ic-filter.svg`} />
+              )
+            }
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            Filter
+          </ButtonIcon>
+        ) : (
+          <ButtonIcon
+            variants={showFilter ? 'primary' : 'outline-small'}
+            startIcon={
+              showFilter ? (
+                <SvgInset size={16} svgUrl={`${CDN_URL}/icons/ic-close.svg`} />
+              ) : (
+                <SvgInset size={16} svgUrl={`${CDN_URL}/icons/ic-filter.svg`} />
+              )
+            }
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            Filter
+          </ButtonIcon>
+        )}
       </div>
       {/* DO NOT REMOVE CODE BELOW */}
       {/* <div className={s.inputWrapper}>
