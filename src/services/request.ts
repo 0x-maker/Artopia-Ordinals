@@ -9,6 +9,10 @@ import {
   IPutDaoProjectResponse,
   IPutDaoArtistResponse,
   IPostDaoArtistResponse,
+  IGetDaoProjectsIsHiddenPayload,
+  IGetDaoProjectsIsHiddenResponse,
+  ICreateDaoProjectsPayload,
+  ICreateDaoProjectsResponse,
 } from '@interfaces/api/request';
 import { get, put, post } from '@services/http-client';
 import log from '@utils/logger';
@@ -45,6 +49,39 @@ export const voteDaoProject = async (
   } catch (err: unknown) {
     log(`failed to put dao project`, LogLevel.ERROR, LOG_PREFIX);
     throw Error('Failed to get dao project');
+  }
+};
+
+export const getDaoProjectsIsHidden = async (
+  params: IGetDaoProjectsIsHiddenPayload
+): Promise<IGetDaoProjectsIsHiddenResponse> => {
+  const queryString = qs.stringify(params);
+  try {
+    return await get<IGetDaoProjectsIsHiddenResponse>(
+      `${API_PATH}project/me/projects-hidden?${queryString}`
+    );
+  } catch (err: unknown) {
+    log(
+      `failed to get dao projects is hidden with query string: ${queryString}}`,
+      LogLevel.ERROR,
+      LOG_PREFIX
+    );
+    throw Error('Failed to get dao projects is hidden');
+  }
+};
+
+export const createDaoProjects = async (
+  payload: ICreateDaoProjectsPayload
+): Promise<ICreateDaoProjectsResponse> => {
+  try {
+    return await post(`${API_PATH}project`, payload);
+  } catch (err: unknown) {
+    log(
+      `failed to create dao projects with payload: ${JSON.stringify(payload)}}`,
+      LogLevel.ERROR,
+      LOG_PREFIX
+    );
+    throw Error((err as { message: string })?.message);
   }
 };
 

@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import { toast } from 'react-hot-toast';
 import copy from 'copy-to-clipboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import { Empty } from '@components/Collection/Empty';
 import Button from '@components/Button';
@@ -22,6 +23,7 @@ import { CDN_URL } from '@constants/config';
 import { convertIpfsToHttp } from '@utils/image';
 import { IconVerified } from '@components/IconVerified';
 import { formatAddressDisplayName } from '@utils/format';
+import useWindowSize from '@hooks/useWindowSize';
 
 import SkeletonItem from '../SkeletonItem';
 import s from './CollectionItems.module.scss';
@@ -34,8 +36,15 @@ interface CollectionItemsProps {
 export const CollectionItems = ({
   className,
 }: CollectionItemsProps): JSX.Element => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
-  const { keyword = '', status = '', sort = '', id = '', tab } = router.query;
+  const {
+    keyword = '',
+    status = '',
+    sort = '',
+    seq_id = '',
+    tab,
+  } = router.query;
   let timeoutId = -1;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -47,7 +56,7 @@ export const CollectionItems = ({
   const initData = async (): Promise<void> => {
     setIsLoaded(false);
     const collections = await getDaoProjects({
-      id,
+      seq_id,
       keyword,
       status,
       sort,
@@ -65,14 +74,14 @@ export const CollectionItems = ({
       initData();
     }, 300);
     return () => clearTimeout(timeoutId);
-  }, [keyword, status, sort, id, tab, timeoutId]);
+  }, [keyword, status, sort, seq_id, tab, timeoutId]);
 
   const fetchCombineList = async () => {
     try {
       setIsLoading(true);
       if (totalPerPage > LIMIT) {
         const nextCollections = await getDaoProjects({
-          id,
+          seq_id,
           keyword,
           status,
           sort,
@@ -131,16 +140,8 @@ export const CollectionItems = ({
     }
   };
 
-  // const goToCollectionPage = (tokenId: string): void => {
-  //   router.push(`${ROUTE_PATH.GENERATIVE}/${tokenId}`);
-  // };
-
-  // const goToProfilePage = (walletAddress: string): void => {
-  //   router.push(`${ROUTE_PATH.PROFILE}/${walletAddress}`);
-  // };
-
   const copyLink = (id: string) => {
-    copy(`${location.origin}${ROUTE_PATH.DAO}?id=${id}&tab=0`);
+    copy(`${location.origin}${ROUTE_PATH.DAO}?seq_id=${id}&tab=0`);
     toast.remove();
     toast.success('Copied');
   };
@@ -162,7 +163,7 @@ export const CollectionItems = ({
 
   return (
     <div className={cn(className, s.collections)}>
-      <Row className={s.items_projects}>
+      <Row>
         {isLoaded === false ? (
           <Col xs={12}>
             {[...Array(LIMIT)].map((_, index) => (
@@ -172,24 +173,68 @@ export const CollectionItems = ({
         ) : (
           <Col md={12}>
             <div className={cn(s.collections_header)}>
-              <div className="col-md-1 d-flex justify-content-start">
-                Proposal ID
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_id
+                )}
+              >
+                {mobileScreen ? 'ID' : 'Proposal ID'}
               </div>
-              <div className="col-md-2 d-flex justify-content-start">Image</div>
-              <div className="col-md-2 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-2 d-flex justify-content-start',
+                  s.collections_img
+                )}
+              >
+                Image
+              </div>
+              <div
+                className={cn(
+                  'col-md-2 d-flex justify-content-start',
+                  s.collections_name
+                )}
+              >
                 Collection
               </div>
-              <div className="col-md-1 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_maxSupply
+                )}
+              >
                 Max Supply
               </div>
-              <div className="col-md-1 d-flex justify-content-start">Price</div>
-              <div className="col-md-1 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_price
+                )}
+              >
+                Price
+              </div>
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_artistWrapper
+                )}
+              >
                 Artist
               </div>
-              <div className="col-md-1 d-flex justify-content-center">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-center',
+                  s.collections_expiration
+                )}
+              >
                 Expiration
               </div>
-              <div className="col-md-1 d-flex justify-content-start">
+              <div
+                className={cn(
+                  'col-md-1 d-flex justify-content-start',
+                  s.collections_statusWrapper
+                )}
+              >
                 Status
               </div>
               <div className="col-md-2 invisible">Action</div>
@@ -199,6 +244,7 @@ export const CollectionItems = ({
               <Empty content="No Data Available." />
             ) : (
               <InfiniteScroll
+                className={s.collections_infinite}
                 dataLength={combineList.length}
                 next={debounceFetchCombineList}
                 hasMore
@@ -213,10 +259,20 @@ export const CollectionItems = ({
               >
                 {combineList?.map((item: any) => (
                   <div key={item.id} className={s.collections_row}>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_id
+                      )}
+                    >
                       {item?.seq_id}
                     </div>
-                    <div className="col-md-2 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-2 d-flex justify-content-start',
+                        s.collections_img
+                      )}
+                    >
                       <a
                         className={s.collections_link}
                         href={`${ROUTE_PATH.GENERATIVE}/${item?.project?.token_id}`}
@@ -225,15 +281,20 @@ export const CollectionItems = ({
                         <img
                           className={s.collections_pointer}
                           src={convertIpfsToHttp(item?.project?.thumbnail)}
-                          width={120}
-                          height={120}
+                          width={mobileScreen ? 60 : 120}
+                          height={mobileScreen ? 60 : 120}
                           alt={item?.project?.name}
                           onError={onThumbError}
                           onLoad={onThumbLoad}
                         />
                       </a>
                     </div>
-                    <div className="col-md-2 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-2 d-flex justify-content-start',
+                        s.collections_name
+                      )}
+                    >
                       <a
                         className={s.collections_link}
                         href={`${ROUTE_PATH.GENERATIVE}/${item?.project?.token_id}`}
@@ -249,13 +310,28 @@ export const CollectionItems = ({
                         </span>
                       </a>
                     </div>
-                    <div className="col-md-1 d-flex justify-content-center">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_maxSupply
+                      )}
+                    >
                       {item?.project?.max_supply}
                     </div>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_price
+                      )}
+                    >
                       {formatBTCPrice(item?.project?.mint_price)} BTC
                     </div>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_artistWrapper
+                      )}
+                    >
                       <div className={s.collections_pointer}>
                         <a
                           className={s.collections_link}
@@ -279,23 +355,46 @@ export const CollectionItems = ({
                         </a>
                       </div>
                     </div>
-                    <div className="col-md-1 d-flex justify-content-center">{`${dayjs(
-                      item?.expired_at
-                    ).format('MMM DD')}`}</div>
-                    <div className="col-md-1 d-flex justify-content-start">
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-center',
+                        s.collections_expiration
+                      )}
+                    >{`${dayjs(item?.expired_at).format('MMM DD')}`}</div>
+                    <div
+                      className={cn(
+                        'col-md-1 d-flex justify-content-start',
+                        s.collections_statusWrapper
+                      )}
+                    >
                       {getStatusProposal(item?.status)}
                     </div>
                     <div className="col-md-2 d-flex justify-content-end">
-                      <span
-                        className={s.collections_share}
-                        onClick={() => copyLink(item?.id)}
+                      <OverlayTrigger
+                        placement="bottom"
+                        delay={{ show: 100, hide: 200 }}
+                        overlay={
+                          <Tooltip id="play-tooltip">
+                            <div className={s.collections_tooltip}>
+                              Copy link to share this proposal
+                            </div>
+                          </Tooltip>
+                        }
                       >
-                        <SvgInset
-                          className={s.icCopy}
-                          size={16}
-                          svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
-                        />
-                      </span>
+                        <div>
+                          <span
+                            className={s.collections_share}
+                            onClick={() => copyLink(item?.seq_id)}
+                          >
+                            <SvgInset
+                              className={s.icCopy}
+                              size={16}
+                              svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
+                            />
+                          </span>
+                        </div>
+                      </OverlayTrigger>
+
                       {/* <Button
                         className={cn(s.collections_btn, s.collections_mr6)}
                         disabled={item?.action?.can_vote === false}

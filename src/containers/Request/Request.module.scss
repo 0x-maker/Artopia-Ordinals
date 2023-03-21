@@ -53,4 +53,49 @@
     line-height: rem(26px);
     color: #4f43e2;
   }
+
+  @include mobile {
+    padding: rem(20px) 0;
+
+    &_category {
+      margin-bottom: rem(16px);
+
+      [class*="_text"] {
+        font-size: rem(14px);
+        line-height: rem(22px);
+      }
+    }
+
+    &_title {
+      font-weight: 500;
+      font-size: rem(24px);
+      line-height: rem(34px);
+    }
+
+    &_description {
+      font-size: rem(14px);
+      line-height: rem(22px);
+    }
+
+    &_control {
+      margin-top: rem(24px);
+      flex-wrap: wrap;
+    }
+
+    &_category,
+    &_submitBtn {
+      width: 100%;
+    }
+
+    &_textNote {
+      margin: rem(16px) 0;
+      font-size: rem(14px);
+      line-height: rem(22px);
+    }
+
+    &_list {
+      margin-top: 0;
+      overflow-x: auto;
+    }
+  }
 }

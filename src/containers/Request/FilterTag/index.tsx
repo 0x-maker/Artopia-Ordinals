@@ -7,8 +7,14 @@ import Button from '@components/Button';
 import SvgInset from '@components/SvgInset';
 import { CDN_URL } from '@constants/config';
 import { DAO_TYPE } from '@constants/dao';
+import useWindowSize from '@hooks/useWindowSize';
 
-import { STATUS_COLLECTION, STATUS_USERS, SORT_OPTIONS } from '../Filter';
+import {
+  STATUS_COLLECTION,
+  STATUS_USERS,
+  SORT_OPTIONS,
+  SORT_ARTIST_OPTIONS,
+} from '../Filter';
 import s from './FilterTag.module.scss';
 
 interface FilterTagProps {
@@ -16,14 +22,16 @@ interface FilterTagProps {
 }
 
 export const FilterTag = ({ className }: FilterTagProps): JSX.Element => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
   const {
     keyword = '',
     status = '',
     sort = '',
-    id = '',
+    seq_id = '',
     tab = 0,
   } = router.query;
+
   const resetFilter = (queryParams: Record<string, string>) => {
     router.replace({ query: queryParams });
   };
@@ -47,6 +55,12 @@ export const FilterTag = ({ className }: FilterTagProps): JSX.Element => {
       }
     }
     if (keyFilter === 'sort') {
+      if (tab == DAO_TYPE.ARTIST) {
+        return (
+          SORT_ARTIST_OPTIONS.find?.(item => item.value == value)?.label ||
+          SORT_ARTIST_OPTIONS[0].label
+        );
+      }
       return (
         SORT_OPTIONS.find?.(item => item.value == value)?.label ||
         SORT_OPTIONS[0].label
@@ -61,7 +75,7 @@ export const FilterTag = ({ className }: FilterTagProps): JSX.Element => {
         <div className={s.filterTag_tag}>
           <span>{getDisplayFilter(keyFilter, value)}</span>
           <SvgInset
-            size={18}
+            size={mobileScreen ? 14 : 18}
             svgUrl={`${CDN_URL}/icons/close-dao.svg`}
             onClick={() => {
               resetFilter({
@@ -73,14 +87,14 @@ export const FilterTag = ({ className }: FilterTagProps): JSX.Element => {
         </div>
       );
     },
-    [keyword, status, sort, id]
+    [keyword, status, sort, seq_id]
   );
-  const filterList = [keyword, status, sort, id].filter(item => item);
+  const filterList = [keyword, status, sort, seq_id].filter(item => item);
   if (filterList?.length < 1) return <></>;
 
   return (
     <div className={cn(s.filterTag, className)}>
-      {id && <>{Tag('id', id)}</>}
+      {seq_id && <>{Tag('seq_id', seq_id)}</>}
       {keyword && <>{Tag('keyword', keyword)}</>}
       {status && <>{Tag('status', status)}</>}
       {/* default alway sort by newest so don't need to show it */}

@@ -5,6 +5,10 @@ export interface IDaoProject {
   created_at: string;
   updated_at: string;
   created_by: string;
+  name: string;
+  thumbnail: string;
+  token_id: string;
+  max_supply: number;
 }
 
 export interface IGetDaoArtist {
@@ -22,7 +26,7 @@ export interface IGetDaoProjectsPayload {
   limit: number;
   cursor?: string;
   sort?: string | string[];
-  id?: string | string[];
+  seq_id?: string | string[];
 }
 
 export interface IGetDaoProjectsResponse {
@@ -41,7 +45,7 @@ export interface IGetDaoArtistsPayload {
   limit: number;
   cursor?: string;
   sort?: string | string[];
-  id?: string | string[];
+  seq_id?: string | string[];
 }
 
 export interface IGetDaoArtistsResponse {
@@ -73,3 +77,24 @@ export interface IPutDaoArtistResponse {
 }
 
 export type IPostDaoArtistResponse = IPutDaoArtistResponse;
+
+export interface IGetDaoProjectsIsHiddenPayload {
+  keyword?: string | string[];
+  limit: number;
+  cursor?: string;
+}
+
+export type IGetDaoProjectsIsHiddenResponse = IGetDaoProjectsResponse;
+
+export interface ICreateDaoProjectsPayload {
+  project_ids: Array<string>;
+}
+
+export interface ICreateDaoProjectsResponse {
+  error: {
+    message: string;
+    code: number;
+  };
+  status: boolean;
+  data: Record<string, string>;
+}
