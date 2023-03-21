@@ -111,7 +111,7 @@ const CollectionItem = ({
   const renderBuyButton = () => {
     if (!isBuyable) return null;
     return (
-      <div className={isProMode ? s.listBtns : s.row}>
+      <div className={s.row}>
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
             className={isLayoutShop ? s.wrapButtonShop : s.wrapButton}
@@ -167,7 +167,7 @@ const CollectionItem = ({
               {projectData?.name} #{text}
             </Text>
           </Link>
-          <Text fontWeight="medium" color="black-40">
+          <Text fontWeight="medium" color="black-40-solid">
             Inscription #
             {data?.inscriptionIndex ||
               ellipsisCenter({

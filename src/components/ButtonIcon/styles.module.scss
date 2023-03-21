@@ -275,6 +275,10 @@
       color: $black-20;
       border: none;
     }
+
+    svg path {
+      stroke: $white;
+    }
   }
 
   &.outline-blue-deep {

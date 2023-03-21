@@ -225,7 +225,7 @@
     background: $white;
     left: 0;
     width: 100%;
-    z-index: 7;
+    z-index: 18;
     padding: 16px;
     overflow-y: scroll;
   }
@@ -235,6 +235,15 @@
 // DARK MODE
 
 .filter_wrapper.isDark {
+  @include mobile {
+    background: $primary-brand;
+    color: $white;
+  }
+
+  .filter_title {
+    color: $white;
+  }
+
   .selectInput {
     :global(*) {
       @include hideScrollbar;
