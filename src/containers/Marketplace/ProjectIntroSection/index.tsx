@@ -6,9 +6,10 @@ import {
 import { PaymentMethod } from '@enums/mint-generative';
 import { IProjectMintFeeRate } from '@interfaces/api/project';
 import { Project } from '@interfaces/project';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import LayoutForMintout from './LayoutForMintout';
 import s from './styles.module.scss';
+import { useRouter } from 'next/router';
 
 type Props = {
   project?: Project | null;
@@ -18,12 +19,17 @@ type Props = {
 };
 
 const ProjectIntroSection = () => {
+  const router = useRouter();
+  const { query } = router;
+
   const { isLimitMinted } = useContext(ProjectLayoutContext);
+
+  const isProMode = useMemo(() => query?.mode === 'pro', [query]);
 
   return (
     <div className={`${s.wrapper} ${!isLimitMinted ? `${s.minted}` : ''}`}>
       <div className={'container'}>
-        {!isLimitMinted ? <LayoutForMintout /> : <LayoutForMinting />}
+        {isProMode ? <LayoutForMintout /> : <LayoutForMinting />}
       </div>
     </div>
   );

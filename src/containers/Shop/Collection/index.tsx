@@ -57,7 +57,9 @@ const Collection: React.FC = (): React.ReactElement => {
       id: collection.project.tokenId,
       config: {
         onClick: () => {
-          router.push(`${ROUTE_PATH.GENERATIVE}/${collection.project.tokenId}`);
+          router.push(
+            `${ROUTE_PATH.GENERATIVE}/${collection.project.tokenId}?mode=pro`
+          );
         },
       },
       render: {
@@ -75,7 +77,9 @@ const Collection: React.FC = (): React.ReactElement => {
                   e.stopPropagation();
                 }}
                 href={`${ROUTE_PATH.PROFILE}/${
-                  collection.owner?.walletAddress_btc_taproot || ''
+                  collection.owner?.walletAddress_btc_taproot ||
+                  collection.owner?.walletAddress ||
+                  ''
                 }`}
                 className={s.owner}
               >

@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import s from './ActivityChart.module.scss';
+import { Empty } from '@components/Collection/Empty';
 
 enum chartFilters {
   // ONE_DAY = 'day',
@@ -118,7 +119,11 @@ const ActivityChart = () => {
         </div>
       </div>
       <div className={s.wrapper_chart}>
-        <LineChart chartData={chartData} />
+        {chartData && chartData.datasets[0].data.length === 0 ? (
+          <Empty content="No Data Available." />
+        ) : (
+          <LineChart chartData={chartData} />
+        )}
       </div>
     </div>
   );

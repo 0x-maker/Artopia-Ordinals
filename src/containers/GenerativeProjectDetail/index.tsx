@@ -35,7 +35,7 @@ const GenerativeProjectDetail: React.FC<{
     // isLoaded,
     // isNextPageLoaded,
     // marketplaceData,
-    isLimitMinted,
+    isProMode,
   } = useContext(GenerativeProjectDetailContext);
 
   const user = useAppSelector(getUserSelector);
@@ -93,7 +93,7 @@ const GenerativeProjectDetail: React.FC<{
         />
         <Container>
           <ClientOnly>
-            {isLimitMinted ? (
+            {!isProMode ? (
               <MintLayout />
             ) : (
               <ShopLayout
