@@ -57,4 +57,8 @@
 
 .wrapper_chart {
   margin-bottom: rem(24);
+
+  :global(.empty) {
+    padding: 0;
+  }
 }

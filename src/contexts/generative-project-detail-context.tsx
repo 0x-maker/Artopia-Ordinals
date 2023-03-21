@@ -108,6 +108,7 @@ export interface IGenerativeProjectDetailContext {
   setFilterActivities: Dispatch<SetStateAction<string>>;
   isLayoutShop: boolean;
   setIsLayoutShop: Dispatch<SetStateAction<boolean>>;
+  isProMode: boolean;
 }
 
 const initialValue: IGenerativeProjectDetailContext = {
@@ -211,6 +212,7 @@ const initialValue: IGenerativeProjectDetailContext = {
     return;
   },
   projectItemsTraitList: null,
+  isProMode: false,
 };
 
 export const GenerativeProjectDetailContext =
@@ -263,6 +265,11 @@ export const GenerativeProjectDetailProvider: React.FC<PropsWithChildren> = ({
   const { projectID } = router?.query as {
     projectID: string;
   };
+
+  const isProMode = useMemo(
+    () => router?.query?.mode === 'pro',
+    [router?.query]
+  );
 
   const isWhitelistProject = useMemo(() => {
     return router.pathname === ROUTE_PATH.SATOSHIS_FREE_MINT;
@@ -616,6 +623,7 @@ export const GenerativeProjectDetailProvider: React.FC<PropsWithChildren> = ({
       setFilterActivities,
       isLayoutShop,
       setIsLayoutShop,
+      isProMode,
     };
   }, [
     projectData,
@@ -662,7 +670,7 @@ export const GenerativeProjectDetailProvider: React.FC<PropsWithChildren> = ({
     isLimitMinted,
     collectionActivities,
     setFilterActivities,
-
+    isProMode,
     isLayoutShop,
     setIsLayoutShop,
   ]);
