@@ -118,8 +118,9 @@ export default function App({ Component, pageProps }: MyAppProps) {
         <meta name="twitter:image" content={image ?? SEO_IMAGE} />
         <meta
           name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0"
+          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
+
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fff" />
         <meta name="theme-color" content="#ffffff"></meta>

@@ -41,4 +41,131 @@
   &_mb24 {
     margin-bottom: rem(24px);
   }
+
+  &_modal {
+    [class*="_title"] {
+      font-weight: 500;
+      font-size: rem(24px);
+      line-height: rem(34px);
+      color: #1c1c1c;
+    }
+  }
+
+  &_collection {
+    margin-bottom: rem(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &_info {
+      margin-left: rem(12px);
+      font-weight: 500;
+      font-size: rem(14px);
+      line-height: rem(22px);
+      color: #2e2e2e;
+    }
+
+    &_output {
+      font-weight: 400;
+    }
+
+    &_createdDate {
+      font-size: 12px;
+      line-height: 20px;
+      color: #5b5b5b;
+    }
+
+    &_date {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 22px;
+      color: #5b5b5b;
+    }
+
+    &_checkbox {
+      position: absolute;
+      right: rem(20px);
+      bottom: 0;
+
+      &:hover {
+        &_checkmark {
+          background-color: $black-20;
+        }
+      }
+
+      &_checked {
+        background-color: $black-100 !important;
+        position: relative;
+
+        &::after {
+          position: absolute;
+          display: block;
+          left: rem(9px);
+          top: rem(4px);
+          width: rem(6px);
+          height: rem(12px);
+          border-radius: 1px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+          content: "";
+        }
+      }
+
+      &_checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: rem(24px);
+        width: rem(24px);
+        border: 1px solid $black-20;
+        background-color: $white;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  &_hr {
+    margin: rem(16px) 0;
+    border: 1px solid #cecece;
+  }
+
+  &_collectionBtn {
+    min-width: rem(192px);
+    margin-top: rem(10px);
+    justify-content: center;
+  }
+
+  &_list {
+    max-height: rem(350px);
+    overflow-y: auto;
+  }
+
+  &_loadingWrapper {
+    height: rem(200px);
+    position: relative;
+  }
+
+  @include mobile {
+    display: flex;
+    flex-wrap: wrap;
+
+    &_text {
+      margin-right: 0;
+      font-size: rem(14px);
+      line-height: rem(22px);
+    }
+
+    &_btn {
+      margin-top: rem(4px);
+      padding: rem(3px) rem(12px);
+      font-weight: 500;
+      font-size: rem(14px);
+      line-height: rem(24px);
+    }
+  }
 }
