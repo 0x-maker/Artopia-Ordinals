@@ -4,6 +4,7 @@ import { ROUTE_PATH } from '@constants/route-path';
 import { LogLevel } from '@enums/log-level';
 import { IGetTokenActivitiesResponse } from '@interfaces/api/nfts';
 import {
+  IGetProjectItemsQuery,
   IProjectMarketplaceData,
   IProjectMintFeeRate,
 } from '@interfaces/api/project';
@@ -393,21 +394,27 @@ export const GenerativeProjectDetailProvider: React.FC<PropsWithChildren> = ({
         const rarityMin = filterRarity?.from || '1';
         const rarityMax = filterRarity?.to || '100';
 
+        const filterParams: IGetProjectItemsQuery = {
+          limit: FETCH_NUM,
+          page: page,
+          sort,
+          keyword: searchToken || '',
+          attributes: filterTraits || '',
+          is_buy_now: filterBuyNow || '',
+          from_price: filterPrice.from || '',
+          to_price: filterPrice.to || '',
+          // rarity: `${rarityMin},${rarityMax}`,
+        };
+
+        if (filterRarity && filterRarity.from && filterRarity.to) {
+          filterParams.rarity = `${rarityMin},${rarityMax}`;
+        }
+
         const res = await getProjectItems(
           {
             contractAddress: projectData.genNFTAddr,
           },
-          {
-            limit: FETCH_NUM,
-            page: page,
-            sort,
-            keyword: searchToken || '',
-            attributes: filterTraits || '',
-            is_buy_now: filterBuyNow || '',
-            from_price: filterPrice.from || '',
-            to_price: filterPrice.to || '',
-            rarity: `${rarityMin},${rarityMax}`,
-          }
+          filterParams
         );
         if (res.result) {
           if (page === 1) {

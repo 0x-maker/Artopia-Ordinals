@@ -140,28 +140,29 @@
     &_price_price {
       &_wrap {
         display: flex;
+        flex-direction: column;
       }
 
-      &_minted {
-        position: relative;
+      // &_minted {
+      //   position: relative;
 
-        &:not(.isOnlyMintedShow) {
-          margin-left: 0.5em;
-          padding-left: 0.7em;
+      //   // &:not(.isOnlyMintedShow) {
+      //   //   margin-left: 0.5em;
+      //   //   padding-left: 0.7em;
 
-          &::before {
-            content: "";
-            display: block;
-            border: 2px solid rgb(0 0 0 / 40%);
-            width: 0;
-            height: 0;
-            left: 0;
-            top: 0.7em;
-            position: absolute;
-            border-radius: 50%;
-          }
-        }
-      }
+      //   //   &::before {
+      //   //     content: '';
+      //   //     display: block;
+      //   //     border: 2px solid rgb(0 0 0 / 40%);
+      //   //     width: 0;
+      //   //     height: 0;
+      //   //     left: 0;
+      //   //     top: 0.7em;
+      //   //     position: absolute;
+      //   //     border-radius: 50%;
+      //   //   }
+      //   // }
+      // }
     }
   }
 

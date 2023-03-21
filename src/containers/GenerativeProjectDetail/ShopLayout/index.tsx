@@ -54,7 +54,7 @@ const ShopLayout = (props: Props) => {
   } = useContext(GenerativeProjectDetailContext);
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);
-  const [isListLayout, setIsListLayout] = useState(false);
+  const [isListLayout, setIsListLayout] = useState(true);
   const [componentDidLoad, setComponentDidLoad] = useState(false);
 
   useEffect(() => {

@@ -2,8 +2,8 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-clamp: 6;
-  -webkit-line-clamp: 6;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
 
   &.isShowMore {
     line-clamp: unset;

@@ -71,6 +71,18 @@
   .shares_wrapper {
     margin-top: rem(16);
     margin-bottom: rem(24);
+
+    .shares {
+      display: flex;
+      gap: rem(8px);
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   :global(.select__control) {
