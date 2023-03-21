@@ -34,7 +34,7 @@ const LayoutForMintout = () => {
           <div className={`${s.projectInfo_content}`}>
             <div className={s.info_inner}>
               <div className={s.projectName}>
-                <Stack direction="horizontal" gap={4}>
+                <Stack direction="horizontal" className="justify-between">
                   <div className={s.projectName_creator}>
                     {isHasBtcWallet ? (
                       <Link

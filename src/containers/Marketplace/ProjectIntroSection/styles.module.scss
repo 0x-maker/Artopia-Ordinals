@@ -29,7 +29,7 @@
     width: 100%;
 
     @include min-pc {
-      flex: 1;
+      flex: 0.25;
     }
   }
 
@@ -90,6 +90,12 @@
   display: flex;
   align-items: center;
   gap: rem(16);
+  width: 100%;
+  padding-right: rem(24);
+
+  > div {
+    width: 100%;
+  }
 }
 
 .info_wrapper {
