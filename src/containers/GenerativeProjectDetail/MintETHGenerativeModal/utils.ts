@@ -6,6 +6,7 @@ import { Project } from '@interfaces/project';
 import { PaymentMethod } from '@enums/mint-generative';
 import { LogLevel } from '@enums/log-level';
 import log from '@utils/logger';
+import { IProjectMintFeeRate } from '@interfaces/api/project';
 
 const LOG_PREFIX = 'MintService';
 interface IResponse {
@@ -22,6 +23,8 @@ export const getBTCAddress = async ({
   paymentMethod,
   quantity,
   rate,
+  isCutomFeeRate,
+  estMintFeeInfo,
 }: {
   walletAddress: string;
   refundAddress: string;
@@ -29,6 +32,8 @@ export const getBTCAddress = async ({
   paymentMethod: PaymentMethod;
   quantity: number;
   rate?: number;
+  isCutomFeeRate?: boolean;
+  estMintFeeInfo?: IProjectMintFeeRate;
 }): Promise<IResponse> => {
   let _address = '';
   let _price: string = projectData.mintPrice;
@@ -44,6 +49,8 @@ export const getBTCAddress = async ({
         refundUserAddress: refundAddress,
         quantity,
         feeRate: rate,
+        isCutomFeeRate,
+        estMintFeeInfo,
       });
 
     sendAAEvent({
