@@ -5,9 +5,9 @@ import { isProduction } from '@utils/common';
 export const MENU_HEADER = [
   {
     id: 'menu-2',
-    name: 'Drops',
-    route: ROUTE_PATH.DROPS,
-    activePath: 'drops',
+    name: 'Art on Bitcoin',
+    route: ROUTE_PATH.ART_ON_BITCOIN,
+    activePath: 'art-on-bitcoin',
   },
   {
     id: 'menu-1',
@@ -77,9 +77,9 @@ export const MENU_HEADER = [
   },
   {
     id: 'menu-13',
-    name: 'Marketplace',
-    route: ROUTE_PATH.MARKETPLACE,
-    activePath: 'marketplace',
+    name: 'Pro',
+    route: ROUTE_PATH.PRO,
+    activePath: 'pro',
   },
   {
     id: 'menu-14',

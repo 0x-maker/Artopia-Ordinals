@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import Table from '@components/Table';
 import s from './styles.module.scss';
 import { Loading } from '@components/Loading';
@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import useAsyncEffect from 'use-async-effect';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { HOST_ORDINALS_EXPLORER } from '@constants/config';
-import Link from 'next/link';
+import Link from '@components/Link';
 
 const TABLE_HEADINGS = [
   'Name',
@@ -41,22 +41,62 @@ const Items: React.FC = (): React.ReactElement => {
   };
 
   const tableData = itemList.map(item => {
-    const seller = (): string => {
+    const seller = (): React.ReactNode => {
       if (item.sellerDisplayName) {
-        return item.sellerDisplayName;
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.sellerAddress}`}
+          >
+            {item.sellerDisplayName}
+          </Link>
+        );
       }
       if (item.sellerAddress) {
-        return ellipsisCenterBTCAddress({ str: item.sellerAddress });
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.sellerAddress}`}
+          >
+            {ellipsisCenterBTCAddress({ str: item.sellerAddress })}
+          </Link>
+        );
       }
       return '—';
     };
 
-    const buyer = (): string => {
+    const buyer = (): React.ReactNode => {
       if (item.buyerDisplayName) {
-        return item.buyerDisplayName;
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.buyerAddress}`}
+          >
+            {item.buyerDisplayName}
+          </Link>
+        );
       }
       if (item.buyerAddress) {
-        return ellipsisCenterBTCAddress({ str: item.buyerAddress });
+        return (
+          <Link
+            isKeepDefaultEvent
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              e.stopPropagation();
+            }}
+            href={`${ROUTE_PATH.PROFILE}/${item.buyerAddress}`}
+          >
+            {ellipsisCenterBTCAddress({ str: item.buyerAddress })}
+          </Link>
+        );
       }
       return '—';
     };
@@ -112,30 +152,8 @@ const Items: React.FC = (): React.ReactElement => {
             </span>
           </div>
         ),
-        seller: (
-          <div className={s.owners}>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              href={`${ROUTE_PATH.PROFILE}/${item.sellerAddress}`}
-            >
-              {seller()}
-            </Link>
-          </div>
-        ),
-        buyer: (
-          <div className={s.owners}>
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              href={`${ROUTE_PATH.PROFILE}/${item.buyerAddress}`}
-            >
-              {buyer()}
-            </Link>
-          </div>
-        ),
+        seller: <div className={s.owners}>{seller()}</div>,
+        buyer: <div className={s.owners}>{buyer()}</div>,
       },
     };
   });
