@@ -1,5 +1,6 @@
 .wrapper {
   // flex: 1.2;
+  max-height: calc(100vh - #{rem(220px)} - #{rem(330px)});
 
   &_header {
     position: relative;

@@ -1,5 +1,6 @@
 .wrapper {
-  max-height: rem(320px);
+  // max-height: rem(320px);
+  height: calc(100% - #{rem(64)});
   overflow: auto;
 
   @include disable-scrollbar;
