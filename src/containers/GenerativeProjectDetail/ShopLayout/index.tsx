@@ -305,7 +305,9 @@ const ShopLayout = (props: Props) => {
           >
             <div
               className={`${collectionStyles.tokenList} ${
-                listItems && listItems.length > 0 && styles.spacing
+                listItems &&
+                listItems.length > 0 &&
+                (isListLayout ? styles.spacing : styles.spacing_grid)
               }`}
             >
               {listItems && listItems.length > 0 && isListLayout ? (
