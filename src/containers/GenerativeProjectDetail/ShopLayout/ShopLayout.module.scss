@@ -14,10 +14,6 @@
 
 .icCheckbox {
   cursor: pointer;
-
-  svg rect {
-    fill: #4f43e2;
-  }
 }
 
 .textItems {
@@ -371,5 +367,11 @@
 
   .divider {
     background-color: $border-dark;
+  }
+}
+
+.isChecked{
+  svg rect{
+    fill: #4f43e2;
   }
 }

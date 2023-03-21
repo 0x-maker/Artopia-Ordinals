@@ -18,33 +18,38 @@
     text-align: right;
   }
 
-  :global(thead th) {
-    font-size: 14px;
-    font-weight: 500;
+  thead th {
     line-height: rem(24px);
-    color: $black-40;
+    color: $black-40-solid;
     position: sticky;
     top: 0;
-    background-color: #fff;
+    background-color: $primary-brand;
     z-index: 10;
   }
 
-  :global(tbody tr) {
+  tbody tr {
     border: none !important;
 
-    &:hover {
-      background-color: $primary-light;
+    &:hover, &:global(.isSelectedOrder) {
+      background-color: $border-dark !important;
     }
   }
 
-  :global(tbody td) {
+  tbody td {
     padding-top: rem(4);
     padding-bottom: rem(4);
     text-align: right;
     vertical-align: middle;
+    color: $white;
+    a{
+      color: $white;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
   }
 
-  :global(tbody td:first-of-type) {
+  tbody td:first-of-type {
     width: rem(20);
   }
 }
@@ -62,4 +67,10 @@
 
 .checkbox {
   cursor: pointer;
+}
+
+.isChecked{
+  svg rect{
+    fill: #4f43e2;
+  }
 }

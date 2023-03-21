@@ -9,6 +9,12 @@
   cursor: pointer;
 }
 
+.isChecked {
+  svg rect {
+    fill: #4f43e2;
+  }
+}
+
 .itemThumbnail {
   width: 40px;
   height: 40px;

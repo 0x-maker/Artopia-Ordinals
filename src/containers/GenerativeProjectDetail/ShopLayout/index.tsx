@@ -303,7 +303,9 @@ const ShopLayout = (props: Props) => {
                   selectedOrders.length > 0 ? 'ic_checkboxed' : 'ic_checkbox'
                 }.svg`}
                 onClick={onClickItems}
-                className={styles.icCheckbox}
+                className={`${styles.icCheckbox} ${
+                  selectedOrders.length > 0 ? styles.isChecked : ''
+                }`}
               />
               <p className={styles.textItems} onClick={onClickItems}>
                 {titleItems}

@@ -18,6 +18,12 @@
       }
     }
 
+    tbody{
+      tr:hover{
+        background: $border-dark;
+      }
+    }
+
     td {
       color: $white;
     }

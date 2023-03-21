@@ -90,12 +90,11 @@ const ListViewItem = ({ data }: Props) => {
   };
 
   return (
-    <tr
-      style={{ backgroundColor: isSelectedOrder ? '#C6C7F8' : 'transparent' }}
-    >
+    <tr className={`${isSelectedOrder ? 'isSelectedOrder' : ''}`}>
       <td className={styles.checkbox} onClick={onSelectItem}>
         {isBuyable && (
           <SvgInset
+            className={isSelectedOrder ? styles.isChecked : ''}
             size={14}
             svgUrl={`${CDN_URL}/icons/${
               isSelectedOrder ? 'ic_checkboxed' : 'ic_checkbox'
