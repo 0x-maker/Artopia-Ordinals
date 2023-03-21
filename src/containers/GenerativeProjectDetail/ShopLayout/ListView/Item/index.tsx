@@ -110,7 +110,9 @@ const ListViewItem = ({ data }: Props) => {
 
   return (
     <tr
-      style={{ backgroundColor: isSelectedOrder ? '#C6C7F8' : 'transparent' }}
+      style={{
+        backgroundColor: isSelectedOrder ? '#C6C7F8' : 'transparent',
+      }}
     >
       <td className={styles.checkbox} onClick={onSelectItem}>
         {isBuyable && (
@@ -148,7 +150,11 @@ const ListViewItem = ({ data }: Props) => {
             className={styles.itemName}
           >
             <Link href={tokenUrl}>
-              <Text fontWeight="medium" color="primary-color">
+              <Text
+                className={styles.itemTokenNumber}
+                fontWeight="medium"
+                color="primary-color"
+              >
                 {projectData?.name} #{text}
               </Text>
             </Link>
