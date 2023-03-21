@@ -299,7 +299,6 @@ const CollectionItem = ({
                     )}
                   </div>
                 </Stack>
-                {renderBuyButton()}
                 {showInscriptionID && (
                   <Heading
                     as={isLayoutShop ? 'p' : 'h4'}
@@ -308,6 +307,7 @@ const CollectionItem = ({
                     #{data?.inscriptionIndex}
                   </Heading>
                 )}
+                {renderBuyButton()}
               </div>
             </div>
           )}
