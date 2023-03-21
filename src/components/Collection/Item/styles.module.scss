@@ -20,6 +20,8 @@
     }
   }
 
+
+
   &_thumb {
     position: relative;
     width: 100%;
@@ -37,8 +39,8 @@
     &_selectIcon {
       display: flex;
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: rem(8px);
+      left: rem(8px);
       z-index: 100;
     }
 
@@ -212,6 +214,39 @@
       padding: rem(16px);
     }
   }
+
+  &.isDark {
+    .collectionCard_inner_wrapper {
+      background: $primary-brand;
+
+      &:hover {
+        border-color: $white;
+      }
+
+      &.isSelected {
+        border: 1px solid #4F43E2;
+        .collectionCard_thumb{
+          &_selectIcon{
+            svg rect{
+              fill: #4F43E2;
+            }
+          }
+        }
+      }
+    }
+
+    .collectionCard_thumb{
+      background: #333333;
+      svg{
+        width: rem(16px);
+        height: rem(16px);
+      }
+    }
+
+    .collectionCard_info_title{
+      color: $white;
+    }
+  }
 }
 
 .collectionCard_owner {
@@ -318,6 +353,15 @@
     flex-direction: row;
     gap: 6px;
   }
+}
+
+
+.listBtns{
+ .wrapButton:nth-child(1){
+   button{
+     margin-bottom: 16px;
+   }
+ }
 }
 
 .wrapButton {

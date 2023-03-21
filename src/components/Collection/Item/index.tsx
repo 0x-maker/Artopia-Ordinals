@@ -46,6 +46,7 @@ const CollectionItem = ({
     selectedOrders,
     removeSelectedOrder,
     addSelectedOrder,
+    isProMode,
   } = useContext(GenerativeProjectDetailContext);
 
   const { isWaiting, isBuyETH, isBuyBTC, isBuyable } = usePurchaseStatus({
@@ -102,7 +103,7 @@ const CollectionItem = ({
   const renderBuyButton = () => {
     if (!isBuyable) return null;
     return (
-      <div className={s.row}>
+      <div className={isProMode ? s.listBtns : s.row}>
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
             className={s.wrapButton}
@@ -181,7 +182,7 @@ const CollectionItem = ({
     <div
       className={`${s.collectionCard} ${className} ${
         isLayoutShop ? s.isShop : ''
-      }`}
+      } ${isProMode ? s.isDark : ''}`}
     >
       <div
         className={cs(

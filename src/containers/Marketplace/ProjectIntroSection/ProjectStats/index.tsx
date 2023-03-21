@@ -11,7 +11,7 @@ import { IFirstSaleStatsResponse } from '@interfaces/api/marketplace';
 import { getFirstSaleStats } from '@services/marketplace';
 
 export const ProjectStats = (): JSX.Element => {
-  const { project, isRoyalty } = useContext(ProjectLayoutContext);
+  const { project, isRoyalty, isDarkMode } = useContext(ProjectLayoutContext);
   const [marketplaceData, setMarketplaceData] =
     useState<IProjectMarketplaceData>();
   const [firstSaleVal, setFirstSaleVal] =
@@ -37,7 +37,7 @@ export const ProjectStats = (): JSX.Element => {
   }, [project]);
 
   return (
-    <div className={s.stats}>
+    <div className={`${s.stats} ${isDarkMode ? s.dark : ''}`}>
       <div className={s.stats_item}>
         <Text size="12" fontWeight="medium">
           Items
@@ -75,10 +75,6 @@ export const ProjectStats = (): JSX.Element => {
             Floor Price
           </Text>
           <Heading className={s.stats_item_text} as="h6" fontWeight="medium">
-            {/* <SvgInset
-              size={24}
-              svgUrl={`${CDN_URL}/icons/Frame%20427319538.svg`}
-            />{' '} */}
             {formatBTCPrice(project?.btcFloorPrice)} BTC
           </Heading>
         </div>

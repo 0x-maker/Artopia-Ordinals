@@ -25,22 +25,6 @@ const LayoutForMintout = () => {
         <div className={`${s.projectInfo_left}`}>
           <div className={`${s.projectInfo_content}`}>
             <div className={s.info_inner}>
-              {/* <div
-                className={`${s.projectCard_thumb} ${
-                  thumb === LOGO_MARKETPLACE_URL ? s.isDefault : ''
-                }`}
-              >
-                <div className={s.projectCard_thumb_inner}>
-                  <img
-                    onError={onThumbError}
-                    src={thumb}
-                    alt={project?.name}
-                    loading={'lazy'}
-                    ref={imgRef}
-                    onLoad={handleOnImgLoaded}
-                  />
-                </div>
-              </div> */}
               <div className={s.projectName}>
                 <div className={s.projectName_creator}>
                   {isHasBtcWallet ? (
@@ -57,6 +41,7 @@ const LayoutForMintout = () => {
                         className={s.projectHeader_creator}
                         as="h6"
                         fontWeight="medium"
+                        color={'white'}
                       >
                         {project && filterCreatorName(project)}
                       </Heading>
@@ -73,6 +58,7 @@ const LayoutForMintout = () => {
                         className={s.projectHeader_creator}
                         as="h6"
                         fontWeight="medium"
+                        color={'white'}
                       >
                         {project && filterCreatorName(project)}
                       </Heading>
@@ -87,14 +73,19 @@ const LayoutForMintout = () => {
                   />
                 </div>
                 <div className={s.creator_info_name}>
-                  <Heading as="h6" fontWeight="medium" className="font-italic">
+                  <Heading
+                    as="h6"
+                    fontWeight="medium"
+                    className="font-italic"
+                    color={'white'}
+                  >
                     {project?.name}
                   </Heading>
                   {isEdit && (
                     <div className={s.projectHeader_btn}>
                       <ButtonIcon
                         sizes="xsmall"
-                        variants={'ghost'}
+                        variants={'ghost-darkmode'}
                         endIcon={<SvgInset svgUrl={IC_EDIT_PROJECT} />}
                         onClick={() =>
                           router.push(

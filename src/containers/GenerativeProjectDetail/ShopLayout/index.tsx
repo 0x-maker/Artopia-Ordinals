@@ -51,6 +51,7 @@ const ShopLayout = (props: Props) => {
     isNextPageLoaded,
     handleFetchNextPage,
     showFilter,
+    isProMode,
   } = useContext(GenerativeProjectDetailContext);
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);
@@ -114,7 +115,7 @@ const ShopLayout = (props: Props) => {
   }, []);
 
   return (
-    <div>
+    <div className={`${isProMode ? `${styles.isDark} ${s.isDark}` : ''}`}>
       {mobileScreen && (
         <>
           <div className={styles.filterWrapper} id="PROJECT_LIST">
@@ -131,7 +132,7 @@ const ShopLayout = (props: Props) => {
               tabClassName={styles.tab}
               eventKey="filter"
               title={
-                <Text size="18" fontWeight="medium" color="primary-color">
+                <Text size="18" fontWeight="medium">
                   Filter
                 </Text>
               }
@@ -149,7 +150,7 @@ const ShopLayout = (props: Props) => {
               tabClassName={styles.tab}
               eventKey="desc"
               title={
-                <Text size="18" fontWeight="medium" color="primary-color">
+                <Text size="18" fontWeight="medium">
                   Description
                 </Text>
               }
@@ -161,21 +162,37 @@ const ShopLayout = (props: Props) => {
                   className={styles.overflow}
                 />
                 <div className={s.projectAttribute}>
-                  <Text size="14" color="black-40" className={s.attrs_item}>
-                    Created date: {mintedDate}
+                  <Text
+                    size="14"
+                    color="black-40-solid"
+                    className={s.attrs_item}
+                  >
+                    Created date:{' '}
+                    <span className={'text-white'}>{mintedDate}</span>
                   </Text>
                   {!!categoryName && (
-                    <Text size="14" color="black-40" className={s.attrs_item}>
+                    <Text
+                      size="14"
+                      color="black-40-solid"
+                      className={s.attrs_item}
+                    >
                       Category:{' '}
                       <Link
                         href={`${ROUTE_PATH.DROPS}?category=${categoryName}`}
                       >
-                        {categoryName}
+                        <span className={'text-white'}>{categoryName}</span>
                       </Link>
                     </Text>
                   )}
-                  <Text size="14" color="black-40" className={s.attrs_item}>
-                    Fully on-chain: {projectInfo?.isFullChain ? 'Yes' : 'No'}
+                  <Text
+                    size="14"
+                    color="black-40-solid"
+                    className={s.attrs_item}
+                  >
+                    Fully on-chain:{' '}
+                    <span className={'text-white'}>
+                      {projectInfo?.isFullChain ? 'Yes' : 'No'}{' '}
+                    </span>
                   </Text>
                 </div>
                 <div className={styles.shares_wrapper}>
@@ -189,7 +206,6 @@ const ShopLayout = (props: Props) => {
                         >
                           <ButtonIcon
                             sizes="small"
-                            variants="outline-small"
                             className={s.projectBtn}
                             startIcon={
                               <SvgInset
@@ -241,13 +257,13 @@ const ShopLayout = (props: Props) => {
               tabClassName={styles.tab}
               eventKey="items"
               title={
-             
+
               }
             > */}
           <div className={styles.view_option}>
             <Stack direction="horizontal" gap={3} className={styles.view_title}>
               <SvgInset size={14} svgUrl={`${CDN_URL}/icons/ic-image.svg`} />
-              <Text size="18" fontWeight="medium" color="primary-color">
+              <Text size="18" fontWeight="medium" color="white">
                 Items {total > 0 && `(${total})`}
               </Text>
             </Stack>
@@ -358,7 +374,7 @@ const ShopLayout = (props: Props) => {
         </div>
         <div className={`${styles.layout_right}`}>
           <ActivityStats />
-          <div className={styles.divider}></div>
+          <div className={styles.divider} />
           <ActivityChart />
         </div>
       </div>

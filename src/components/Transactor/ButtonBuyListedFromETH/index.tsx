@@ -7,6 +7,7 @@ import { WalletContext } from '@contexts/wallet-context';
 import s from './styles.module.scss';
 import { formatEthPrice } from '@utils/format';
 import ModalBuyListed from '@components/Transactor/ButtonBuyListedFromETH/Modal';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 interface IProps {
   className?: string;
@@ -31,6 +32,7 @@ const ButtonBuyListedFromETH = React.memo(
     const [isShow, setShow] = React.useState(false);
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
+    const { isProMode } = useContext(GenerativeProjectDetailContext);
 
     const openModal = async (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -55,7 +57,7 @@ const ButtonBuyListedFromETH = React.memo(
       >
         <ButtonIcon
           sizes={sizes}
-          variants="outline"
+          variants={`${isProMode ? 'outline-darkmode' : 'outline'}`}
           className={cs(s.container, `${className}`)}
           onClick={openModal}
         >

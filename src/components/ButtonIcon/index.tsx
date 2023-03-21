@@ -10,7 +10,9 @@ type ButtonVariantsType =
   | 'outline'
   | 'outline-small'
   | 'outline-blue-deep'
+  | 'outline-darkmode'
   | 'ghost'
+  | 'ghost-darkmode'
   | 'filter'
   | 'blue'
   | 'blue-deep';

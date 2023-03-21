@@ -1,12 +1,12 @@
 .ranking {
-  border-top: 1px solid #2e2e2e;
+  border-top: 1px solid $border-dark;
   transition: background-color 0.4s $easeOutCubic;
   text-decoration: none;
   display: block;
   padding: rem(16px);
 
   &:last-child {
-    border-bottom: 1px solid #2e2e2e;
+    border-bottom: 1px solid $border-dark;
   }
 
   &_inner {
@@ -44,7 +44,7 @@
   }
 
   &:hover {
-    background-color: #2e2e2e;
+    background-color: $border-dark;
 
     .pointValue {
       transform: translateX(-60px);

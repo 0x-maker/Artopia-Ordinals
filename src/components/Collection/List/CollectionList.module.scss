@@ -51,7 +51,9 @@
 .collectionList {
   z-index: 1;
   position: relative;
-  background-color: $white;
+  &:not(.isDark){
+    background-color: $white;
+  }
 }
 
 .list_empty {

@@ -21,6 +21,7 @@ import { getUserSelector } from '@redux/user/selector';
 import MintLayout from './MintLayout';
 import MintWalletModal from './MintWalletModal';
 import ShopLayout from './ShopLayout';
+import s from './styles.module.scss';
 
 const GenerativeProjectDetail: React.FC<{
   isWhitelist?: boolean;
@@ -29,12 +30,6 @@ const GenerativeProjectDetail: React.FC<{
   const {
     projectData: projectInfo,
     projectFeeRate,
-    // listItems,
-    // handleFetchNextPage,
-    // total,
-    // isLoaded,
-    // isNextPageLoaded,
-    // marketplaceData,
     isProMode,
   } = useContext(GenerativeProjectDetailContext);
 
@@ -74,7 +69,9 @@ const GenerativeProjectDetail: React.FC<{
 
   return (
     <>
-      <section>
+      <section
+        className={`${s.projectDetailTemplate} ${isProMode ? s.isDark : ''}`}
+      >
         <ProjectIntroSection
           openMintBTCModal={(chain: PaymentMethod) => {
             onButtonClick({
@@ -90,6 +87,7 @@ const GenerativeProjectDetail: React.FC<{
           project={project ? project : projectInfo}
           projectFeeRate={projectFeeRate}
           isWhitelist={isWhitelist}
+          isDarkMode={isProMode}
         />
         <Container>
           <ClientOnly>

@@ -9,8 +9,8 @@
   --s-sec-color: #898989;
 
   &.dark {
-    --s-wrapper-bg-color: #2e2e2e;
-    --s-searchresult-wrapper-bg-color: #2e2e2e;
+    --s-wrapper-bg-color: #{$border-dark};
+    --s-searchresult-wrapper-bg-color: #{$border-dark};
     --s-searchresult-wrapper-boxshadow: rgb(0 0 0 / 15%);
     --s-searchresult-item-focus: #5b5b5b;
     --s-searchresult-item-link-color: #fff;

@@ -540,6 +540,11 @@
   border-top: 1px solid $black-5;
   border-bottom: 1px solid $black-5;
 
+  &.isDark {
+    border-top: 1px solid $border-dark;
+    border-bottom: 1px solid $border-dark;
+  }
+
   .shares {
     justify-content: unset;
     gap: rem(24px);
@@ -605,6 +610,28 @@
     img {
       height: rem(20px);
       width: rem(20px);
+    }
+  }
+}
+
+.isDark{
+  .projectBtn {
+    border: 1px solid $white !important;
+    svg,
+    path {
+      fill: $white;
+    }
+
+    &:hover {
+      background-color: $black-100;
+      color: $white;
+    }
+  }
+
+  .reportBtn {
+    svg,
+    path {
+      fill: $white;
     }
   }
 }

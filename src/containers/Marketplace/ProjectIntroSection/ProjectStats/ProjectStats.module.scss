@@ -27,4 +27,16 @@
       text-transform: uppercase;
     }
   }
+
+  &.dark {
+    .stats_item {
+      > p:first-of-type {
+        color: $black-40-solid;
+      }
+
+      > h6 {
+        color: $white;
+      }
+    }
+  }
 }

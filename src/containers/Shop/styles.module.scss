@@ -1,4 +1,5 @@
 .shopController {
+  background-color: $primary-brand;
   padding: {
     top: rem(24);
     bottom: rem(24);
@@ -58,19 +59,19 @@
 
         &:hover {
           .tabName {
-            color: $black-60;
+            color: white;
           }
 
           .tabIcon {
             :global(svg path) {
-              stroke: $black-60;
+              stroke: white;
             }
           }
 
           .tabIcon {
             &.tabItemIcon {
               :global(svg path) {
-                fill: $black-60;
+                fill: white;
                 stroke: none;
               }
             }
@@ -80,7 +81,7 @@
 
       .tabName {
         text-transform: capitalize;
-        color: $black-40;
+        color: $black-40-solid;
         font-weight: 500;
         font-size: rem(16);
         line-height: rem(26);
@@ -88,14 +89,14 @@
 
       .tabIcon {
         :global(svg path) {
-          stroke: $black-40;
+          stroke: $black-40-solid;
         }
       }
 
       .tabIcon {
         &.tabItemIcon {
           :global(svg path) {
-            fill: $black-40;
+            fill: $black-40-solid;
             stroke: none;
           }
         }
@@ -103,22 +104,23 @@
     }
 
     :global(.nav-link.active) {
-      border-bottom: 2px solid $primary-brand;
+      background: none;
+      border-bottom: 2px solid $white;
 
       .tabName {
-        color: $primary-brand;
+        color: $white;
       }
 
       .tabIcon {
         :global(svg path) {
-          stroke: $primary-brand;
+          stroke: $white;
         }
       }
 
       .tabIcon {
         &.tabItemIcon {
           :global(svg path) {
-            fill: $primary-brand;
+            fill: $white;
             stroke: none;
           }
         }

@@ -19,9 +19,11 @@ const TABLE_COLLECTION_ACTIVITIES_HEADING = [
 ];
 
 const CollectionActivityTable = () => {
-  const { collectionActivities: listData, projectData } = useContext(
-    GenerativeProjectDetailContext
-  );
+  const {
+    collectionActivities: listData,
+    projectData,
+    isProMode,
+  } = useContext(GenerativeProjectDetailContext);
 
   const router = useRouter();
 
@@ -154,7 +156,7 @@ const CollectionActivityTable = () => {
         endMessage={<></>}
       > */}
       {/* <InscriptionList inscriptions={nftList} /> */}
-      <div className={s.wrapper}>
+      <div className={`${s.wrapper} ${isProMode ? s.isDark : ''}`}>
         <Table
           tableHead={TABLE_COLLECTION_ACTIVITIES_HEADING}
           data={
