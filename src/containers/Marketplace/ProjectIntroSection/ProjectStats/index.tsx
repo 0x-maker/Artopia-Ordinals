@@ -83,7 +83,7 @@ export const ProjectStats = (): JSX.Element => {
           </Heading>
         </div>
       )}
-      {!!firstSaleVal?.amount && (
+      {!!firstSaleVal?.amount && firstSaleVal.amount !== '0' && (
         <div className={`${s.stats_item} ${s.stats_item__icon}`}>
           <Text size="12" fontWeight="medium">
             1st sales
