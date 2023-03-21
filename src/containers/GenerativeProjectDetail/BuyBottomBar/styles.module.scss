@@ -6,6 +6,12 @@
   height: 66px;
   padding: rem(0) rem(24px);
 
+  @media (max-width: 928px) {
+    flex-direction: column;
+    padding: rem(8px) rem(0);
+    height: 92px;
+  }
+
   .leftContainer {
     display: flex;
     flex-direction: row;
