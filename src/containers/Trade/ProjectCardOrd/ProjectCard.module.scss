@@ -77,6 +77,11 @@
           color: $black-40-solid;
           font-weight: 500;
         }
+
+        &_artisName {
+          margin-top: rem(12px);
+          font-weight: 500;
+        }
       }
     }
 
