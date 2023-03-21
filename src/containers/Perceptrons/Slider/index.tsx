@@ -11,9 +11,10 @@ const PerceptronsSlider = () => {
           {i === 0 ? (
             <img
               src={`${CDN_URL}/Screen%20Shot%202023-03-21%20at%2010.43.18%20AM.jpg`}
+              alt=""
             />
           ) : (
-            <img src={`${CDN_URL}/images/thumbs/${i + 1}.jpg`} />
+            <img src={`${CDN_URL}/images/thumbs/${i + 1}.jpg`} alt="" />
           )}
         </a>
       );
@@ -38,19 +39,19 @@ const PerceptronsSlider = () => {
           />
         </div>
         <div>
-          <img src={CDN_URL + '/images/1.jpg'} />
+          <img alt="" src={CDN_URL + '/images/1.jpg'} />
         </div>
         <div>
-          <img src={CDN_URL + '/images/2.jpg'} />
+          <img alt="" src={CDN_URL + '/images/2.jpg'} />
         </div>
         <div>
-          <img src={CDN_URL + '/images/3.jpg'} />
+          <img alt="" src={CDN_URL + '/images/3.jpg'} />
         </div>
         <div>
-          <img src={CDN_URL + '/images/4.jpg'} />
+          <img alt="" src={CDN_URL + '/images/4.jpg'} />
         </div>
         <div>
-          <img src={CDN_URL + '/images/5.jpg'} />
+          <img alt="" src={CDN_URL + '/images/5.jpg'} />
         </div>
       </SliderSlick>
     </div>

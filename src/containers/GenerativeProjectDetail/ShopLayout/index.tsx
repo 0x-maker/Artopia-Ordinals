@@ -55,7 +55,7 @@ const ShopLayout = (props: Props) => {
   } = useContext(GenerativeProjectDetailContext);
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);
-  const [isListLayout, setIsListLayout] = useState(false);
+  const [isListLayout, setIsListLayout] = useState(true);
   const [componentDidLoad, setComponentDidLoad] = useState(false);
 
   useEffect(() => {
@@ -323,7 +323,9 @@ const ShopLayout = (props: Props) => {
           >
             <div
               className={`${collectionStyles.tokenList} ${
-                listItems && listItems.length > 0 && styles.spacing
+                listItems &&
+                listItems.length > 0 &&
+                (isListLayout ? styles.spacing : styles.spacing_grid)
               }`}
             >
               {listItems && listItems.length > 0 && isListLayout ? (

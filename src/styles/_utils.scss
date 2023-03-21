@@ -307,9 +307,12 @@
   font-style: italic;
 }
 
+.w-full {
+  width: 100%;
+}
 
-.is-dark-mode{
-  body{
+.is-dark-mode {
+  body {
     background: $primary-brand !important;
   }
 }

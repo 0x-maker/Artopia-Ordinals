@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { ROUTE_PATH } from '@constants/route-path';
 import { useRouter } from 'next/router';
 import useAsyncEffect from 'use-async-effect';
-import { LOGO_MARKETPLACE_URL } from '@constants/common';
+import { LOGO_MARKETPLACE_URL, URL_PARAMS_PRO_MODE } from '@constants/common';
 
 const TABLE_HEADINGS = [
   'Name',
@@ -24,7 +24,7 @@ const TABLE_HEADINGS = [
   // '15M volume',
   // '1D volume',
   // '7D volume',
-  'Volume',
+  'Total Sales',
   'Owners',
   'Supply',
 ];
@@ -58,7 +58,7 @@ const Collection: React.FC = (): React.ReactElement => {
       config: {
         onClick: () => {
           router.push(
-            `${ROUTE_PATH.GENERATIVE}/${collection.project.tokenId}?mode=pro`
+            `${ROUTE_PATH.GENERATIVE}/${collection.project.tokenId}${URL_PARAMS_PRO_MODE}`
           );
         },
       },

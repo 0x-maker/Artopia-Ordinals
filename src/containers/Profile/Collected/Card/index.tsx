@@ -28,7 +28,7 @@ import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBT
 import ButtonBuyListedFromETH from '@components/Transactor/ButtonBuyListedFromETH';
 import { isImageURL } from '@utils/url';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
-import { ellipsisCenter, ellipsisCenterBTCAddress } from '@utils/format';
+import { ellipsisCenter, formatAddress } from '@utils/format';
 
 interface IPros {
   project: ICollectedNFTItem;
@@ -138,8 +138,10 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
 
   const tokenIdName =
     project.status === CollectedNFTStatus.Success
-      ? `#${
-          project.tokenNumber ? project.tokenNumber : project.inscriptionNumber
+      ? `${
+          project.tokenNumber
+            ? `${project.projectName}`
+            : `Inscription #${project.inscriptionNumber}`
         }`
       : project.projectName || '';
 
@@ -152,13 +154,15 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
 
   const formatInscriptionID = React.useMemo(() => {
     return project.inscriptionID
-      ? ellipsisCenter({ str: project.inscriptionID, limit: 6 })
+      ? ellipsisCenter({ str: project.inscriptionID, limit: 5 })
       : '';
   }, [project.inscriptionID]);
 
   const subTitle1 = React.useMemo(() => {
     if (project.status !== CollectedNFTStatus.Success) return '';
-    return project.projectName ? project.projectName : formatInscriptionID;
+    return project.projectName
+      ? `Inscription #${project.inscriptionNumber}`
+      : `Inscription ID: ${formatInscriptionID}`;
   }, [project.status, project.projectName, formatInscriptionID]);
 
   const subTitle2 = React.useMemo(() => {
@@ -168,9 +172,7 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
         : project.artistName || '';
     if (artistName) return artistName;
     if (currentUser?.walletAddressBtcTaproot) {
-      return `Owned by ${ellipsisCenterBTCAddress({
-        str: currentUser?.walletAddressBtcTaproot,
-      })}`;
+      return `${formatAddress(currentUser?.walletAddressBtcTaproot)}`;
     }
     return '';
   }, [
@@ -351,8 +353,17 @@ const CollectedCard = ({ project, className }: IPros): JSX.Element => {
                 {renderStatusText()}
                 {tokenIdName && (
                   <div className={s.projectCard_creator}>
-                    <Text size={'20'} fontWeight="medium">
+                    <Text
+                      className={s.projectCard_creator_text}
+                      size={'20'}
+                      fontWeight="medium"
+                    >
                       {tokenIdName}
+                    </Text>
+                    <Text size={'20'} fontWeight="medium">
+                      {project.tokenNumber && project.projectName
+                        ? `#${project.tokenNumber}`
+                        : ''}
                     </Text>
                   </div>
                 )}

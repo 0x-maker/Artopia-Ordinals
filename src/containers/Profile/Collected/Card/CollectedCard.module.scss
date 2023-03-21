@@ -42,8 +42,8 @@
   }
 
   &_statusContainer {
-    min-height: rem(150px);
-    height: 100%;
+    height: rem(150px);
+    // height: 100%;
     padding: {
       top: rem(24px);
       left: rem(16px);
@@ -57,7 +57,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: rem(8px);
+    margin-top: rem(10px);
   }
 
   &_status {
@@ -252,8 +252,17 @@
 
   &_creator {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: rem(6);
+
+    &_text {
+      max-width: 90%;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
+    }
 
     &_status {
       font-style: italic;

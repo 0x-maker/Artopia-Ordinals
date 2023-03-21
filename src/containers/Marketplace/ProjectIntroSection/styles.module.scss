@@ -82,6 +82,7 @@
 
 .wrapper {
   color: $black-100;
+  padding-bottom: rem(48);
   // padding-top: rem(32px);
 }
 
@@ -214,7 +215,7 @@
 
 .CTA {
   display: flex;
-  margin-bottom: rem(10px);
+  margin-bottom: rem(24px);
   gap: rem(24px);
   flex-wrap: wrap;
   align-items: center;
@@ -368,7 +369,7 @@
 .stats {
   display: flex;
   column-gap: rem(130px);
-  row-gap: rem(6px);
+  row-gap: rem(24px);
   margin-bottom: rem(24px);
   margin-top: rem(24px);
   flex-wrap: wrap;
@@ -378,7 +379,7 @@
   }
 
   &_item {
-    margin-bottom: rem(24px);
+    // margin-bottom: rem(24px);
 
     > p:first-of-type {
       color: $black-40;
@@ -431,7 +432,7 @@
 
 .project_info {
   margin-bottom: rem(24px);
-  margin-top: rem(24px);
+  // margin-top: rem(24px);
   max-width: rem(520px);
 }
 
@@ -450,6 +451,7 @@
 .projectHeader {
   display: flex;
   gap: rem(8px);
+  padding-right: rem(60);
 
   &_title {
     font-style: italic;
@@ -545,10 +547,10 @@
     border-bottom: 1px solid $border-dark;
   }
 
-  .shares {
-    justify-content: unset;
-    gap: rem(24px);
-  }
+  //.shares {
+  //  justify-content: unset;
+  //  gap: rem(24px);
+  //}
 
   .projectInfo_right_ctas {
     .CTA,
@@ -573,15 +575,15 @@
     }
   }
 
-  .info {
-    height: unset !important;
-    min-height: unset !important;
-  }
+  // .info {
+  //   height: unset !important;
+  //   min-height: unset !important;
+  // }
 }
 
 .layoutMinting {
   margin-top: rem(32px);
-  margin-bottom: rem(40px);
+  // margin-bottom: rem(40px);
 
   .shares {
     padding-top: rem(10px);
@@ -614,9 +616,10 @@
   }
 }
 
-.isDark{
+.isDark {
   .projectBtn {
     border: 1px solid $white !important;
+
     svg,
     path {
       fill: $white;

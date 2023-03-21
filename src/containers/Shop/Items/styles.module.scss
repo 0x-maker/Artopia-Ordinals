@@ -13,15 +13,17 @@
   .dataTable {
     thead {
       border-bottom: 1px solid $border-dark;
+
       tr {
         border-width: 0;
         cursor: pointer;
+
         th {
           border-width: 0 !important;
           background-color: $primary-brand;
           color: $black-40-solid;
 
-          @include min-pc{
+          @include min-pc {
             position: sticky !important;
             top: 90px !important;
             left: unset;
@@ -39,18 +41,20 @@
       display: flex;
       // justify-content: space-between;
       width: 100%;
+
       &:hover {
         background-color: $border-dark;
       }
 
-      td{
+      td {
         color: white;
+
         @include calcFontAuto(16px, 18px);
 
-        small{
+        small {
           color: $black-40-solid;
           font-size: 90%;
-          margin-left: .1em;
+          margin-left: 0.1em;
         }
       }
     }
@@ -131,7 +135,7 @@
       -webkit-box-orient: vertical;
       text-decoration: none;
 
-      &:hover{
+      &:hover {
         color: $white;
         text-decoration: underline;
       }
@@ -141,9 +145,11 @@
       font-style: italic;
       font-weight: 500;
       max-width: rem(300);
+
       @include min-pc {
         max-width: rem(420);
       }
+
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;

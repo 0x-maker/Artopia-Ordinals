@@ -6,7 +6,7 @@
 .itemsContainer {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  // align-items: center;
   border-bottom: 1px solid $black-5;
   margin-top: rem(20px);
   padding-bottom: rem(8px);
@@ -14,6 +14,7 @@
 
 .icCheckbox {
   cursor: pointer;
+  margin-top: rem(2px);
 }
 
 .textItems {
@@ -21,7 +22,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
-  margin-left: 16px;
+  margin-left: 8px;
   color: $white;
   cursor: pointer;
 }
@@ -44,7 +45,7 @@
 
   @include min-pc-wide {
     flex: 0 0 (360/1800) * 100%;
-    width: (360/1800) * 100%
+    width: (360/1800) * 100%;
   }
 
   @include disable-scrollbar;
@@ -85,7 +86,6 @@
     min-width: unset;
     width: 100%;
   }
-
 }
 
 .layout_middle {
@@ -125,6 +125,7 @@
     max-height: calc(100vh - #{rem(340)});
     overflow-y: scroll;
     padding-left: 12px;
+    overflow-x: hidden;
 
     @include disable-scrollbar;
 
@@ -156,7 +157,8 @@
     }
 
     .view_layout {
-      .view_list_ic, .view_grid_ic {
+      .view_list_ic,
+      .view_grid_ic {
         cursor: pointer;
         padding: rem(5px);
         margin-right: rem(-5px);
@@ -166,7 +168,8 @@
           stroke: $black-40-solid;
         }
 
-        &.active, &:hover {
+        &.active,
+        &:hover {
           svg,
           path {
             stroke: $white;
@@ -348,14 +351,14 @@
         color: $white !important;
       }
     }
-
   }
 
   .layout_right {
     border-left: 1px solid $border-dark;
   }
 
-  .itemsContainer, .view_option {
+  .itemsContainer,
+  .view_option {
     border-bottom: 1px solid $border-dark;
   }
 
@@ -370,8 +373,8 @@
   }
 }
 
-.isChecked{
-  svg rect{
+.isChecked {
+  svg rect {
     fill: #4f43e2;
   }
 }

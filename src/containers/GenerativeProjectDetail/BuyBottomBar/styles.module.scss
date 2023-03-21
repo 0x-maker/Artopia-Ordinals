@@ -6,11 +6,31 @@
   height: 66px;
   padding: rem(0) rem(24px);
 
+  @media (max-width: 1048px) {
+    flex-direction: column;
+    padding: rem(8px) rem(0);
+    height: 92px;
+  }
+
   .leftContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 8px;
+  }
+
+  .sweepContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .textSweep {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    color: #1c1c1c;
+    margin-right: rem(8px);
   }
 
   .rightContainer {
@@ -20,11 +40,27 @@
     border-radius: 2px;
     border: 2px solid #f2f2f2;
     height: 34px;
-    padding-left: 16px;
+    // padding-left: 16px;
     padding-right: 16px;
 
-    .input {
+    .trash {
+      cursor: pointer;
       width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #f2f2f2;
+      background: #f2f2f2;
+
+      :hover {
+        opacity: 0.8;
+      }
+    }
+
+    .input {
+      padding-left: 14px;
+      width: 44px;
       margin-right: 16px;
       border-right: 1px solid #f2f2f2;
     }
@@ -50,4 +86,8 @@
       background: #4f43e2;
     }
   }
+}
+
+.wrapButton {
+  height: 32px;
 }

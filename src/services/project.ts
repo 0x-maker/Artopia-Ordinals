@@ -156,27 +156,7 @@ export const getProjectList = async (
   try {
     const qs = '?' + querystring.stringify(params);
     const res = await get<IGetProjectListResponse>(`${API_PATH}${qs}`);
-    const tasks = res.result.map(async project => {
-      const { tokenID: projectID, maxSupply, mintingInfo } = project;
-      if (
-        !!projectID &&
-        mintingInfo &&
-        mintingInfo.index &&
-        mintingInfo.index >= maxSupply
-      ) {
-        const resp = await getCollectionFloorPrice({ projectID });
-        return {
-          ...project,
-          btcFloorPrice: resp.floor_price,
-        };
-      }
-      return { ...project };
-    });
-    const projects = await Promise.all(tasks);
-    return {
-      ...res,
-      result: projects,
-    };
+    return res;
   } catch (err: unknown) {
     log('failed to get project list', LogLevel.ERROR, LOG_PREFIX);
     throw Error('Failed to get project list');

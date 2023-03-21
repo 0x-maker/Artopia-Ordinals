@@ -16,11 +16,9 @@
     }
 
     &.isSelected {
-      border: 1px solid #1c1c1c;
+      border: 1px solid #4f43e2;
     }
   }
-
-
 
   &_thumb {
     position: relative;
@@ -224,26 +222,28 @@
       }
 
       &.isSelected {
-        border: 1px solid #4F43E2;
-        .collectionCard_thumb{
-          &_selectIcon{
-            svg rect{
-              fill: #4F43E2;
+        border: 1px solid #4f43e2;
+
+        .collectionCard_thumb {
+          &_selectIcon {
+            svg rect {
+              fill: #4f43e2;
             }
           }
         }
       }
     }
 
-    .collectionCard_thumb{
-      background: #333333;
-      svg{
+    .collectionCard_thumb {
+      background: #333;
+
+      svg {
         width: rem(14px);
         height: rem(14px);
       }
     }
 
-    .collectionCard_info_title{
+    .collectionCard_info_title {
       color: $white;
     }
   }
@@ -337,7 +337,7 @@
 }
 
 .row {
-  margin-top: 8px;
+  margin-top: 12px;
   display: flex;
   flex-direction: row;
   gap: 6px;
@@ -345,8 +345,8 @@
   justify-content: space-between;
 
   @include w-min(1400px) {
-    gap: 8px;
-    flex-direction: column;
+    gap: 6px;
+    // flex-direction: column;
   }
 
   @include w-min(1700px) {
@@ -355,13 +355,12 @@
   }
 }
 
-
-.listBtns{
- .wrapButton:nth-child(1){
-   button{
-     margin-bottom: 16px;
-   }
- }
+.listBtns {
+  .wrapButton:nth-child(1) {
+    button {
+      margin-bottom: 16px;
+    }
+  }
 }
 
 .wrapButton {
@@ -373,8 +372,18 @@
   }
 }
 
+.wrapButtonShop {
+  flex: 1;
+  height: 30px;
+
+  button {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .tokenNumber {
-  :hover {
+  a:hover {
     color: #4f43e2 !important;
   }
 }

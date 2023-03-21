@@ -186,48 +186,61 @@ const MintEthModal: React.FC = () => {
   }, [receiverAddress, totalPrice]);
 
   const debounceGetBTCAddress = useCallback(
-    _debounce(async (ordAddress, refundAddress, _quantity, _rate) => {
-      if (!projectData) return;
-      try {
-        setIsLoading(true);
-        setErrMessage('');
+    _debounce(
+      async (
+        ordAddress,
+        refundAddress,
+        _quantity,
+        _rate,
+        rateType,
+        projectFeeRate
+      ) => {
+        if (!projectData) return;
+        try {
+          setIsLoading(true);
+          setErrMessage('');
 
-        const {
-          price: _price,
-          address: _address,
-          networkFeeByPayType: _networkFeeByPayType,
-          mintPriceByPayType: _mintPriceByPayType,
-        } = await getBTCAddress({
-          walletAddress: ordAddress,
-          refundAddress: refundAddress,
-          projectData,
-          paymentMethod,
-          quantity: _quantity,
-          rate: _rate,
-        });
-        if (!_address || !_price) {
-          toast.error(ErrorMessage.DEFAULT);
-          return;
-        }
+          const {
+            price: _price,
+            address: _address,
+            networkFeeByPayType: _networkFeeByPayType,
+            mintPriceByPayType: _mintPriceByPayType,
+          } = await getBTCAddress({
+            walletAddress: ordAddress,
+            refundAddress: refundAddress,
+            projectData,
+            paymentMethod,
+            quantity: _quantity,
+            rate: _rate,
+            isCutomFeeRate: rateType === 'customRate',
+            estMintFeeInfo: projectFeeRate,
+          });
+          if (!_address || !_price) {
+            toast.error(ErrorMessage.DEFAULT);
+            return;
+          }
 
-        setTotalPrice(_price);
-        setFeePrice(_networkFeeByPayType);
-        setMintPrice(_mintPriceByPayType);
-        setReceiverAddress(_address);
-        setsTep('showAddress');
-      } catch (err: unknown) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        if (typeof err === 'string') {
-          setErrMessage(`${err}`);
-        } else {
-          setErrMessage('failed to generate receiver address');
+          setTotalPrice(_price);
+          setFeePrice(_networkFeeByPayType);
+          setMintPrice(_mintPriceByPayType);
+          setReceiverAddress(_address);
+          setsTep('showAddress');
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        } catch (err: any) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          if (err && err.message && typeof err.message === 'string') {
+            setErrMessage(`${err.message}`);
+          } else {
+            setErrMessage('failed to generate receiver address');
+          }
+          setReceiverAddress(null);
+        } finally {
+          setIsLoading(false);
         }
-        setReceiverAddress(null);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 500),
+      },
+      500
+    ),
     [projectData]
   );
 
@@ -250,7 +263,9 @@ const MintEthModal: React.FC = () => {
           userAddress.taproot,
           userAddress.evm,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -269,7 +284,9 @@ const MintEthModal: React.FC = () => {
           userAddress.taproot,
           userAddress.evm,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -289,7 +306,9 @@ const MintEthModal: React.FC = () => {
           values.address,
           userAddress.evm,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -303,7 +322,9 @@ const MintEthModal: React.FC = () => {
         values.address,
         userAddress.evm,
         quantity,
-        currentFee?.rate
+        currentFee?.rate,
+        rateType,
+        projectFeeRate
       );
       setAddressInput(values.address);
     }

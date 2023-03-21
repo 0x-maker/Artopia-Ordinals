@@ -7,9 +7,9 @@ import React, { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { toast } from 'react-hot-toast';
-import Image from 'next/image';
 import copy from 'copy-to-clipboard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import { Empty } from '@components/Collection/Empty';
 import Button from '@components/Button';
@@ -21,7 +21,8 @@ import { CDN_URL } from '@constants/config';
 import { ROUTE_PATH } from '@constants/route-path';
 import { getDaoArtists, voteDaoArtist } from '@services/request';
 import { formatAddressDisplayName } from '@utils/format';
-import { DEFAULT_USER_AVATAR } from '@constants/common';
+import { DEFAULT_USER_AVATAR, LOGO_MARKETPLACE_URL } from '@constants/common';
+import useWindowSize from '@hooks/useWindowSize';
 
 import SkeletonItem from '../SkeletonItem';
 import s from './UserItems.module.scss';
@@ -31,8 +32,15 @@ interface UserItemsProps {
 }
 
 export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
+  const { mobileScreen } = useWindowSize();
   const router = useRouter();
-  const { keyword = '', status = '', sort = '', id = '', tab } = router.query;
+  const {
+    keyword = '',
+    status = '',
+    sort = '',
+    seq_id = '',
+    tab,
+  } = router.query;
   let timeoutId = -1;
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -44,7 +52,7 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
   const initData = async (): Promise<void> => {
     setIsLoaded(false);
     const users = await getDaoArtists({
-      id,
+      seq_id,
       keyword,
       status,
       sort,
@@ -62,14 +70,14 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
       initData();
     }, 300); // don't need call many times
     return () => clearTimeout(timeoutId);
-  }, [keyword, status, sort, id, tab, timeoutId]);
+  }, [keyword, status, sort, seq_id, tab, timeoutId]);
 
   const fetchCombineList = async () => {
     try {
       setIsLoading(true);
       if (totalPerPage > LIMIT) {
         const nextUsers = await getDaoArtists({
-          id,
+          seq_id,
           keyword,
           status,
           sort,
@@ -116,14 +124,29 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
   };
 
   const copyLink = (id: string) => {
-    copy(`${location.origin}${ROUTE_PATH.DAO}?id=${id}&tab=1`);
+    copy(`${location.origin}${ROUTE_PATH.DAO}?seq_id=${id}&tab=1`);
     toast.remove();
     toast.success('Copied');
   };
 
+  const onThumbError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      (e.target as HTMLImageElement).src = LOGO_MARKETPLACE_URL;
+    }
+  };
+
+  const onThumbLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      const naturalWidth = (e.target as HTMLImageElement).naturalWidth;
+      if (naturalWidth < 100) {
+        (e.target as HTMLImageElement).style.imageRendering = 'pixelated';
+      }
+    }
+  };
+
   return (
     <div className={cn(className, s.users)}>
-      <Row className={s.items_projects}>
+      <Row>
         {isLoaded === false ? (
           <Col md={12}>
             {[...Array(LIMIT)].map((_, index) => (
@@ -133,11 +156,19 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
         ) : (
           <Col md={12}>
             <div className={s.users_header}>
-              <div className="col-md-1">Proposal ID</div>
-              <div className="col-md-3">Artist</div>
-              <div className="col-md-2">Twitter</div>
-              <div className="col-md-2">Expiration</div>
-              <div className="col-md-2">Status</div>
+              <div className={cn('col-md-1', s.users_id)}>
+                {mobileScreen ? 'ID' : 'Proposal ID'}
+              </div>
+              <div className={cn('col-md-3', s.users_artist)}>Artist</div>
+              <div className={cn('col-md-2', s.users_referenceLink)}>
+                Twitter & Website
+              </div>
+              <div className={cn('col-md-2', s.users_expiration)}>
+                Expiration
+              </div>
+              <div className={cn('col-md-1', s.users_statusWrapper)}>
+                Status
+              </div>
               <div className="invisible col-md-3" />
             </div>
 
@@ -145,6 +176,7 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
               <Empty content="No Data Available." />
             ) : (
               <InfiniteScroll
+                className={s.users_infinite}
                 dataLength={combineList.length}
                 next={debounceFetchCombineList}
                 hasMore
@@ -159,8 +191,10 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
               >
                 {combineList?.map((item: any) => (
                   <div key={item.id} className={s.users_row}>
-                    <div className="col-md-1">{item?.seq_id}</div>
-                    <div className="col-md-3">
+                    <div className={cn('col-md-1', s.users_id)}>
+                      {item?.seq_id}
+                    </div>
+                    <div className={cn('col-md-3', s.users_artist)}>
                       <div
                         className={cn(
                           'd-flex align-items-center',
@@ -175,18 +209,20 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                           }`}
                           target="_blank"
                         >
-                          <Image
+                          <img
                             className={s.users_avatar}
                             src={
                               convertIpfsToHttp(item?.user?.avatar) ||
                               DEFAULT_USER_AVATAR
                             }
-                            width={48}
-                            height={48}
+                            width={mobileScreen ? 34 : 48}
+                            height={mobileScreen ? 34 : 48}
                             alt={item?.user?.display_name}
+                            onError={onThumbError}
+                            onLoad={onThumbLoad}
                           />
                           <div>
-                            <div>
+                            <div className={s.users_name}>
                               {item?.user?.display_name ||
                                 formatAddressDisplayName(
                                   item?.user?.wallet_address_btc_taproot
@@ -194,18 +230,30 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                             </div>
                             {item?.user?.stats?.collection_created > 0 && (
                               <div className={s.users_collectionNum}>
-                                {item?.user?.stats?.collection_created}{' '}
-                                collection
-                                {item?.user?.stats?.collection_created > 1 &&
-                                  's'}
+                                <span>
+                                  <span className="font-bold">
+                                    {item?.user?.stats?.collection_created}
+                                  </span>{' '}
+                                  collection
+                                  {item?.user?.stats?.collection_created > 1 &&
+                                    's'}
+                                </span>
+                                <span>
+                                  &nbsp;-&nbsp;
+                                  <span className="font-bold">
+                                    {item?.user?.stats?.total_minted}/
+                                    {item?.user?.stats?.total_mint}
+                                  </span>
+                                  &nbsp;minted
+                                </span>
                               </div>
                             )}
                           </div>
                         </a>
                       </div>
                     </div>
-                    <div className="col-md-2">
-                      <div className="d-flex">
+                    <div className={cn('col-md-2', s.users_referenceLink)}>
+                      <div className="d-flex flex-column">
                         {item?.user?.profile_social?.twitter ? (
                           <div>
                             <a
@@ -220,13 +268,8 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                             </a>
                           </div>
                         ) : (
-                          <span>-&nbsp;</span>
+                          <span>-</span>
                         )}
-                        {item?.user?.profile_social?.twitter &&
-                          item?.user?.profile_social?.web && (
-                            <span>&nbsp;-&nbsp;</span>
-                          )}
-
                         {item?.user?.profile_social?.web ? (
                           <div>
                             <a
@@ -235,31 +278,45 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                               href={item?.user?.profile_social?.web}
                               target="_blank"
                             >
-                              <span>Website</span>
+                              <span>{item?.user?.profile_social?.web}</span>
                             </a>
                           </div>
                         ) : (
-                          <span>&nbsp;-</span>
+                          <span>-</span>
                         )}
                       </div>
                     </div>
-                    <div className="col-md-2">{`${dayjs(
-                      item?.expired_at
-                    ).format('MMM DD')}`}</div>
-                    <div className="col-md-2">
+                    <div
+                      className={cn('col-md-2', s.users_expiration)}
+                    >{`${dayjs(item?.expired_at).format('MMM DD')}`}</div>
+                    <div className={cn('col-md-2', s.users_statusWrapper)}>
                       {getStatusProposal(item?.status)}
                     </div>
                     <div className="col-md-2 d-flex justify-content-end">
-                      <span
-                        className={s.users_share}
-                        onClick={() => copyLink(item?.id)}
+                      <OverlayTrigger
+                        placement="bottom"
+                        delay={{ show: 100, hide: 200 }}
+                        overlay={
+                          <Tooltip id="play-tooltip">
+                            <div className={s.users_tooltip}>
+                              Copy link to share this proposal
+                            </div>
+                          </Tooltip>
+                        }
                       >
-                        <SvgInset
-                          className={s.icCopy}
-                          size={16}
-                          svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
-                        />
-                      </span>
+                        <div>
+                          <span
+                            className={s.users_share}
+                            onClick={() => copyLink(item?.seq_id)}
+                          >
+                            <SvgInset
+                              className={s.icCopy}
+                              size={16}
+                              svgUrl={`${CDN_URL}/icons/ic-copy.svg`}
+                            />
+                          </span>
+                        </div>
+                      </OverlayTrigger>
                       {/* <Button
                         className={cn(s.users_btn, s.users_mr6)}
                         disabled={item?.action?.can_vote === false}

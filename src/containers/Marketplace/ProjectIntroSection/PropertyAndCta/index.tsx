@@ -63,7 +63,7 @@ export const PropertyAndCta = (): JSX.Element => {
           </div>
         )}
       </div>
-      {!isWhitelist && project?.status && (
+      {!isWhitelist && project?.status && isLimitMinted && (
         <div className={cs(s.CTA, project?.isReviewing && s.daoReview)}>
           {/* {!isBitcoinProject && (
             <ButtonIcon
@@ -85,7 +85,7 @@ export const PropertyAndCta = (): JSX.Element => {
               </Text>
             </ButtonIcon>
           )} */}
-          {isAvailable && !!project?.btcFloorPrice && !project?.isHidden && (
+          {/* {isAvailable && !!project?.btcFloorPrice && !project?.isHidden && (
             <>
               <ButtonIcon
                 sizes="medium"
@@ -106,7 +106,7 @@ export const PropertyAndCta = (): JSX.Element => {
                 </Text>
               </ButtonIcon>
             </>
-          )}
+          )} */}
           {isAvailable && isLimitMinted && !project?.isHidden && (
             <ul>
               {projectFeeRate && (
@@ -274,8 +274,10 @@ export const PropertyAndCta = (): JSX.Element => {
                 </Text>
               </div>
               <ButtonIcon sizes="large">
-                <Link href={`${ROUTE_PATH.DAO}?keyword=${project?.name}`}>
-                  <Text fontWeight="medium">Vote in DAO</Text>
+                <Link
+                  href={`${ROUTE_PATH.DAO}?seq_id=${project?.proposalSeqId}`}
+                >
+                  <Text fontWeight="medium">Go to DAO</Text>
                 </Link>
               </ButtonIcon>
             </>

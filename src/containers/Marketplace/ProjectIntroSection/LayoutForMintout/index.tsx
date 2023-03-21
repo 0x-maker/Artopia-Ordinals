@@ -13,6 +13,8 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { ProjectStats } from '../ProjectStats';
 import s from './../styles.module.scss';
+import { Stack } from 'react-bootstrap';
+import { CDN_URL } from '@constants/config';
 
 const LayoutForMintout = () => {
   const { project, isHasBtcWallet, creatorAddress, isTwVerified, isEdit } =
@@ -26,52 +28,71 @@ const LayoutForMintout = () => {
           <div className={`${s.projectInfo_content}`}>
             <div className={s.info_inner}>
               <div className={s.projectName}>
-                <div className={s.projectName_creator}>
-                  {isHasBtcWallet ? (
-                    <Link
-                      href={`${ROUTE_PATH.PROFILE}/${creatorAddress}`}
-                      className={cs(
-                        s.creator_info,
-                        !project?.creatorProfile?.walletAddressBtcTaproot &&
-                          !project?.creatorProfile?.walletAddress &&
-                          'pointer-none'
-                      )}
-                    >
-                      <Heading
-                        className={s.projectHeader_creator}
-                        as="h6"
-                        fontWeight="medium"
-                        color={'white'}
+                <Stack direction="horizontal" gap={4}>
+                  <div className={s.projectName_creator}>
+                    {isHasBtcWallet ? (
+                      <Link
+                        href={`${ROUTE_PATH.PROFILE}/${creatorAddress}`}
+                        className={cs(
+                          s.creator_info,
+                          !project?.creatorProfile?.walletAddressBtcTaproot &&
+                            !project?.creatorProfile?.walletAddress &&
+                            'pointer-none'
+                        )}
                       >
-                        {project && filterCreatorName(project)}
-                      </Heading>
-                    </Link>
-                  ) : (
-                    <div
-                      className={cs(
-                        s.creator_info,
-                        !project?.creatorProfile?.walletAddressBtcTaproot &&
-                          'pointer-none'
-                      )}
-                    >
-                      <Heading
-                        className={s.projectHeader_creator}
-                        as="h6"
-                        fontWeight="medium"
-                        color={'white'}
+                        <Heading
+                          className={s.projectHeader_creator}
+                          as="h6"
+                          fontWeight="medium"
+                          color={'white'}
+                        >
+                          {project && filterCreatorName(project)}
+                        </Heading>
+                      </Link>
+                    ) : (
+                      <div
+                        className={cs(
+                          s.creator_info,
+                          !project?.creatorProfile?.walletAddressBtcTaproot &&
+                            'pointer-none'
+                        )}
                       >
-                        {project && filterCreatorName(project)}
-                      </Heading>
-                    </div>
-                  )}
+                        <Heading
+                          className={s.projectHeader_creator}
+                          as="h6"
+                          fontWeight="medium"
+                          color={'white'}
+                        >
+                          {project && filterCreatorName(project)}
+                        </Heading>
+                      </div>
+                    )}
 
-                  <SocialVerify
-                    isTwVerified={isTwVerified}
-                    width={18}
-                    height={18}
-                    className={s.small}
-                  />
-                </div>
+                    <SocialVerify
+                      isTwVerified={isTwVerified}
+                      width={18}
+                      height={18}
+                      className={s.small}
+                    />
+                  </div>
+                  <ButtonIcon
+                    sizes="small"
+                    variants={'ghost'}
+                    onClick={() => {
+                      router.push(
+                        `${ROUTE_PATH.GENERATIVE}/${project?.tokenID}`
+                      );
+                    }}
+                    endIcon={
+                      <SvgInset
+                        size={10}
+                        svgUrl={`${CDN_URL}/icons/ic-angle-right.svg`}
+                      />
+                    }
+                  >
+                    Open Project info
+                  </ButtonIcon>
+                </Stack>
                 <div className={s.creator_info_name}>
                   <Heading
                     as="h6"
