@@ -1,21 +1,19 @@
 import Text from '@components/Text';
 import Heading from '@components/Heading';
 import { formatBTCPrice } from '@utils/format';
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { ProjectLayoutContext } from '@contexts/project-layout-context';
 import { IProjectMarketplaceData } from '@interfaces/api/project';
 import useAsyncEffect from 'use-async-effect';
 import { projectMarketplaceData } from '@services/project';
 import s from './ProjectStats.module.scss';
-import { IFirstSaleStatsResponse } from '@interfaces/api/marketplace';
 import { getFirstSaleStats } from '@services/marketplace';
 
 export const ProjectStats = (): JSX.Element => {
   const { project, isRoyalty } = useContext(ProjectLayoutContext);
   const [marketplaceData, setMarketplaceData] =
     useState<IProjectMarketplaceData>();
-  const [firstSaleVal, setFirstSaleVal] =
-    useState<IFirstSaleStatsResponse | null>(null);
+  const [firstSaleVal, setFirstSaleVal] = useState<string | null>(null);
 
   useAsyncEffect(async () => {
     if (project?.tokenID && project?.contractAddress) {
@@ -32,9 +30,19 @@ export const ProjectStats = (): JSX.Element => {
       const data = await getFirstSaleStats({
         projectID: project.tokenID,
       });
-      setFirstSaleVal(data);
+      if (data?.amount) {
+        setFirstSaleVal(data?.amount);
+      }
     }
   }, [project]);
+
+  const totalSale = useMemo((): string | null => {
+    if (marketplaceData?.volume !== undefined && firstSaleVal !== null) {
+      const total = Number(marketplaceData.volume) + Number(firstSaleVal);
+      return `${formatBTCPrice(total, undefined, 4)} BTC`;
+    }
+    return null;
+  }, [marketplaceData?.volume, firstSaleVal]);
 
   return (
     <div className={s.stats}>
@@ -83,7 +91,7 @@ export const ProjectStats = (): JSX.Element => {
           </Heading>
         </div>
       )}
-      {!!firstSaleVal?.amount && firstSaleVal.amount !== '0' && (
+      {/* {!!firstSaleVal?.amount && firstSaleVal.amount !== '0' && (
         <div className={`${s.stats_item} ${s.stats_item__icon}`}>
           <Text size="12" fontWeight="medium">
             1st sales
@@ -100,6 +108,16 @@ export const ProjectStats = (): JSX.Element => {
           </Text>
           <Heading className={s.stats_item_text} as="h6" fontWeight="medium">
             {formatBTCPrice(marketplaceData?.volume, undefined, 4)} BTC
+          </Heading>
+        </div>
+      )} */}
+      {!!totalSale && (
+        <div className={`${s.stats_item} ${s.stats_item__icon}`}>
+          <Text size="12" fontWeight="medium">
+            Total sales
+          </Text>
+          <Heading className={s.stats_item_text} as="h6" fontWeight="medium">
+            {totalSale}
           </Heading>
         </div>
       )}
