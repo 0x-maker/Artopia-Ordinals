@@ -67,7 +67,7 @@
 
     .track {
       height: rem(4px);
-      width: 160px;
+      width: 120px;
       border-radius: rem(8px);
 
       @include mobile {
@@ -76,6 +76,10 @@
 
       @include tablet {
         width: 120px;
+      }
+
+      @include min-pc-mid {
+        width: 160px;
       }
     }
 
