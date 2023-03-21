@@ -133,6 +133,7 @@
       width: auto;
       font-size: rem(12px);
       line-height: rem(20px);
+      border-bottom: none;
     }
 
     &_id {
@@ -170,7 +171,7 @@
     }
 
     &_infinite {
-      overflow: hidden !important;
+      overflow: visible !important;
       width: fit-content;
     }
 
@@ -179,6 +180,10 @@
       padding-left: 0;
       padding-right: 0;
       font-size: rem(12px);
+
+      &:first-child {
+        border-top: 1px solid #cecece;
+      }
     }
 
     &_tooltip,
@@ -190,6 +195,13 @@
       span {
         width: 95%;
       }
+    }
+
+    &_actions {
+      position: sticky;
+      right: 0;
+      z-index: 1;
+      background-color: $white-100;
     }
   }
 }

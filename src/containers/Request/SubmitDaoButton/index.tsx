@@ -7,6 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import _isEmpty from 'lodash/isEmpty';
 import Image from 'next/image';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
 
 import { Loading } from '@components/Loading';
 import { Empty } from '@components/Collection/Empty';
@@ -49,6 +50,8 @@ const SubmitCollection = ({
   const [listCollectionsIsHidden, setListCollectionsIsHidden] = useState<
     IDaoProject[]
   >([]);
+  const router = useRouter();
+  const { tab } = router.query;
 
   useEffect(() => {
     if (isShowModal) {
@@ -82,6 +85,11 @@ const SubmitCollection = ({
       });
       if (result) {
         toast.success('Submit proposal successfully.');
+        router.replace({
+          query: {
+            tab,
+          },
+        });
       } else {
         toast.error(ErrorMessage.DEFAULT);
       }
@@ -226,6 +234,9 @@ const SubmitArtist = ({
   submitVerifyMe: (...args: any) => any;
   isClickedVerify: boolean;
 }) => {
+  const router = useRouter();
+  const { tab } = router.query;
+
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
   const validateForm = (values: Record<string, string>) => {
@@ -248,6 +259,11 @@ const SubmitArtist = ({
       ...values,
       callback: () => {
         setIsShowModal(false);
+        router.replace({
+          query: {
+            tab,
+          },
+        });
       },
     });
   };

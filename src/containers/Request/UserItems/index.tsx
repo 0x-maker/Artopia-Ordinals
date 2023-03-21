@@ -276,7 +276,12 @@ export const UserItems = ({ className }: UserItemsProps): JSX.Element => {
                     <div className={cn('col-md-2', s.users_statusWrapper)}>
                       {getStatusProposal(item?.status)}
                     </div>
-                    <div className="col-md-2 d-flex justify-content-end">
+                    <div
+                      className={cn(
+                        'col-md-2 d-flex justify-content-end',
+                        s.users_actions
+                      )}
+                    >
                       <OverlayTrigger
                         placement="bottom"
                         delay={{ show: 100, hide: 200 }}
