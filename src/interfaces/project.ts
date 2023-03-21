@@ -82,6 +82,7 @@ export type Project = {
   reservers?: string[];
   hasListing?: boolean;
   isReviewing?: boolean;
+  proposalSeqId?: number;
 };
 
 export type BTCProject = Project & {

@@ -274,8 +274,10 @@ export const PropertyAndCta = (): JSX.Element => {
                 </Text>
               </div>
               <ButtonIcon sizes="large">
-                <Link href={`${ROUTE_PATH.DAO}?keyword=${project?.name}`}>
-                  <Text fontWeight="medium">Vote in DAO</Text>
+                <Link
+                  href={`${ROUTE_PATH.DAO}?seq_id=${project?.proposalSeqId}`}
+                >
+                  <Text fontWeight="medium">Go to DAO</Text>
                 </Link>
               </ButtonIcon>
             </>
