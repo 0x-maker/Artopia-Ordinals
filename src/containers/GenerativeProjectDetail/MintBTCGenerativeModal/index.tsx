@@ -27,8 +27,9 @@ import { Col, Row } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
 import FeeRate from '../MintFeeRate';
 import FeeRateCustom from '../MintFeeRateCustom';
-import useMintFeeRate from '../MintFeeRate/useMintFeeRate';
+import useMintFeeRate, { IFeeRateType } from '../MintFeeRate/useMintFeeRate';
 import s from './styles.module.scss';
+import { IProjectMintFeeRate } from '@interfaces/api/project';
 
 interface IFormValue {
   address: string;
@@ -141,7 +142,9 @@ const MintBTCGenerativeModal: React.FC = () => {
           userBtcAddress,
           userBtcAddress,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -155,7 +158,9 @@ const MintBTCGenerativeModal: React.FC = () => {
           addressInput,
           userBtcAddress,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -168,7 +173,9 @@ const MintBTCGenerativeModal: React.FC = () => {
           userBtcAddress,
           userBtcAddress,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -196,7 +203,9 @@ const MintBTCGenerativeModal: React.FC = () => {
     walletAddress: string,
     refundAddress: string,
     _quantity: number,
-    _rate?: number
+    _rate?: number,
+    rateType?: IFeeRateType,
+    projectFeeRate?: IProjectMintFeeRate
   ): Promise<void> => {
     if (!projectData) return;
 
@@ -213,6 +222,8 @@ const MintBTCGenerativeModal: React.FC = () => {
           refundUserAddress: refundAddress,
           quantity: _quantity,
           feeRate: _rate,
+          isCutomFeeRate: rateType === 'customRate',
+          estMintFeeInfo: projectFeeRate,
         });
       // const { address, Price: price } = await generateBTCReceiverAddress({
       //   walletAddress,
@@ -253,8 +264,15 @@ const MintBTCGenerativeModal: React.FC = () => {
 
   const debounceGetBTCAddress = useCallback(
     _debounce(
-      (address, refundAddress, quantity, rate) =>
-        getBTCAddress(address, refundAddress, quantity, rate),
+      (address, refundAddress, quantity, rate, rateType, projectFeeRate) =>
+        getBTCAddress(
+          address,
+          refundAddress,
+          quantity,
+          rate,
+          rateType,
+          projectFeeRate
+        ),
       500
     ),
     [projectData]
@@ -274,7 +292,9 @@ const MintBTCGenerativeModal: React.FC = () => {
           values.address,
           userBtcAddress,
           quantity,
-          currentFee?.rate
+          currentFee?.rate,
+          rateType,
+          projectFeeRate
         );
       }
     }
@@ -288,7 +308,9 @@ const MintBTCGenerativeModal: React.FC = () => {
         values.address,
         userBtcAddress,
         quantity,
-        currentFee?.rate
+        currentFee?.rate,
+        rateType,
+        projectFeeRate
       );
       setAddressInput(values.address);
     }
