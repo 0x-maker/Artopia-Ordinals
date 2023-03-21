@@ -1,10 +1,10 @@
 import Link from '@components/Link';
 import Table from '@components/Table';
+import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { ROUTE_PATH } from '@constants/route-path';
 import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 import { TokenActivityType } from '@enums/token-type';
 import { formatAddressDisplayName, formatBTCPrice } from '@utils/format';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { Stack } from 'react-bootstrap';
@@ -28,6 +28,12 @@ const CollectionActivityTable = () => {
   const { projectID } = router.query;
 
   // const listData = [];
+
+  const onThumbError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (e.target) {
+      (e.target as HTMLImageElement).src = LOGO_MARKETPLACE_URL;
+    }
+  };
 
   const activityDatas = listData?.result?.map(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,11 +90,12 @@ const CollectionActivityTable = () => {
                 })
               }
             >
-              <Image
+              <img
                 src={transaction.token_info.image}
                 alt={transaction.token_info.name}
                 width={20}
                 height={20}
+                onError={onThumbError}
               />
               #
               {transaction.token_info.orderInscriptionIndex ||
