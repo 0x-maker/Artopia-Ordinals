@@ -8,7 +8,7 @@ import useWindowSize from '@hooks/useWindowSize';
 import Text from '@components/Text';
 import React from 'react';
 import NFTDisplayBox from '@components/NFTDisplayBox';
-import { formatBTCPrice, formatLongAddress } from '@utils/format';
+import { ellipsisCenter, formatBTCPrice, formatAddress } from '@utils/format';
 import { IGetMarketplaceBtcListItem } from '@interfaces/api/marketplace-btc';
 import usePurchaseStatus from '@hooks/usePurchaseStatus';
 import ButtonBuyListedFromBTC from '@components/Transactor/ButtonBuyListedFromBTC';
@@ -51,7 +51,7 @@ export const ProjectCardOrd = ({
             <div className={cs(s.projectCard_info, s.mobile)}>
               <div className={s.projectCard_info_title}>
                 <Text size="14" fontWeight="semibold">
-                  #{project.inscriptionNumber}
+                  Inscription #{project.inscriptionNumber}
                 </Text>
                 {(Number(project?.price) || 0) > 0 && (
                   <Text size="12" fontWeight="semibold">
@@ -63,8 +63,20 @@ export const ProjectCardOrd = ({
                   fontWeight="medium"
                   className={s.projectCard_info_wrapper_displayName}
                 >
+                  {project?.address
+                    ? `Inscription ID: ${ellipsisCenter({
+                        str: project?.address as string,
+                        limit: 5,
+                      })}`
+                    : ''}
+                </Text>
+                <Text
+                  size="14"
+                  fontWeight="medium"
+                  className={s.projectCard_info_wrapper_artisName}
+                >
                   {project?.holder?.displayName ||
-                    formatLongAddress(project?.address as string)}
+                    `${formatAddress(project?.address as string)}`}
                 </Text>
               </div>
             </div>
@@ -77,15 +89,28 @@ export const ProjectCardOrd = ({
                 )}
               >
                 <Heading as={'h4'}>
-                  <span title={project.name}>#{project.inscriptionNumber}</span>
+                  <span title={project.name}>
+                    Inscription #{project.inscriptionNumber}
+                  </span>
                 </Heading>
                 <Text
                   size="20"
                   fontWeight="medium"
                   className={s.projectCard_info_wrapper_displayName}
                 >
+                  {project?.address
+                    ? `Inscription ID: ${ellipsisCenter({
+                        str: project?.address as string,
+                        limit: 5,
+                      })}`
+                    : ''}
+                </Text>
+                <Text
+                  size="20"
+                  className={s.projectCard_info_wrapper_artisName}
+                >
                   {project?.holder?.displayName ||
-                    formatLongAddress(project?.address as string)}
+                    `${formatAddress(project?.address as string)}`}
                 </Text>
                 {(Number(project?.price) || 0) > 0 && (
                   <Heading as={'h4'} className={s.projectCard_info_price}>
