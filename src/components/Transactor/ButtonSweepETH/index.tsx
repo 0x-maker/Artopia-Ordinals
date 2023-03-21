@@ -49,15 +49,16 @@ const ButtonSweepETH = React.memo(
 
     if (!isBuyable) {
       return (
-        <ButtonIcon
-          sizes={sizes}
-          variants="outline-blue-deep"
-          disabled={true}
-          className={cs(s.container, `${className}`)}
-          onClick={openModal}
-        >
-          Buy <span /> - ETH
-        </ButtonIcon>
+        <></>
+        // <ButtonIcon
+        //   sizes={sizes}
+        //   variants="outline-blue-deep"
+        //   disabled={true}
+        //   className={cs(s.container, `${className}`)}
+        //   onClick={openModal}
+        // >
+        //   Buy <span /> - ETH
+        // </ButtonIcon>
       );
     }
 

@@ -27,7 +27,6 @@ import SearchCollection from './SearchCollection';
 import useOnClickOutside from '@hooks/useOnClickOutSide';
 import Image from 'next/image';
 import Avatar from '@components/Avatar';
-import { isBrowser } from '@utils/common';
 
 const LOG_PREFIX = 'MarketplaceHeader';
 
@@ -80,16 +79,6 @@ const Header: React.FC<IProp> = ({
     },
   ];
 
-  const getUrlWithQueryParams = (url: string): string => {
-    if (isBrowser()) {
-      const currentURL = new URL(location.href);
-      if (currentURL.search) {
-        return `${url}${currentURL.search}`;
-      }
-    }
-    return url;
-  };
-
   useOnClickOutside(freeToolsRef, () => setIsOpenFreetools(false));
 
   const handleConnectWallet = async (): Promise<void> => {
@@ -138,7 +127,7 @@ const Header: React.FC<IProp> = ({
       >
         <ul className={styles.freeToolList}>
           <li className={cs(styles.freeToolItem)}>
-            <Link href={getUrlWithQueryParams(MENU_HEADER[11].route)}>
+            <Link href={MENU_HEADER[11].route}>
               <Image
                 src={`${CDN_URL}/icons/icon-crypto-art.svg`}
                 width={34}
@@ -154,7 +143,7 @@ const Header: React.FC<IProp> = ({
             </Link>
           </li>
           <li className={cs(styles.freeToolItem)}>
-            <Link href={getUrlWithQueryParams(MENU_HEADER[9].route)}>
+            <Link href={MENU_HEADER[9].route}>
               <Image
                 src={`${CDN_URL}/icons/ic-shield-star-34x34.svg`}
                 width={34}
@@ -170,7 +159,7 @@ const Header: React.FC<IProp> = ({
             </Link>
           </li>
           <li className={styles.freeToolItem}>
-            <Link href={getUrlWithQueryParams(MENU_HEADER[7].route)}>
+            <Link href={MENU_HEADER[7].route}>
               <Image
                 src={`${CDN_URL}/icons/ic-percent-circle-34x34.svg`}
                 width={34}
@@ -186,7 +175,7 @@ const Header: React.FC<IProp> = ({
             </Link>
           </li>
           <li className={styles.freeToolItem}>
-            <Link href={getUrlWithQueryParams(MENU_HEADER[5].route)}>
+            <Link href={MENU_HEADER[5].route}>
               <Image
                 src={`${CDN_URL}/icons/ic-poll-vertical-square-34x34.svg`}
                 width={34}
@@ -271,10 +260,7 @@ const Header: React.FC<IProp> = ({
                 className={`d-flex align-items-center justify-content-between w-100 ${styles.header_row}`}
               >
                 <div className={styles.header_left}>
-                  <Link
-                    className={styles.logo}
-                    href={getUrlWithQueryParams(ROUTE_PATH.HOME)}
-                  >
+                  <Link className={styles.logo} href={ROUTE_PATH.HOME}>
                     <Text size="24" fontWeight={'semibold'}>
                       Generative
                     </Text>
@@ -288,7 +274,7 @@ const Header: React.FC<IProp> = ({
                       )}
                       key={`header-${MENU_HEADER[0].id}`}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[0].route)}>
+                      <Link href={MENU_HEADER[0].route}>
                         {MENU_HEADER[0].name}
                       </Link>
                     </li>
@@ -300,7 +286,7 @@ const Header: React.FC<IProp> = ({
                       )}
                       key={`header-${MENU_HEADER[12].id}`}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[12].route)}>
+                      <Link href={MENU_HEADER[12].route}>
                         {MENU_HEADER[12].name}
                       </Link>
                     </li>
@@ -312,7 +298,7 @@ const Header: React.FC<IProp> = ({
                       )}
                       key={`header-${MENU_HEADER[2].id}`}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[2].route)}>
+                      <Link href={MENU_HEADER[2].route}>
                         {MENU_HEADER[2].name}
                       </Link>
                     </li>
@@ -323,7 +309,7 @@ const Header: React.FC<IProp> = ({
                           styles.active
                       )}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[8].route)}>
+                      <Link href={MENU_HEADER[8].route}>
                         {MENU_HEADER[8].name}
                       </Link>
                     </li>
@@ -341,7 +327,7 @@ const Header: React.FC<IProp> = ({
                       )}
                       key={`header-${MENU_HEADER[13].id}`}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[13].route)}>
+                      <Link href={MENU_HEADER[13].route}>
                         {MENU_HEADER[13].name}
                       </Link>
                     </li>
@@ -370,7 +356,7 @@ const Header: React.FC<IProp> = ({
                       )}
                       key={`header-${MENU_HEADER[1].id}`}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[1].route)}>
+                      <Link href={MENU_HEADER[1].route}>
                         {MENU_HEADER[1].name}
                       </Link>
                     </li>
@@ -380,7 +366,7 @@ const Header: React.FC<IProp> = ({
                           styles.active
                       )}
                     >
-                      <Link href={getUrlWithQueryParams(MENU_HEADER[10].route)}>
+                      <Link href={MENU_HEADER[10].route}>
                         {MENU_HEADER[10].name}
                       </Link>
                     </li>
@@ -416,9 +402,7 @@ const Header: React.FC<IProp> = ({
                         )}
                         key={`header-${MENU_HEADER[6].id}`}
                       >
-                        <Link
-                          href={getUrlWithQueryParams(MENU_HEADER[6].route)}
-                        >
+                        <Link href={MENU_HEADER[6].route}>
                           {MENU_HEADER[6].name}
                         </Link>
                       </li>

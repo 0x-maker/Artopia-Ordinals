@@ -114,7 +114,7 @@ const CollectionItem = ({
       <div className={s.row}>
         {isBuyBTC && (
           <ButtonBuyListedFromBTC
-            className={s.wrapButton}
+            className={isLayoutShop ? s.wrapButtonShop : s.wrapButton}
             sizes={isLayoutShop ? 'small' : 'medium'}
             inscriptionID={tokenID}
             price={data.priceBTC}
@@ -124,7 +124,7 @@ const CollectionItem = ({
         )}
         {isBuyETH && (
           <ButtonBuyListedFromETH
-            className={s.wrapButton}
+            className={isLayoutShop ? s.wrapButtonShop : s.wrapButton}
             sizes={isLayoutShop ? 'small' : 'medium'}
             inscriptionID={tokenID}
             price={data.priceETH}
@@ -180,15 +180,16 @@ const CollectionItem = ({
 
     return (
       <div
-        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-        onClick={(event: any) => {
+        onClick={(event: SyntheticEvent) => {
           if (event.stopPropagation) {
             event.stopPropagation();
           }
         }}
-        className={layout === 'shop' ? s.tokenNumber : ''}
       >
-        <Link href={tokenUrl}>
+        <Link
+          href={tokenUrl}
+          className={layout === 'shop' ? s.tokenNumber : ''}
+        >
           <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
         </Link>
       </div>
@@ -334,7 +335,6 @@ const CollectionItem = ({
                     )}
                   </div>
                 </Stack>
-                {renderBuyButton()}
                 {showInscriptionID && (
                   <Heading
                     as={isLayoutShop ? 'p' : 'h4'}
@@ -343,6 +343,7 @@ const CollectionItem = ({
                     #{data?.inscriptionIndex}
                   </Heading>
                 )}
+                {renderBuyButton()}
               </div>
             </div>
           )}

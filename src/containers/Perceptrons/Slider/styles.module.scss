@@ -1,0 +1,55 @@
+.slider {
+  :global(.slick-arrow) {
+    display: none !important;
+  }
+
+  :global(.slick-slide) {
+    div div {
+      padding-bottom: (500/888) * 100%;
+      position: relative;
+
+      img,
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  :global(.slick-thumb) {
+    display: flex !important;
+    margin-top: rem(24px);
+    gap: rem(24px);
+
+    li {
+      flex: 1;
+
+      a {
+        display: block;
+        padding-bottom: (85/128) * 100%;
+        position: relative;
+        width: 100%;
+        border-radius: 2px;
+        border: 1px solid transparent;
+
+        img {
+          position: absolute;
+          border-radius: 2px;
+          top: 0;
+          left: 0;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+
+    :global(.slick-active) a {
+      border: 1px solid $white;
+    }
+  }
+}

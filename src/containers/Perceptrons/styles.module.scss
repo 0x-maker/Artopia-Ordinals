@@ -1,0 +1,47 @@
+.perceptronsContainer {
+  background: $primary-brand;
+  padding-top: rem(76);
+}
+
+.rankingLists {
+  margin-top: rem(48px);
+}
+
+.rankingHeading {
+  text-align: center;
+  margin-top: rem(40px);
+
+  @include tablet {
+    margin-top: rem(80px);
+  }
+
+  @include min-pc {
+    text-align: left;
+    margin-top: 0;
+  }
+}
+
+.leaderboard {
+  margin-top: rem(40);
+  padding-bottom: rem(40);
+
+  @include tablet {
+    margin-top: rem(80);
+    padding-bottom: rem(80);
+  }
+
+  @include min-pc {
+    margin-top: rem(120);
+    padding-bottom: rem(120);
+  }
+
+  &_heading {
+    margin-bottom: rem(16px);
+  }
+
+  &_desc {
+    max-width: rem(620);
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
