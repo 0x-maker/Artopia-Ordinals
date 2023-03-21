@@ -8,7 +8,6 @@ import { getUserSelector } from '@redux/user/selector';
 import cs from 'classnames';
 import _isEmpty from 'lodash/isEmpty';
 import { useRouter } from 'next/router';
-import querystring from 'query-string';
 import React, { ForwardedRef, ReactNode } from 'react';
 import s from './MenuMobile.module.scss';
 
@@ -26,16 +25,8 @@ const MenuMobile = React.forwardRef(
     ref: ForwardedRef<HTMLDivElement>
   ) => {
     const router = useRouter();
-    const { query } = router;
     const activePath = router.asPath.split('/')[1];
     const user = useAppSelector(getUserSelector);
-
-    const getUrlWithQueryParams = (url: string): string => {
-      if (_isEmpty(query)) {
-        return url;
-      }
-      return `${url}?${querystring.stringify(query)}`;
-    };
 
     return (
       <div ref={ref} className={`${s.menuMobile} ${s[theme || 'light']}`}>
@@ -49,9 +40,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[0].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[0].route)}>
-                {MENU_HEADER[0].name}
-              </Link>
+              <Link href={MENU_HEADER[0].route}>{MENU_HEADER[0].name}</Link>
             </li>
 
             <li
@@ -60,9 +49,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[12].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[12].route)}>
-                {MENU_HEADER[12].name}
-              </Link>
+              <Link href={MENU_HEADER[12].route}>{MENU_HEADER[12].name}</Link>
             </li>
 
             <li
@@ -71,9 +58,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[2].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[2].route)}>
-                {MENU_HEADER[2].name}
-              </Link>
+              <Link href={MENU_HEADER[2].route}>{MENU_HEADER[2].name}</Link>
             </li>
 
             <li
@@ -82,9 +67,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[8].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[8].route)}>
-                {MENU_HEADER[8].name}
-              </Link>
+              <Link href={MENU_HEADER[8].route}>{MENU_HEADER[8].name}</Link>
             </li>
 
             <li
@@ -93,9 +76,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[13].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[13].route)}>
-                {MENU_HEADER[13].name}
-              </Link>
+              <Link href={MENU_HEADER[13].route}>{MENU_HEADER[13].name}</Link>
             </li>
 
             <li
@@ -104,9 +85,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[7].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[7].route)}>
-                {MENU_HEADER[7].name}
-              </Link>
+              <Link href={MENU_HEADER[7].route}>{MENU_HEADER[7].name}</Link>
             </li>
 
             <li
@@ -115,9 +94,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[11].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[11].route)}>
-                {MENU_HEADER[11].name}
-              </Link>
+              <Link href={MENU_HEADER[11].route}>{MENU_HEADER[11].name}</Link>
             </li>
 
             <li
@@ -126,9 +103,7 @@ const MenuMobile = React.forwardRef(
               )}
               key={`header-${MENU_HEADER[1].id}`}
             >
-              <Link href={getUrlWithQueryParams(MENU_HEADER[1].route)}>
-                {MENU_HEADER[1].name}
-              </Link>
+              <Link href={MENU_HEADER[1].route}>{MENU_HEADER[1].name}</Link>
             </li>
 
             {!user && (
@@ -138,9 +113,7 @@ const MenuMobile = React.forwardRef(
                 )}
                 key={`header-${MENU_HEADER[6].id}`}
               >
-                <Link href={getUrlWithQueryParams(MENU_HEADER[6].route)}>
-                  {MENU_HEADER[6].name}
-                </Link>
+                <Link href={MENU_HEADER[6].route}>{MENU_HEADER[6].name}</Link>
               </li>
             )}
           </ul>
@@ -152,16 +125,6 @@ const MenuMobile = React.forwardRef(
                   {ProfileDropdown()}
                 </div>
               )}
-              {/* <div className={s.menuMobile_bottom_cta}>
-                  <ButtonIcon
-                    disabled={isConnecting}
-                    sizes="medium"
-                    variants={theme === 'dark' ? 'secondary' : 'primary'}
-                    onClick={handleConnectWallet}
-                  >
-                    {isConnecting ? 'Connecting...' : 'Connect wallet'}
-                  </ButtonIcon>
-                </div> */}
             </div>
 
             <ul className={s.menuMobile_bottom_socials}>

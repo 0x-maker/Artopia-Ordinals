@@ -1,0 +1,34 @@
+.leaderBoardTable {
+  margin-top: rem(48px);
+
+  thead th {
+    background: none !important;
+    color: $black-40-solid !important;
+
+    @include min-pc-wide {
+      font-size: rem(14px);
+    }
+  }
+
+  thead tr {
+    border-bottom: 1px solid #2e2e2e;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #2e2e2e !important;
+
+    &:nth-child(1) {
+      td {
+        color: #c6c7f8 !important;
+      }
+    }
+
+    td {
+      color: $white !important;
+    }
+
+    &:hover {
+      background: #2e2e2e !important;
+    }
+  }
+}

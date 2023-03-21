@@ -41,6 +41,7 @@ const CollectionItem = ({
 
   const { mobileScreen } = useWindowSize();
   const {
+    projectData,
     isWhitelistProject,
     isLayoutShop,
     selectedOrders,
@@ -151,11 +152,18 @@ const CollectionItem = ({
             event.stopPropagation();
           }
         }}
-        className={layout === 'shop' ? s.tokenNumber : ''}
       >
-        <Link href={tokenUrl}>
-          <Heading as={isLayoutShop ? 'p' : 'h4'}>#{text}</Heading>
+        <Link
+          href={tokenUrl}
+          className={layout === 'shop' ? s.tokenNumber : ''}
+        >
+          <Heading as={isLayoutShop ? 'p' : 'h4'}>
+            {projectData?.name} #{text}
+          </Heading>
         </Link>
+        <Text fontWeight="medium" size="16" color="black-40-solid">
+          Inscription #{data?.inscriptionIndex}
+        </Text>
       </div>
     );
   };

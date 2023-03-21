@@ -1,0 +1,59 @@
+.ranking {
+  border-top: 1px solid #2e2e2e;
+  transition: background-color 0.4s $easeOutCubic;
+  text-decoration: none;
+  display: block;
+  padding: rem(16px);
+
+  &:last-child {
+    border-bottom: 1px solid #2e2e2e;
+  }
+
+  &_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &_right {
+    &_inner {
+      position: relative;
+    }
+
+    .pointValue {
+      transition: transform 0.4s $easeOutCubic;
+      transition-delay: 0.08s;
+      text-align: right;
+      position: relative;
+      z-index: 2;
+    }
+
+    .arrow {
+      position: absolute;
+      right: rem(6px);
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.4s $easeOutCubic;
+
+      svg {
+        height: rem(20);
+        width: auto;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: #2e2e2e;
+
+    .pointValue {
+      transform: translateX(-60px);
+      transition-delay: 0s;
+    }
+
+    .arrow {
+      opacity: 1;
+      transition-delay: 0.2s;
+    }
+  }
+}

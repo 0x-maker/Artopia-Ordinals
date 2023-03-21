@@ -23,6 +23,7 @@ const ListViewItem = ({ data }: Props) => {
   const { projectID } = router.query;
 
   const {
+    projectData,
     isLayoutShop,
     selectedOrders,
     removeSelectedOrder,
@@ -114,11 +115,17 @@ const ListViewItem = ({ data }: Props) => {
             alt={data?.name}
           />
           <div className={styles.itemName}>
-            <Link href="">
-              <Text fontWeight="medium">
-                #{data?.orderInscriptionIndex || data?.inscriptionIndex}
-              </Text>
-            </Link>
+            <Text style={{ textAlign: 'left' }} fontWeight="medium" size="16">
+              {projectData?.name} #{data?.orderInscriptionIndex}
+            </Text>
+            <Text
+              style={{ textAlign: 'left' }}
+              fontWeight="medium"
+              size="14"
+              color="black-40-solid"
+            >
+              Inscription #{data?.inscriptionIndex}
+            </Text>
           </div>
         </Link>
       </td>
@@ -134,7 +141,8 @@ const ListViewItem = ({ data }: Props) => {
                 data?.owner?.displayName ||
                   data?.owner?.walletAddressBtcTaproot ||
                   data?.ownerAddr ||
-                  '-'
+                  '-',
+                5
               )}
             </Text>
           </Link>
