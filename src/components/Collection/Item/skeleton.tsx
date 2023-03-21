@@ -2,15 +2,26 @@ import Skeleton from '@components/Skeleton';
 import useWindowSize from '@hooks/useWindowSize';
 import cs from 'classnames';
 import s from './styles.module.scss';
+import { useContext } from 'react';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 const CollectionItemSkeleton = ({ className = '' }: { className: string }) => {
   const { mobileScreen } = useWindowSize();
+  const { isProMode } = useContext(GenerativeProjectDetailContext);
 
   return (
-    <div className={`${s.collectionCard} ${className}`}>
+    <div
+      className={`${s.collectionCard} ${className} ${
+        isProMode ? s.isDark : ''
+      }`}
+    >
       <div className={s.collectionCard_inner_wrapper}>
         <div className={s.collectionCard_inner}>
-          <div className={`${s.collectionCard_thumb} ${s.isDefault}`}>
+          <div
+            className={`${s.collectionCard_thumb} ${
+              !isProMode ? s.isDefault : s.isDark
+            }`}
+          >
             <div className={s.collectionCard_thumb_inner}>
               <Skeleton className={s.collectionCard_thumb_inner_sk} fill />
             </div>
