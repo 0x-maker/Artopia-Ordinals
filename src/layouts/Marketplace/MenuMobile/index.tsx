@@ -152,16 +152,6 @@ const MenuMobile = React.forwardRef(
                   {ProfileDropdown()}
                 </div>
               )}
-              {/* <div className={s.menuMobile_bottom_cta}>
-                  <ButtonIcon
-                    disabled={isConnecting}
-                    sizes="medium"
-                    variants={theme === 'dark' ? 'secondary' : 'primary'}
-                    onClick={handleConnectWallet}
-                  >
-                    {isConnecting ? 'Connecting...' : 'Connect wallet'}
-                  </ButtonIcon>
-                </div> */}
             </div>
 
             <ul className={s.menuMobile_bottom_socials}>
