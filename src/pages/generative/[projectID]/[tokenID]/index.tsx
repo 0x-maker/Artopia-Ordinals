@@ -38,11 +38,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       tokenID,
     });
     const isFromAuthentic = tokenData.project.fromAuthentic;
-    const tokenName = `${tokenData.project.name} #${formatTokenId(
-      isFromAuthentic
-        ? tokenData.project?.nftTokenId || ''
-        : tokenData.project?.tokenID || ''
-    )} by ${filterCreatorName(projectData)}`;
+    const tokenIndex = isFromAuthentic
+      ? tokenData?.nftTokenId || ''
+      : tokenData?.orderInscriptionIndex
+      ? tokenData?.orderInscriptionIndex
+      : tokenData?.inscriptionIndex
+      ? tokenData?.inscriptionIndex
+      : formatTokenId(tokenData?.tokenID || '');
+    const tokenName = `${
+      tokenData.project.name
+    } #${tokenIndex} by ${filterCreatorName(projectData)}`;
 
     const isBuyable = tokenData && tokenData.buyable && tokenData.sell_verified;
     const isBuyBTC = isBuyable && !!tokenData.priceBTC && !!tokenData?.orderID;
