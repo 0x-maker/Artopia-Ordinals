@@ -13,3 +13,12 @@
     margin-right: 24px;
   }
 }
+
+.text {
+  font-weight: 500;
+  font-size: rem(14px);
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
