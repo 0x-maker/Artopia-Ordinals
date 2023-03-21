@@ -302,7 +302,7 @@
 }
 
 .row {
-  margin-top: 8px;
+  margin-top: 12px;
   display: flex;
   flex-direction: row;
   gap: 6px;
@@ -322,6 +322,7 @@
 
 .wrapButton {
   flex: 1;
+  height: 30px;
 
   button {
     width: 100%;
