@@ -6,7 +6,7 @@
 .itemsContainer {
   display: flex;
   flex-direction: row;
-  // align-items: center;
+  align-items: center;
   border-bottom: 1px solid $black-5;
   margin-top: rem(20px);
   padding-bottom: rem(8px);
@@ -14,7 +14,6 @@
 
 .icCheckbox {
   cursor: pointer;
-  margin-top: rem(2px);
 }
 
 .textItems {
@@ -22,7 +21,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
-  margin-left: 8px;
+  margin-left: 16px;
   color: #898989;
   cursor: pointer;
 }
@@ -112,18 +111,6 @@
   }
 
   .spacing {
-    padding-top: rem(12);
-    max-height: calc(100vh - #{rem(288)});
-    overflow-y: scroll;
-
-    @include disable-scrollbar;
-
-    @include mobile {
-      max-height: unset;
-    }
-  }
-
-  .spacing_grid {
     padding-top: rem(24);
     max-height: calc(100vh - #{rem(340)});
     overflow-y: scroll;
