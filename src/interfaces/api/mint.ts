@@ -1,3 +1,5 @@
+import { IProjectMintFeeRate } from '@interfaces/api/project';
+
 export type IPaymentType = 'btc' | 'eth';
 
 export interface IGetMintReceiverAddressPayload {
@@ -7,6 +9,8 @@ export interface IGetMintReceiverAddressPayload {
   refundUserAddress?: string;
   quantity: number;
   feeRate?: number;
+  isCutomFeeRate?: boolean;
+  estMintFeeInfo?: IProjectMintFeeRate;
 }
 
 export interface IGetMintReceiverAddressResp {
