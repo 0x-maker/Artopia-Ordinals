@@ -23,7 +23,7 @@ export const getBTCAddress = async ({
   paymentMethod,
   quantity,
   rate,
-  isCutomFeeRate,
+  isCustomFeeRate,
   estMintFeeInfo,
 }: {
   walletAddress: string;
@@ -32,7 +32,7 @@ export const getBTCAddress = async ({
   paymentMethod: PaymentMethod;
   quantity: number;
   rate?: number;
-  isCutomFeeRate?: boolean;
+  isCustomFeeRate?: boolean;
   estMintFeeInfo?: IProjectMintFeeRate;
 }): Promise<IResponse> => {
   let _address = '';
@@ -49,7 +49,7 @@ export const getBTCAddress = async ({
         refundUserAddress: refundAddress,
         quantity,
         feeRate: rate,
-        isCutomFeeRate,
+        isCustomFeeRate,
         estMintFeeInfo,
       });
 

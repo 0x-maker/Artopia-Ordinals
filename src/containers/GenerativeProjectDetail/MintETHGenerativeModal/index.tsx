@@ -212,7 +212,7 @@ const MintEthModal: React.FC = () => {
             paymentMethod,
             quantity: _quantity,
             rate: _rate,
-            isCutomFeeRate: rateType === 'customRate',
+            isCustomFeeRate: rateType === 'customRate',
             estMintFeeInfo: projectFeeRate,
           });
           if (!_address || !_price) {
