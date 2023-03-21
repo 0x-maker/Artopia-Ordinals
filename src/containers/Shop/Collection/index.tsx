@@ -18,7 +18,7 @@ import { LOGO_MARKETPLACE_URL, URL_PARAMS_PRO_MODE } from '@constants/common';
 
 const TABLE_HEADINGS = [
   'Name',
-  'Floor price',
+  'Floor Price',
   // '1D change',
   // '7D change',
   // '15M volume',

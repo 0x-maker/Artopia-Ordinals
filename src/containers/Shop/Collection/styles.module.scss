@@ -79,7 +79,7 @@
         //display: table;
         //align-items: unset;
         // justify-content: unset;
-        width: (380/1800) * 100%;
+        width: (340/1800) * 100%;
       }
     }
 
@@ -89,7 +89,7 @@
       position: sticky;
       background-color: $primary-brand;
       width: rem(200);
-      z-index: 9;
+      z-index: 11;
 
       @include tablet {
         width: rem(300);
@@ -99,7 +99,7 @@
         left: unset;
         position: unset;
         min-width: unset;
-        width: (360/1800) * 100%;
+        width: (440/1800) * 100%;
         background-color: transparent;
       }
     }
@@ -123,11 +123,6 @@
       object-fit: cover;
       flex-basis: rem(40);
       image-rendering: pixelated;
-    }
-
-    .projectInfo {
-      flex: 0 0 auto;
-      width: calc(100% - rem(60));
     }
 
     .owner {
@@ -163,6 +158,7 @@
       -webkit-line-clamp: 2; /* number of lines to show */
       line-clamp: 2;
       -webkit-box-orient: vertical;
+      padding-right: rem(4);
       word-break: break-word;
     }
 

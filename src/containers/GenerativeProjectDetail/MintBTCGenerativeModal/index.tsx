@@ -222,7 +222,7 @@ const MintBTCGenerativeModal: React.FC = () => {
           refundUserAddress: refundAddress,
           quantity: _quantity,
           feeRate: _rate,
-          isCutomFeeRate: rateType === 'customRate',
+          isCustomFeeRate: rateType === 'customRate',
           estMintFeeInfo: projectFeeRate,
         });
       // const { address, Price: price } = await generateBTCReceiverAddress({

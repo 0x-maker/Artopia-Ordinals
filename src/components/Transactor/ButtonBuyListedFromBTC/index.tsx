@@ -17,6 +17,7 @@ interface IProps {
   inscriptionNumber: number;
   orderID: string;
   isDetail?: boolean;
+  isShopLayout?: boolean;
 }
 
 const ButtonBuyListedFromBTC = React.memo(
@@ -28,6 +29,7 @@ const ButtonBuyListedFromBTC = React.memo(
     price,
     sizes = 'xsmall',
     isDetail = false,
+    isShopLayout = false,
   }: IProps) => {
     const [isShow, setShow] = React.useState(false);
     const user = useSelector(getUserSelector);
@@ -61,7 +63,11 @@ const ButtonBuyListedFromBTC = React.memo(
           className={cs(s.container, `${className}`)}
           onClick={openModal}
         >
-          {`${formatBTCPrice(price)} BTC`}
+          {isShopLayout ? (
+            <p className={s.text}>{`${formatBTCPrice(price)} BTC`}</p>
+          ) : (
+            `${formatBTCPrice(price)} BTC`
+          )}
         </ButtonIcon>
         {!!taprootAddress && isShow && (
           <ModalBuyListed

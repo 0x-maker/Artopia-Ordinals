@@ -120,6 +120,7 @@ const CollectionItem = ({
             price={data.priceBTC}
             inscriptionNumber={Number(data.inscriptionIndex || 0)}
             orderID={data.orderID}
+            isShopLayout={isProMode}
           />
         )}
         {isBuyETH && (
@@ -130,6 +131,7 @@ const CollectionItem = ({
             price={data.priceETH}
             inscriptionNumber={Number(data.inscriptionIndex || 0)}
             orderID={data.orderID}
+            isShopLayout={isProMode}
           />
         )}
       </div>
