@@ -63,7 +63,7 @@ export const PropertyAndCta = (): JSX.Element => {
           </div>
         )}
       </div>
-      {!isWhitelist && project?.status && (
+      {!isWhitelist && project?.status && isLimitMinted && (
         <div className={cs(s.CTA, project?.isReviewing && s.daoReview)}>
           {/* {!isBitcoinProject && (
             <ButtonIcon
@@ -85,7 +85,7 @@ export const PropertyAndCta = (): JSX.Element => {
               </Text>
             </ButtonIcon>
           )} */}
-          {isAvailable && !!project?.btcFloorPrice && !project?.isHidden && (
+          {/* {isAvailable && !!project?.btcFloorPrice && !project?.isHidden && (
             <>
               <ButtonIcon
                 sizes="medium"
@@ -106,7 +106,7 @@ export const PropertyAndCta = (): JSX.Element => {
                 </Text>
               </ButtonIcon>
             </>
-          )}
+          )} */}
           {isAvailable && isLimitMinted && !project?.isHidden && (
             <ul>
               {projectFeeRate && (

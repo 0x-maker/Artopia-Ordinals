@@ -1,23 +1,22 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import s from './ProjectCard.module.scss';
 import Heading from '@components/Heading';
 import Link from '@components/Link';
 import MintingProgressBar from '@components/MintingProgressBar';
 import Text from '@components/Text';
 import { LOGO_MARKETPLACE_URL } from '@constants/common';
 import { ROUTE_PATH } from '@constants/route-path';
+import { BTC_PROJECT } from '@constants/tracking-event-name';
 import useWindowSize from '@hooks/useWindowSize';
 import { Project } from '@interfaces/project';
 import { User } from '@interfaces/user';
+import { sendAAEvent } from '@services/aa-tracking';
+import { wordCase } from '@utils/common';
 import { formatBTCPrice } from '@utils/format';
+import { filterCreatorName } from '@utils/generative';
 import { convertIpfsToHttp } from '@utils/image';
 import cs from 'classnames';
-import ButtonIcon from '@components/ButtonIcon';
-import { sendAAEvent } from '@services/aa-tracking';
-import { BTC_PROJECT } from '@constants/tracking-event-name';
-import { filterCreatorName } from '@utils/generative';
-import { wordCase } from '@utils/common';
+import s from './ProjectCard.module.scss';
 
 interface IPros {
   project: Project;
@@ -97,13 +96,25 @@ export const ProjectCard = ({ project, className }: IPros): JSX.Element => {
   const renderFooter = () => {
     if (project.btcFloorPrice && mintedOut) {
       return (
-        <div className={s.row}>
-          <span
+        <div>
+          <Text
+            color="black-40-solid"
+            fontWeight="medium"
+            className={`${s.projectCard_info_price_price_minted} ${s.isOnlyMintedShow}`}
+          >
+            {`${project?.mintingInfo.index} ${
+              isAuthenticIn24h
+                ? 'inscribed'
+                : `Artwork${project?.mintingInfo.index > 1 ? 's' : ''}`
+            }`}
+          </Text>
+          <Text
+            color="black-40-solid"
+            fontWeight="medium"
             className={`${s.projectCard_info_price_price_minted} ${s.isOnlyMintedShow}`}
           >
             {`${formatBTCPrice(project.btcFloorPrice)} BTC`}
-          </span>
-          <ButtonIcon sizes="xsmall">Buy</ButtonIcon>
+          </Text>
         </div>
       );
     }
@@ -132,6 +143,13 @@ export const ProjectCard = ({ project, className }: IPros): JSX.Element => {
           fontWeight="medium"
           color="black-40-solid"
         >
+          <span
+            className={`${s.projectCard_info_price_price_minted} ${
+              isOnlyMintedShow ? s.isOnlyMintedShow : ''
+            }`}
+          >
+            {minted}
+          </span>
           <span className={s.projectCard_info_price_price_el}>
             {project.btcFloorPrice
               ? `${formatBTCPrice(project.btcFloorPrice)} BTC`
@@ -140,13 +158,6 @@ export const ProjectCard = ({ project, className }: IPros): JSX.Element => {
                 ? `${formatBTCPrice(Number(project.mintPrice))} BTC`
                 : 'Free'
               : ''}
-          </span>
-          <span
-            className={`${s.projectCard_info_price_price_minted} ${
-              isOnlyMintedShow ? s.isOnlyMintedShow : ''
-            }`}
-          >
-            {minted}
           </span>
         </Text>
       </div>

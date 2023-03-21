@@ -15,9 +15,14 @@ import { formatWebDomain } from '@utils/format';
 import { useContext } from 'react';
 import { ProjectLayoutContext } from '@contexts/project-layout-context';
 import { useRouter } from 'next/router';
+import { Stack } from 'react-bootstrap';
+import { URL_PARAMS_PRO_MODE } from '@constants/common';
 
 export const ProjectName = (): JSX.Element => {
   const router = useRouter();
+
+  const { projectID } = router.query;
+
   const {
     project,
     isHasBtcWallet,
@@ -30,43 +35,63 @@ export const ProjectName = (): JSX.Element => {
   return (
     <>
       <div className={`${s.projectHeader}`}>
-        {isHasBtcWallet ? (
-          <Link
-            href={`${ROUTE_PATH.PROFILE}/${creatorAddress}`}
-            className={cs(
-              s.creator_info,
-              !project?.creatorProfile?.walletAddressBtcTaproot &&
-                !project?.creatorProfile?.walletAddress &&
-                'pointer-none'
+        <Stack direction="horizontal" className="justify-between w-full">
+          <Stack direction="horizontal" gap={3}>
+            {isHasBtcWallet ? (
+              <Link
+                href={`${ROUTE_PATH.PROFILE}/${creatorAddress}`}
+                className={cs(
+                  s.creator_info,
+                  !project?.creatorProfile?.walletAddressBtcTaproot &&
+                    !project?.creatorProfile?.walletAddress &&
+                    'pointer-none'
+                )}
+              >
+                <Heading
+                  className={s.projectHeader_creator}
+                  as="h4"
+                  fontWeight="medium"
+                >
+                  {project && filterCreatorName(project)}
+                </Heading>
+              </Link>
+            ) : (
+              <div
+                className={cs(
+                  s.creator_info,
+                  !project?.creatorProfile?.walletAddressBtcTaproot &&
+                    'pointer-none'
+                )}
+              >
+                <Heading
+                  className={s.projectHeader_creator}
+                  as="h4"
+                  fontWeight="medium"
+                >
+                  {project && filterCreatorName(project)}
+                </Heading>
+              </div>
             )}
+            <SocialVerify isTwVerified={isTwVerified} />
+          </Stack>
+          <ButtonIcon
+            sizes="small"
+            variants={'ghost'}
+            onClick={() => {
+              router.push(
+                `${ROUTE_PATH.GENERATIVE}/${projectID}${URL_PARAMS_PRO_MODE}`
+              );
+            }}
+            endIcon={
+              <SvgInset
+                size={10}
+                svgUrl={`${CDN_URL}/icons/ic-angle-right.svg`}
+              />
+            }
           >
-            <Heading
-              className={s.projectHeader_creator}
-              as="h4"
-              fontWeight="medium"
-            >
-              {project && filterCreatorName(project)}
-            </Heading>
-          </Link>
-        ) : (
-          <div
-            className={cs(
-              s.creator_info,
-              !project?.creatorProfile?.walletAddressBtcTaproot &&
-                'pointer-none'
-            )}
-          >
-            <Heading
-              className={s.projectHeader_creator}
-              as="h4"
-              fontWeight="medium"
-            >
-              {project && filterCreatorName(project)}
-            </Heading>
-          </div>
-        )}
-
-        <SocialVerify isTwVerified={isTwVerified} />
+            Open Pro View
+          </ButtonIcon>
+        </Stack>
       </div>
       <div
         className={`${s.projectHeader_heading} ${isCreated ? s.hasEdit : ''}`}
