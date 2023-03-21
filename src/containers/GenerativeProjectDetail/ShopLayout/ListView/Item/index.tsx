@@ -134,7 +134,8 @@ const ListViewItem = ({ data }: Props) => {
                 data?.owner?.displayName ||
                   data?.owner?.walletAddressBtcTaproot ||
                   data?.ownerAddr ||
-                  '-'
+                  '-',
+                5
               )}
             </Text>
           </Link>

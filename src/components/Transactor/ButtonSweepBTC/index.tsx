@@ -49,15 +49,16 @@ const ButtonSweepBTC = React.memo(
 
     if (!isBuyable) {
       return (
-        <ButtonIcon
-          sizes={sizes}
-          disabled={true}
-          className={cs(s.container, `${className}`)}
-          onClick={openModal}
-          variants="blue-deep"
-        >
-          Buy <span /> - BTC
-        </ButtonIcon>
+        <></>
+        // <ButtonIcon
+        //   sizes={sizes}
+        //   disabled={true}
+        //   className={cs(s.container, `${className}`)}
+        //   onClick={openModal}
+        //   variants="blue-deep"
+        // >
+        //   Buy <span /> - BTC
+        // </ButtonIcon>
       );
     }
     return (
