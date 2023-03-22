@@ -192,6 +192,7 @@ export const RecentWorks = (): JSX.Element => {
               sizes={'medium'}
               endIcon={
                 <SvgInset
+                  size={18}
                   svgUrl={`${CDN_URL}/icons/ic-arrow-right-18x18.svg`}
                 />
               }
