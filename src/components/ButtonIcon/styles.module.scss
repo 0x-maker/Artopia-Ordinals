@@ -256,6 +256,31 @@
     }
   }
 
+  &.outline-darkmode {
+    background-color: transparent;
+    border: 1px solid $white;
+    color: $white;
+
+    &.medium {
+      padding-top: rem(9px);
+      padding-bottom: rem(9px);
+    }
+
+    &:hover {
+      border-color: $black-5;
+    }
+
+    &:disabled {
+      border-color: $black-10;
+      color: $black-20;
+      border: none;
+    }
+
+    svg path {
+      stroke: $white;
+    }
+  }
+
   &.outline-blue-deep {
     background-color: transparent;
     border: 2px solid #4f43e2;
@@ -329,6 +354,29 @@
     &:hover {
       background-color: $white;
       text-decoration: underline;
+    }
+
+    &:disabled {
+      opacity: 0.2;
+    }
+  }
+
+  &.ghost-darkmode {
+    background-color: transparent;
+    color: $white;
+    text-decoration: underline;
+
+    svg path {
+      stroke: $white;
+    }
+
+    &:hover {
+      background-color: $white;
+      color: $primary-brand;
+
+      svg path {
+        stroke: $primary-brand;
+      }
     }
 
     &:disabled {

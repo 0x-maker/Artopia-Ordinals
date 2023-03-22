@@ -16,6 +16,7 @@ type Props = {
   projectFeeRate?: IProjectMintFeeRate | null;
   openMintBTCModal: (s: PaymentMethod) => void;
   isWhitelist?: boolean;
+  isDarkMode?: boolean;
 };
 
 const ProjectIntroSection = () => {
@@ -27,7 +28,11 @@ const ProjectIntroSection = () => {
   const isProMode = useMemo(() => query?.mode === 'pro', [query]);
 
   return (
-    <div className={`${s.wrapper} ${!isLimitMinted ? `${s.minted}` : ''}`}>
+    <div
+      className={`${s.wrapper} ${!isLimitMinted ? `${s.minted}` : ''} ${
+        isProMode ? `${s.isDark}` : ''
+      }`}
+    >
       <div className={'container'}>
         {isProMode ? <LayoutForMintout /> : <LayoutForMinting />}
       </div>
@@ -40,6 +45,7 @@ const ProjectIntroSectionWrap = ({
   projectFeeRate,
   openMintBTCModal,
   isWhitelist = false,
+  isDarkMode = false,
 }: Props): JSX.Element => {
   return (
     <ProjectLayoutProvider
@@ -47,6 +53,7 @@ const ProjectIntroSectionWrap = ({
       projectFeeRate={projectFeeRate}
       openMintBTCModal={openMintBTCModal}
       isWhitelist={isWhitelist}
+      isDarkMode={isDarkMode}
     >
       <ProjectIntroSection />
     </ProjectLayoutProvider>

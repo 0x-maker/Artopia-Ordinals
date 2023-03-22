@@ -99,9 +99,11 @@ const Collection: React.FC = (): React.ReactElement => {
               {formatBTCPrice(
                 collection.projectMarketplaceData.floor_price,
                 '—'
-              ) === '—'
-                ? ''
-                : 'BTC'}
+              ) === '—' ? (
+                ''
+              ) : (
+                <small>BTC</small>
+              )}
             </span>
           </div>
         ),
@@ -160,9 +162,11 @@ const Collection: React.FC = (): React.ReactElement => {
             <span>
               {formatBTCPrice(collection.projectMarketplaceData.volume, '—')}{' '}
               {formatBTCPrice(collection.projectMarketplaceData.volume, '—') ===
-              '—'
-                ? ''
-                : 'BTC'}
+              '—' ? (
+                ''
+              ) : (
+                <small>BTC</small>
+              )}
             </span>
           </div>
         ),

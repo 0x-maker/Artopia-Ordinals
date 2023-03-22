@@ -1,11 +1,33 @@
 .wrapper {
-  max-height: rem(320px);
+  // max-height: rem(320px);
+  height: calc(100% - #{rem(64)});
   overflow: auto;
 
   @include disable-scrollbar;
 
   thead {
     border-bottom-color: $black-5 !important;
+  }
+
+  &.isDark {
+    thead {
+      border-bottom-color: $border-dark !important;
+
+      th {
+        color: $black-40-solid;
+        background: $primary-brand;
+      }
+    }
+
+    tbody {
+      tr:hover {
+        background: $border-dark;
+      }
+    }
+
+    td {
+      color: $white;
+    }
   }
 }
 

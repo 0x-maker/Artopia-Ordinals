@@ -7,6 +7,7 @@ import { getUserSelector } from '@redux/user/selector';
 import { formatBTCPrice } from '@utils/format';
 import { WalletContext } from '@contexts/wallet-context';
 import s from './styles.module.scss';
+import { GenerativeProjectDetailContext } from '@contexts/generative-project-detail-context';
 
 interface IProps {
   className?: string;
@@ -34,6 +35,7 @@ const ButtonBuyListedFromBTC = React.memo(
     const user = useSelector(getUserSelector);
     const walletCtx = useContext(WalletContext);
     const taprootAddress = user?.walletAddressBtcTaproot;
+    const { isProMode } = useContext(GenerativeProjectDetailContext);
 
     const openModal = async (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -57,6 +59,7 @@ const ButtonBuyListedFromBTC = React.memo(
       >
         <ButtonIcon
           sizes={sizes}
+          variants={`${isProMode ? 'secondary' : 'primary'}`}
           className={cs(s.container, `${className}`)}
           onClick={openModal}
         >

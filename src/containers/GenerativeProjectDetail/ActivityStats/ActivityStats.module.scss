@@ -1,5 +1,6 @@
 .wrapper {
   // flex: 1.2;
+  max-height: calc(100vh - #{rem(220px)} - #{rem(330px)});
 
   &_header {
     position: relative;
@@ -88,6 +89,73 @@
       &:hover {
         background-color: $black-5;
         color: $black-100;
+      }
+    }
+  }
+}
+
+.isDark {
+  .dropDownWrapper {
+    .selectInput {
+      :global(.select__indicator) {
+        svg path {
+          fill: $white !important;
+        }
+      }
+
+      :global(.select__menu) {
+        background: $primary-brand !important;
+        border: 1px solid $border-dark;
+      }
+
+      :global(.select__control) {
+        background: $primary-brand !important;
+      }
+
+      :global(.select__placeholder) {
+        color: $white !important;
+      }
+
+      :global(.select__single-value) {
+        color: $white !important;
+      }
+
+      :global(.select__multi-value__label) {
+        color: $white !important;
+      }
+
+      :global(.select__input-container) {
+        color: $white !important;
+      }
+
+      :global(.select__input-container) {
+        color: $white !important;
+      }
+
+      :global(.select__option) {
+        padding: rem(10) rem(16);
+        font-weight: 400;
+        line-height: (26/16);
+
+        @include calcFontAuto(14px, 16px);
+
+        &:hover {
+          background-color: $border-dark !important;
+        }
+      }
+
+      :global(.select__option--is-focused) {
+        background-color: $primary-brand !important;
+      }
+
+      :global(.select__option--is-selected) {
+        background-color: $primary-brand !important;
+        color: $white !important;
+
+        &:hover {
+          background-color: $border-dark !important;
+          color: $white !important;
+        }
       }
     }
   }

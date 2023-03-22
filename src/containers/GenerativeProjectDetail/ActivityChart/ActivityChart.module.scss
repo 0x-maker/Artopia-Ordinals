@@ -1,5 +1,6 @@
 .wrapper {
   // flex: 1;
+  height: rem(270px);
 }
 
 .wrapper_header {
@@ -17,6 +18,10 @@
       position: relative;
       width: fit-content;
 
+      svg path {
+        fill: $white;
+      }
+
       &::after {
         content: "";
         position: absolute;
@@ -33,7 +38,7 @@
   .chart_filters {
     display: flex;
     align-items: center;
-    border: 1px solid $black-20;
+    border: 1px solid $border-dark;
     border-radius: rem(2);
 
     .chart_filters_item {
@@ -48,8 +53,8 @@
 
       &.active,
       &:hover {
-        background-color: $primary-brand;
-        color: $white;
+        background-color: $white;
+        color: $primary-brand;
       }
     }
   }

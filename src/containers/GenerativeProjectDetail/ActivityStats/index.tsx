@@ -22,7 +22,9 @@ const SORT_OPTIONS: Array<{ value: string; label: string }> = [
 ];
 
 const ActivityStats = () => {
-  const { setFilterActivities } = useContext(GenerativeProjectDetailContext);
+  const { setFilterActivities, isProMode } = useContext(
+    GenerativeProjectDetailContext
+  );
 
   const [sort, setSort] = useState<string | null>('');
 
@@ -31,7 +33,7 @@ const ActivityStats = () => {
   }, [sort]);
 
   return (
-    <div className={s.wrapper}>
+    <div className={`${s.wrapper} ${isProMode ? s.isDark : ''}`}>
       <div
         className={`d-flex align-items-center justify-between ${s.wrapper_header}`}
       >

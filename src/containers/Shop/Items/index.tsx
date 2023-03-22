@@ -128,27 +128,45 @@ const Items: React.FC = (): React.ReactElement => {
         volume1h: (
           <div className={s.volume}>
             <span>
-              {!item.volumeOneHour?.amount || item.volumeOneHour.amount === '0'
-                ? '—'
-                : `${formatBTCPrice(item.volumeOneHour.amount, '—')} BTC`}
+              {!item.volumeOneHour?.amount ||
+              item.volumeOneHour.amount === '0' ? (
+                '—'
+              ) : (
+                <>
+                  {`${formatBTCPrice(item.volumeOneHour.amount, '—')}`}
+                  <small>BTC</small>
+                </>
+              )}
             </span>
           </div>
         ),
         volume1d: (
           <div className={s.volume}>
             <span>
-              {!item.volumeOneDay?.amount || item.volumeOneDay.amount === '0'
-                ? '—'
-                : `${formatBTCPrice(item.volumeOneDay.amount, '—')} BTC`}
+              {!item.volumeOneDay?.amount ||
+              item.volumeOneDay.amount === '0' ? (
+                '—'
+              ) : (
+                <>
+                  {`${formatBTCPrice(item.volumeOneDay.amount, '—')}`}
+                  <small>BTC</small>
+                </>
+              )}
             </span>
           </div>
         ),
         volume7d: (
           <div className={s.volume}>
             <span>
-              {!item.volumeOneWeek?.amount || item.volumeOneWeek.amount === '0'
-                ? '—'
-                : `${formatBTCPrice(item.volumeOneWeek.amount, '—')} BTC`}
+              {!item.volumeOneWeek?.amount ||
+              item.volumeOneWeek.amount === '0' ? (
+                '—'
+              ) : (
+                <>
+                  {`${formatBTCPrice(item.volumeOneWeek.amount, '—')}`}
+                  <small>BTC</small>
+                </>
+              )}
             </span>
           </div>
         ),

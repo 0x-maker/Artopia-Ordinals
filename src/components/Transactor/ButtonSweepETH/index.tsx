@@ -66,7 +66,7 @@ const ButtonSweepETH = React.memo(
       <>
         <ButtonIcon
           sizes={sizes}
-          variants="outline-blue-deep"
+          // variants="outline-blue-deep"
           className={cs(s.container, `${className}`)}
           onClick={openModal}
         >

@@ -2,16 +2,16 @@ import s from './styles.module.scss';
 import { ShopTab } from '@enums/shop';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
-import Image from 'next/image';
 import Collection from './Collection';
 import { CDN_URL } from '@constants/config';
-import Button from '@components/ButtonIcon';
 import ListCollectionModal from './ListCollectionModal';
 import Items from './Items';
 import SvgInset from '@components/SvgInset';
 import cs from 'classnames';
 import { useRouter } from 'next/router';
 import { LocalStorageKey } from '@enums/local-storage';
+import Heading from '@components/Heading';
+import ButtonIcon from '@components/ButtonIcon';
 
 const ShopController: React.FC = (): React.ReactElement => {
   const router = useRouter();
@@ -82,20 +82,21 @@ const ShopController: React.FC = (): React.ReactElement => {
       <div className={s.shopController}>
         <div className="container">
           <div className={s.headingWrapper}>
-            <h1 className={s.heading}>
+            <Heading className={s.heading} as={'h1'} color={'white'}>
               Buy art on Bitcoin. Simple. Fast. Zero fees.
-            </h1>
+            </Heading>
             <div className={s.actionWrapper}>
-              <Button onClick={handleOpenListCollectionModal}>
-                <Image
-                  className={s.tabIcon}
-                  src={`${CDN_URL}/icons/ic-image-white-18x18.svg`}
-                  width={18}
-                  height={18}
-                  alt="ic collection"
-                />
+              <ButtonIcon
+                variants={'blue-deep'}
+                startIcon={
+                  <SvgInset
+                    svgUrl={`${CDN_URL}/icons/ic-image-white-18x18.svg`}
+                  />
+                }
+                onClick={handleOpenListCollectionModal}
+              >
                 List a collection
-              </Button>
+              </ButtonIcon>
             </div>
           </div>
           <Tabs

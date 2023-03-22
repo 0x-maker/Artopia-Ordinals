@@ -87,6 +87,7 @@ export interface IProjectLayoutContext {
   categoryName: string | null;
   marketplaceData: IProjectMarketplaceData | null;
   setMarketplaceData: (data: IProjectMarketplaceData) => void;
+  isDarkMode?: boolean;
 }
 
 const initialValue: IProjectLayoutContext = {
@@ -135,6 +136,7 @@ const initialValue: IProjectLayoutContext = {
   setMarketplaceData: _data => {
     return;
   },
+  isDarkMode: false,
 };
 
 export const ProjectLayoutContext =
@@ -145,6 +147,7 @@ type Props = {
   projectFeeRate?: IProjectMintFeeRate | null;
   openMintBTCModal: (s: PaymentMethod) => void;
   isWhitelist?: boolean;
+  isDarkMode?: boolean;
   children: ReactNode;
 };
 
@@ -154,6 +157,7 @@ export const ProjectLayoutProvider = ({
   projectFeeRate,
   isWhitelist,
   openMintBTCModal,
+  isDarkMode = false,
 }: Props): React.ReactElement => {
   const router = useRouter();
   const user = useAppSelector(getUserSelector);
@@ -496,6 +500,7 @@ export const ProjectLayoutProvider = ({
       categoryName,
       marketplaceData,
       setMarketplaceData,
+      isDarkMode,
     };
   }, [
     project,
@@ -533,6 +538,7 @@ export const ProjectLayoutProvider = ({
     categoryName,
     marketplaceData,
     setMarketplaceData,
+    isDarkMode,
   ]);
 
   return (

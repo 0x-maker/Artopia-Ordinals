@@ -105,7 +105,7 @@ export const ProjectCard = ({ project, className }: IPros): JSX.Element => {
             {`${project?.mintingInfo.index} ${
               isAuthenticIn24h
                 ? 'inscribed'
-                : `Artwork${project?.mintingInfo.index > 1 ? 's' : ''}`
+                : `artwork${project?.mintingInfo.index > 1 ? 's' : ''}`
             }`}
           </Text>
           <Text

@@ -11,9 +11,24 @@
   }
 
   .dataTable {
-    tbody {
+    thead {
+      border-bottom: 1px solid $border-dark;
+
       tr {
+        border-width: 0;
         cursor: pointer;
+
+        th {
+          border-width: 0 !important;
+          background-color: $primary-brand;
+          color: $black-40-solid;
+
+          @include min-pc {
+            position: sticky !important;
+            top: 90px !important;
+            left: unset;
+          }
+        }
       }
     }
 
@@ -26,6 +41,22 @@
       display: flex;
       // justify-content: space-between;
       width: 100%;
+
+      &:hover {
+        background-color: $border-dark;
+      }
+
+      td {
+        color: white;
+
+        @include calcFontAuto(16px, 18px);
+
+        small {
+          color: $black-40-solid;
+          font-size: 90%;
+          margin-left: 0.1em;
+        }
+      }
     }
 
     td:not(:nth-child(1)),
@@ -51,7 +82,7 @@
     th:nth-child(1) {
       left: 0;
       position: sticky;
-      background-color: #fff;
+      background-color: $primary-brand;
       width: rem(200);
       z-index: 12;
 
@@ -91,9 +122,6 @@
     .owner {
       font-style: normal;
       font-weight: 500;
-      font-size: rem(16);
-      line-height: rem(26);
-      color: $black-100;
       margin-bottom: rem(-4);
       overflow: hidden;
       text-overflow: ellipsis;
@@ -102,14 +130,22 @@
       line-clamp: 2;
       -webkit-box-orient: vertical;
       text-decoration: none;
+
+      &:hover {
+        color: $white;
+        text-decoration: underline;
+      }
     }
 
     .collectionName {
       font-style: italic;
       font-weight: 500;
-      font-size: rem(16);
-      line-height: rem(26);
       max-width: rem(300);
+
+      @include min-pc {
+        max-width: rem(420);
+      }
+
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -117,7 +153,6 @@
       line-clamp: 2;
       -webkit-box-orient: vertical;
       word-break: break-word;
-      padding-right: rem(4);
     }
 
     .floorPrice,

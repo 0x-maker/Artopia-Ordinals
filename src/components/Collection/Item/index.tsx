@@ -169,7 +169,7 @@ const CollectionItem = ({
               {projectData?.name} #{text}
             </Text>
           </Link>
-          <Text fontWeight="medium" color="black-40">
+          <Text fontWeight="medium" color="black-40-solid">
             Inscription #
             {data?.inscriptionIndex ||
               ellipsisCenter({
@@ -229,7 +229,7 @@ const CollectionItem = ({
     <div
       className={`${s.collectionCard} ${className} ${
         isLayoutShop ? s.isShop : ''
-      }`}
+      } ${isProMode ? s.isDark : ''}`}
     >
       <div
         className={cs(

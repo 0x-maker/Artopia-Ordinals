@@ -23,7 +23,7 @@
   font-size: 14px;
   line-height: 22px;
   margin-left: 8px;
-  color: #898989;
+  color: $white;
   cursor: pointer;
 }
 
@@ -43,17 +43,26 @@
     width: 20%;
   }
 
+  @include min-pc-wide {
+    flex: 0 0 (360/1800) * 100%;
+    width: (360/1800) * 100%;
+  }
+
   @include disable-scrollbar;
 
   padding-right: rem(24);
-  border-right: 1px solid $black-5;
+  border-right: 1px solid $border-dark;
 
   :global(.nav-tabs) {
     top: 0;
     position: sticky;
-    background-color: white;
+    background-color: $primary-brand;
     padding-top: rem(24);
     z-index: 2;
+  }
+
+  :global(.nav-link.active) {
+    background: none;
   }
 
   @include mobile {
@@ -71,18 +80,6 @@
   .shares_wrapper {
     margin-top: rem(16);
     margin-bottom: rem(24);
-
-    .shares {
-      display: flex;
-      gap: rem(8px);
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 
   :global(.select__control) {
@@ -109,8 +106,8 @@
   }
 
   @include min-pc-wide {
-    flex: 0 0 60%;
-    width: 60%;
+    flex: 0 0 (990/1800) * 100%;
+    width: (990/1800) * 100%;
   }
 
   .buy_bottom {
@@ -118,27 +115,16 @@
     left: rem(0);
     right: rem(0);
     bottom: rem(16px);
-    border-top: 1px solid #f2f2f2;
+    border-top: 1px solid $border-dark;
     z-index: 2;
-    background: white;
+    // background: white;
   }
 
   .spacing {
-    padding-top: rem(12);
-    max-height: calc(100vh - #{rem(288)});
-    overflow-y: scroll;
-
-    @include disable-scrollbar;
-
-    @include mobile {
-      max-height: unset;
-    }
-  }
-
-  .spacing_grid {
     padding-top: rem(24);
     max-height: calc(100vh - #{rem(340)});
     overflow-y: scroll;
+    padding-left: 12px;
     overflow-x: hidden;
 
     @include disable-scrollbar;
@@ -165,48 +151,28 @@
         left: 0;
         width: 100%;
         height: 2px;
-        background-color: $primary-brand;
+        background-color: $white;
         border-radius: rem(40px);
       }
     }
 
     .view_layout {
-      .view_list_ic {
-        cursor: pointer;
-
-        svg,
-        path {
-          stroke: $black-40;
-
-          &:hover {
-            stroke: $black-100;
-          }
-        }
-
-        &.active {
-          svg,
-          path {
-            stroke: $black-100;
-          }
-        }
-      }
-
+      .view_list_ic,
       .view_grid_ic {
         cursor: pointer;
+        padding: rem(5px);
+        margin-right: rem(-5px);
 
         svg,
         path {
-          stroke: $black-40;
-
-          &:hover {
-            stroke: $black-100;
-          }
+          stroke: $black-40-solid;
         }
 
-        &.active {
+        &.active,
+        &:hover {
           svg,
           path {
-            stroke: $black-100;
+            stroke: $white;
           }
         }
       }
@@ -218,11 +184,11 @@
   gap: rem(32);
   flex-wrap: nowrap;
 
-  --bs-nav-tabs-border-color: #{$black-5} !important;
+  --bs-nav-tabs-border-color: #{$border-dark} !important;
 
   :global(.nav-link) {
     white-space: nowrap;
-    color: $black-40;
+    color: $black-40-solid !important;
     font-size: rem(14px);
     font-weight: 500;
     border: none;
@@ -230,12 +196,13 @@
     padding-bottom: rem(10);
 
     &:hover {
-      color: $black-60;
+      color: $white !important;
     }
   }
 
   :global(.nav-link.active) {
-    border-bottom: 2px solid $primary-brand;
+    border-bottom: 2px solid $white;
+    color: $white !important;
   }
 }
 
@@ -261,8 +228,8 @@
   }
 
   @include min-pc-wide {
-    flex: 0 0 20%;
-    width: 20%;
+    flex: 0 0 (450/1800) * 100%;
+    width: (450/1800) * 100%;
   }
 }
 
@@ -371,4 +338,43 @@
 
 .tokenLoadListWrapper {
   position: relative;
+}
+
+.isDark {
+  color: white;
+
+  .layout_left {
+    border-right: 1px solid $border-dark;
+
+    .tabContent {
+      a {
+        color: $white !important;
+      }
+    }
+  }
+
+  .layout_right {
+    border-left: 1px solid $border-dark;
+  }
+
+  .itemsContainer,
+  .view_option {
+    border-bottom: 1px solid $border-dark;
+  }
+
+  .view_option .view_title {
+    svg path {
+      fill: $white;
+    }
+  }
+
+  .divider {
+    background-color: $border-dark;
+  }
+}
+
+.isChecked {
+  svg rect {
+    fill: #4f43e2;
+  }
 }

@@ -109,14 +109,11 @@ const ListViewItem = ({ data }: Props) => {
   };
 
   return (
-    <tr
-      style={{
-        backgroundColor: isSelectedOrder ? '#C6C7F8' : 'transparent',
-      }}
-    >
+    <tr className={`${isSelectedOrder ? 'isSelectedOrder' : ''}`}>
       <td className={styles.checkbox} onClick={onSelectItem}>
         {isBuyable && (
           <SvgInset
+            className={isSelectedOrder ? styles.isChecked : ''}
             size={14}
             svgUrl={`${CDN_URL}/icons/${
               isSelectedOrder ? 'ic_checkboxed' : 'ic_checkbox'
@@ -150,15 +147,11 @@ const ListViewItem = ({ data }: Props) => {
             className={styles.itemName}
           >
             <Link href={tokenUrl}>
-              <Text
-                className={styles.itemTokenNumber}
-                fontWeight="medium"
-                color="primary-color"
-              >
+              <Text fontWeight="medium" color="white-100">
                 {projectData?.name} #{text}
               </Text>
             </Link>
-            <Text size="14" fontWeight="medium" color="black-40">
+            <Text size="14" fontWeight="medium" color="black-40-solid">
               Inscription #
               {data?.inscriptionIndex ||
                 ellipsisCenter({

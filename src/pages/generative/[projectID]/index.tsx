@@ -6,10 +6,19 @@ import GenerativeProjectDetailWrapper from '@containers/GenerativeProjectDetail'
 import MarketplaceLayout from '@layouts/Marketplace';
 import { getProjectDetail } from '@services/project';
 import { GetServerSidePropsContext, NextPage } from 'next';
+import { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import useThemeMode from '@hooks/useThemeMode';
 
 const GenerativeProjectDetailPage: NextPage = () => {
+  const router = useRouter();
+  const isProMode = useMemo(
+    () => router?.query?.mode === 'pro',
+    [router?.query]
+  );
+  useThemeMode(isProMode);
   return (
-    <MarketplaceLayout isDrops={true}>
+    <MarketplaceLayout isDrops={true} theme={isProMode ? 'dark' : 'light'}>
       <GenerativeProjectDetailWrapper />
     </MarketplaceLayout>
   );
