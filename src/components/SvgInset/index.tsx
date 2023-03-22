@@ -20,6 +20,8 @@ const SvgInset: React.FC<IProps> = ({ svgUrl, className, size, onClick }) => {
           svg.setAttribute('width', `${size}`);
           svg.style.minWidth = `${size}`;
           svg.style.minHeight = `${size}`;
+          svg.style.width = `${size}`;
+          svg.style.height = `${size}`;
         }
       }}
     />
